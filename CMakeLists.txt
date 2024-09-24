@@ -11,7 +11,7 @@ project(sherpa-onnx)
 # ./nodejs-addon-examples
 # ./dart-api-examples/
 # ./CHANGELOG.md
-set(SHERPA_ONNX_VERSION "1.10.14")
+set(SHERPA_ONNX_VERSION "1.10.27")
 
 # Disable warning about
 #
@@ -30,10 +30,13 @@ option(SHERPA_ONNX_ENABLE_JNI "Whether to build JNI internface" OFF)
 option(SHERPA_ONNX_ENABLE_C_API "Whether to build C API" ON)
 option(SHERPA_ONNX_ENABLE_WEBSOCKET "Whether to build webscoket server/client" ON)
 option(SHERPA_ONNX_ENABLE_GPU "Enable ONNX Runtime GPU support" OFF)
+option(SHERPA_ONNX_ENABLE_DIRECTML "Enable ONNX Runtime DirectML support" OFF)
 option(SHERPA_ONNX_ENABLE_WASM "Whether to enable WASM" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_TTS "Whether to enable WASM for TTS" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_ASR "Whether to enable WASM for ASR" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_KWS "Whether to enable WASM for KWS" OFF)
+option(SHERPA_ONNX_ENABLE_WASM_VAD "Whether to enable WASM for VAD" OFF)
+option(SHERPA_ONNX_ENABLE_WASM_VAD_ASR "Whether to enable WASM for VAD+ASR" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_NODEJS "Whether to enable WASM for NodeJS" OFF)
 option(SHERPA_ONNX_ENABLE_BINARY "Whether to build binaries" ON)
 option(SHERPA_ONNX_ENABLE_TTS "Whether to build TTS related code" ON)
@@ -94,6 +97,19 @@ to install CUDA toolkit if you have not installed it.")
   endif()
 endif()
 
+if(SHERPA_ONNX_ENABLE_DIRECTML)
+  message(WARNING "\
+Compiling with DirectML enabled. Please make sure Windows 10 SDK
+is installed on your system. Otherwise, you will get errors at runtime.
+Please refer to
+  https://onnxruntime.ai/docs/execution-providers/DirectML-ExecutionProvider.html#requirements
+to install Windows 10 SDK if you have not installed it.")
+  if(NOT BUILD_SHARED_LIBS)
+    message(STATUS "Set BUILD_SHARED_LIBS to ON since SHERPA_ONNX_ENABLE_DIRECTML is ON")
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+  endif()
+endif()
+
 # see https://cmake.org/cmake/help/latest/prop_tgt/MSVC_RUNTIME_LIBRARY.html
 # https://stackoverflow.com/questions/14172856/compile-with-mt-instead-of-md-using-cmake
 if(MSVC)
@@ -121,6 +137,8 @@ message(STATUS "SHERPA_ONNX_ENABLE_WASM ${SHERPA_ONNX_ENABLE_WASM}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_TTS ${SHERPA_ONNX_ENABLE_WASM_TTS}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_ASR ${SHERPA_ONNX_ENABLE_WASM_ASR}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_KWS ${SHERPA_ONNX_ENABLE_WASM_KWS}")
+message(STATUS "SHERPA_ONNX_ENABLE_WASM_VAD ${SHERPA_ONNX_ENABLE_WASM_VAD}")
+message(STATUS "SHERPA_ONNX_ENABLE_WASM_VAD_ASR ${SHERPA_ONNX_ENABLE_WASM_VAD_ASR}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_NODEJS ${SHERPA_ONNX_ENABLE_WASM_NODEJS}")
 message(STATUS "SHERPA_ONNX_ENABLE_BINARY ${SHERPA_ONNX_ENABLE_BINARY}")
 message(STATUS "SHERPA_ONNX_ENABLE_TTS ${SHERPA_ONNX_ENABLE_TTS}")
@@ -135,7 +153,7 @@ if(BUILD_SHARED_LIBS)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
-if(BUILD_SHARED_LIBS AND NOT CMAKE_SYSTEM_NAME STREQUAL iOS)
+if(BUILD_SHARED_LIBS AND NOT CMAKE_SYSTEM_NAME STREQUAL iOS AND CMAKE_BUILD_TYPE STREQUAL Release)
   # Don't use LTO for iOS since it causes the following error
   # error: unable to find any architecture information in the binary
   # at '/Users/fangjun/open-source/sherpa-onnx/build-ios/build/os64/sherpa-onnx.a':
@@ -160,6 +178,14 @@ else()
   add_definitions(-DSHERPA_ONNX_ENABLE_TTS=0)
 endif()
 
+if(SHERPA_ONNX_ENABLE_DIRECTML)
+  message(STATUS "DirectML is enabled")
+  add_definitions(-DSHERPA_ONNX_ENABLE_DIRECTML=1)
+else()
+  message(WARNING "DirectML is disabled")
+  add_definitions(-DSHERPA_ONNX_ENABLE_DIRECTML=0)
+endif()
+
 if(SHERPA_ONNX_ENABLE_WASM_TTS)
   if(NOT SHERPA_ONNX_ENABLE_TTS)
     message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_TTS to ON if you want to build wasm TTS")
@@ -180,6 +206,7 @@ if(SHERPA_ONNX_ENABLE_WASM_NODEJS)
   if(NOT SHERPA_ONNX_ENABLE_WASM)
     message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_WASM to ON if you enable WASM for NodeJS")
   endif()
+  add_definitions(-DSHERPA_ONNX_ENABLE_WASM_KWS=1)
 endif()
 
 if(SHERPA_ONNX_ENABLE_WASM)
@@ -187,7 +214,22 @@ if(SHERPA_ONNX_ENABLE_WASM)
 endif()
 
 if(SHERPA_ONNX_ENABLE_WASM_KWS)
+  if(NOT SHERPA_ONNX_ENABLE_WASM)
+    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_WASM to ON if you enable WASM for KWS")
+  endif()
   add_definitions(-DSHERPA_ONNX_ENABLE_WASM_KWS=1)
+endif()
+
+if(SHERPA_ONNX_ENABLE_WASM_VAD)
+  if(NOT SHERPA_ONNX_ENABLE_WASM)
+    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_WASM to ON if you enable WASM for VAD")
+  endif()
+endif()
+
+if(SHERPA_ONNX_ENABLE_WASM_VAD_ASR)
+  if(NOT SHERPA_ONNX_ENABLE_WASM)
+    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_WASM to ON if you enable WASM for VAD+ASR")
+  endif()
 endif()
 
 if(NOT CMAKE_CXX_STANDARD)

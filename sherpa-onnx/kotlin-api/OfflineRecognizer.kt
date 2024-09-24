@@ -6,6 +6,9 @@ data class OfflineRecognizerResult(
     val text: String,
     val tokens: Array<String>,
     val timestamps: FloatArray,
+    val lang: String,
+    val emotion: String,
+    val event: String,
 )
 
 data class OfflineTransducerModelConfig(
@@ -30,11 +33,18 @@ data class OfflineWhisperModelConfig(
     var tailPaddings: Int = 1000, // Padding added at the end of the samples
 )
 
+data class OfflineSenseVoiceModelConfig(
+    var model: String = "",
+    var language: String = "",
+    var useInverseTextNormalization: Boolean = true,
+)
+
 data class OfflineModelConfig(
     var transducer: OfflineTransducerModelConfig = OfflineTransducerModelConfig(),
     var paraformer: OfflineParaformerModelConfig = OfflineParaformerModelConfig(),
     var whisper: OfflineWhisperModelConfig = OfflineWhisperModelConfig(),
     var nemo: OfflineNemoEncDecCtcModelConfig = OfflineNemoEncDecCtcModelConfig(),
+    var senseVoice: OfflineSenseVoiceModelConfig = OfflineSenseVoiceModelConfig(),
     var teleSpeech: String = "",
     var numThreads: Int = 1,
     var debug: Boolean = false,
@@ -55,13 +65,14 @@ data class OfflineRecognizerConfig(
     var hotwordsScore: Float = 1.5f,
     var ruleFsts: String = "",
     var ruleFars: String = "",
+    var blankPenalty: Float = 0.0f,
 )
 
 class OfflineRecognizer(
     assetManager: AssetManager? = null,
     config: OfflineRecognizerConfig,
 ) {
-    private val ptr: Long
+    private var ptr: Long
 
     init {
         ptr = if (assetManager != null) {
@@ -72,7 +83,10 @@ class OfflineRecognizer(
     }
 
     protected fun finalize() {
-        delete(ptr)
+        if (ptr != 0L) {
+            delete(ptr)
+            ptr = 0
+        }
     }
 
     fun release() = finalize()
@@ -88,7 +102,17 @@ class OfflineRecognizer(
         val text = objArray[0] as String
         val tokens = objArray[1] as Array<String>
         val timestamps = objArray[2] as FloatArray
-        return OfflineRecognizerResult(text = text, tokens = tokens, timestamps = timestamps)
+        val lang = objArray[3] as String
+        val emotion = objArray[4] as String
+        val event = objArray[5] as String
+        return OfflineRecognizerResult(
+            text = text,
+            tokens = tokens,
+            timestamps = timestamps,
+            lang = lang,
+            emotion = emotion,
+            event = event
+        )
     }
 
     fun decode(stream: OfflineStream) = decode(ptr, stream.ptr)
@@ -305,6 +329,66 @@ fun getOfflineModelConfig(type: Int): OfflineModelConfig? {
                     encoder = "$modelDir/encoder-epoch-99-avg-1.int8.onnx",
                     decoder = "$modelDir/decoder-epoch-99-avg-1.onnx",
                     joiner = "$modelDir/joiner-epoch-99-avg-1.int8.onnx",
+                ),
+                tokens = "$modelDir/tokens.txt",
+                modelType = "transducer",
+            )
+        }
+
+        14 -> {
+            val modelDir = "sherpa-onnx-paraformer-zh-small-2024-03-09"
+            return OfflineModelConfig(
+                paraformer = OfflineParaformerModelConfig(
+                    model = "$modelDir/model.int8.onnx",
+                ),
+                tokens = "$modelDir/tokens.txt",
+                modelType = "paraformer",
+            )
+        }
+
+        15 -> {
+            val modelDir = "sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17"
+            return OfflineModelConfig(
+                senseVoice = OfflineSenseVoiceModelConfig(
+                    model = "$modelDir/model.int8.onnx",
+                ),
+                tokens = "$modelDir/tokens.txt",
+            )
+        }
+
+        16 -> {
+            val modelDir = "sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01"
+            return OfflineModelConfig(
+                transducer = OfflineTransducerModelConfig(
+                    encoder = "$modelDir/encoder-epoch-99-avg-1.int8.onnx",
+                    decoder = "$modelDir/decoder-epoch-99-avg-1.onnx",
+                    joiner = "$modelDir/joiner-epoch-99-avg-1.int8.onnx",
+                ),
+                tokens = "$modelDir/tokens.txt",
+                modelType = "transducer",
+            )
+        }
+
+        17 -> {
+            val modelDir = "sherpa-onnx-zipformer-ru-2024-09-18"
+            return OfflineModelConfig(
+                transducer = OfflineTransducerModelConfig(
+                    encoder = "$modelDir/encoder.int8.onnx",
+                    decoder = "$modelDir/decoder.onnx",
+                    joiner = "$modelDir/joiner.int8.onnx",
+                ),
+                tokens = "$modelDir/tokens.txt",
+                modelType = "transducer",
+            )
+        }
+
+        18 -> {
+            val modelDir = "sherpa-onnx-small-zipformer-ru-2024-09-18"
+            return OfflineModelConfig(
+                transducer = OfflineTransducerModelConfig(
+                    encoder = "$modelDir/encoder.int8.onnx",
+                    decoder = "$modelDir/decoder.onnx",
+                    joiner = "$modelDir/joiner.int8.onnx",
                 ),
                 tokens = "$modelDir/tokens.txt",
                 modelType = "transducer",

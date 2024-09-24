@@ -39,6 +39,9 @@ config = {
   sileroVad: {
     model: "./silero_vad.onnx",
     threshold: 0.5,
+    minSilenceDuration: 0.5,
+    minSpeechDuration: 0.25,
+    maxSpeechDuration: 5,
   }
 }
    */
@@ -65,13 +68,13 @@ config = {
   }
 
   clear() {
-    addon.VoiceActivityDetectorClearWrapper(this.handle);
+    addon.voiceActivityDetectorClear(this.handle);
   }
 
   /*
 {
   samples: a 1-d float32 array,
-  start: a int32
+  start: an int32
 }
    */
   front(enableExternalBuffer = true) {
@@ -79,11 +82,11 @@ config = {
   }
 
   reset() {
-    addon.VoiceActivityDetectorResetWrapper(this.handle);
+    addon.voiceActivityDetectorReset(this.handle);
   }
 
   flush() {
-    addon.VoiceActivityDetectorFlushWrapper(this.handle);
+    addon.voiceActivityDetectorFlush(this.handle);
   }
 }
 

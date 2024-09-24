@@ -13,11 +13,13 @@
 #include "sherpa-onnx/csrc/audio-tagging.h"
 #include "sherpa-onnx/csrc/circular-buffer.h"
 #include "sherpa-onnx/csrc/display.h"
+#include "sherpa-onnx/csrc/file-utils.h"
 #include "sherpa-onnx/csrc/keyword-spotter.h"
 #include "sherpa-onnx/csrc/macros.h"
 #include "sherpa-onnx/csrc/offline-punctuation.h"
 #include "sherpa-onnx/csrc/offline-recognizer.h"
 #include "sherpa-onnx/csrc/online-recognizer.h"
+#include "sherpa-onnx/csrc/resample.h"
 #include "sherpa-onnx/csrc/speaker-embedding-extractor.h"
 #include "sherpa-onnx/csrc/speaker-embedding-manager.h"
 #include "sherpa-onnx/csrc/spoken-language-identification.h"
@@ -45,7 +47,7 @@ struct SherpaOnnxDisplay {
 
 #define SHERPA_ONNX_OR(x, y) (x ? x : y)
 
-SherpaOnnxOnlineRecognizer *CreateOnlineRecognizer(
+SherpaOnnxOnlineRecognizer *SherpaOnnxCreateOnlineRecognizer(
     const SherpaOnnxOnlineRecognizerConfig *config) {
   sherpa_onnx::OnlineRecognizerConfig recognizer_config;
 
@@ -71,21 +73,41 @@ SherpaOnnxOnlineRecognizer *CreateOnlineRecognizer(
 
   recognizer_config.model_config.tokens =
       SHERPA_ONNX_OR(config->model_config.tokens, "");
+  if (config->model_config.tokens_buf &&
+      config->model_config.tokens_buf_size > 0) {
+    recognizer_config.model_config.tokens_buf = std::string(
+        config->model_config.tokens_buf, config->model_config.tokens_buf_size);
+  }
+
   recognizer_config.model_config.num_threads =
       SHERPA_ONNX_OR(config->model_config.num_threads, 1);
   recognizer_config.model_config.provider_config.provider =
       SHERPA_ONNX_OR(config->model_config.provider, "cpu");
+
+  if (recognizer_config.model_config.provider_config.provider.empty()) {
+    recognizer_config.model_config.provider_config.provider = "cpu";
+  }
+
   recognizer_config.model_config.model_type =
       SHERPA_ONNX_OR(config->model_config.model_type, "");
   recognizer_config.model_config.debug =
       SHERPA_ONNX_OR(config->model_config.debug, 0);
   recognizer_config.model_config.modeling_unit =
       SHERPA_ONNX_OR(config->model_config.modeling_unit, "cjkchar");
+
+  if (recognizer_config.model_config.modeling_unit.empty()) {
+    recognizer_config.model_config.modeling_unit = "cjkchar";
+  }
+
   recognizer_config.model_config.bpe_vocab =
       SHERPA_ONNX_OR(config->model_config.bpe_vocab, "");
 
   recognizer_config.decoding_method =
       SHERPA_ONNX_OR(config->decoding_method, "greedy_search");
+  if (recognizer_config.decoding_method.empty()) {
+    recognizer_config.decoding_method = "greedy_search";
+  }
+
   recognizer_config.max_active_paths =
       SHERPA_ONNX_OR(config->max_active_paths, 4);
 
@@ -104,6 +126,12 @@ SherpaOnnxOnlineRecognizer *CreateOnlineRecognizer(
   recognizer_config.hotwords_file = SHERPA_ONNX_OR(config->hotwords_file, "");
   recognizer_config.hotwords_score =
       SHERPA_ONNX_OR(config->hotwords_score, 1.5);
+  if (config->hotwords_buf && config->hotwords_buf_size > 0) {
+    recognizer_config.hotwords_buf =
+        std::string(config->hotwords_buf, config->hotwords_buf_size);
+  }
+
+  recognizer_config.blank_penalty = config->blank_penalty;
 
   recognizer_config.ctc_fst_decoder_config.graph =
       SHERPA_ONNX_OR(config->ctc_fst_decoder_config.graph, "");
@@ -130,46 +158,49 @@ SherpaOnnxOnlineRecognizer *CreateOnlineRecognizer(
   return recognizer;
 }
 
-void DestroyOnlineRecognizer(const SherpaOnnxOnlineRecognizer *recognizer) {
+void SherpaOnnxDestroyOnlineRecognizer(
+    const SherpaOnnxOnlineRecognizer *recognizer) {
   delete recognizer;
 }
 
-SherpaOnnxOnlineStream *CreateOnlineStream(
+SherpaOnnxOnlineStream *SherpaOnnxCreateOnlineStream(
     const SherpaOnnxOnlineRecognizer *recognizer) {
   SherpaOnnxOnlineStream *stream =
       new SherpaOnnxOnlineStream(recognizer->impl->CreateStream());
   return stream;
 }
 
-SherpaOnnxOnlineStream *CreateOnlineStreamWithHotwords(
+SherpaOnnxOnlineStream *SherpaOnnxCreateOnlineStreamWithHotwords(
     const SherpaOnnxOnlineRecognizer *recognizer, const char *hotwords) {
   SherpaOnnxOnlineStream *stream =
       new SherpaOnnxOnlineStream(recognizer->impl->CreateStream(hotwords));
   return stream;
 }
 
-void DestroyOnlineStream(const SherpaOnnxOnlineStream *stream) {
+void SherpaOnnxDestroyOnlineStream(const SherpaOnnxOnlineStream *stream) {
   delete stream;
 }
 
-void AcceptWaveform(const SherpaOnnxOnlineStream *stream, int32_t sample_rate,
-                    const float *samples, int32_t n) {
+void SherpaOnnxOnlineStreamAcceptWaveform(const SherpaOnnxOnlineStream *stream,
+                                          int32_t sample_rate,
+                                          const float *samples, int32_t n) {
   stream->impl->AcceptWaveform(sample_rate, samples, n);
 }
 
-int32_t IsOnlineStreamReady(const SherpaOnnxOnlineRecognizer *recognizer,
-                            const SherpaOnnxOnlineStream *stream) {
+int32_t SherpaOnnxIsOnlineStreamReady(
+    const SherpaOnnxOnlineRecognizer *recognizer,
+    const SherpaOnnxOnlineStream *stream) {
   return recognizer->impl->IsReady(stream->impl.get());
 }
 
-void DecodeOnlineStream(const SherpaOnnxOnlineRecognizer *recognizer,
-                        const SherpaOnnxOnlineStream *stream) {
+void SherpaOnnxDecodeOnlineStream(const SherpaOnnxOnlineRecognizer *recognizer,
+                                  const SherpaOnnxOnlineStream *stream) {
   recognizer->impl->DecodeStream(stream->impl.get());
 }
 
-void DecodeMultipleOnlineStreams(const SherpaOnnxOnlineRecognizer *recognizer,
-                                 const SherpaOnnxOnlineStream **streams,
-                                 int32_t n) {
+void SherpaOnnxDecodeMultipleOnlineStreams(
+    const SherpaOnnxOnlineRecognizer *recognizer,
+    const SherpaOnnxOnlineStream **streams, int32_t n) {
   std::vector<sherpa_onnx::OnlineStream *> ss(n);
   for (int32_t i = 0; i != n; ++i) {
     ss[i] = streams[i]->impl.get();
@@ -177,7 +208,7 @@ void DecodeMultipleOnlineStreams(const SherpaOnnxOnlineRecognizer *recognizer,
   recognizer->impl->DecodeStreams(ss.data(), n);
 }
 
-const SherpaOnnxOnlineRecognizerResult *GetOnlineStreamResult(
+const SherpaOnnxOnlineRecognizerResult *SherpaOnnxGetOnlineStreamResult(
     const SherpaOnnxOnlineRecognizer *recognizer,
     const SherpaOnnxOnlineStream *stream) {
   sherpa_onnx::OnlineRecognizerResult result =
@@ -241,7 +272,8 @@ const SherpaOnnxOnlineRecognizerResult *GetOnlineStreamResult(
   return r;
 }
 
-void DestroyOnlineRecognizerResult(const SherpaOnnxOnlineRecognizerResult *r) {
+void SherpaOnnxDestroyOnlineRecognizerResult(
+    const SherpaOnnxOnlineRecognizerResult *r) {
   if (r) {
     delete[] r->text;
     delete[] r->json;
@@ -252,7 +284,7 @@ void DestroyOnlineRecognizerResult(const SherpaOnnxOnlineRecognizerResult *r) {
   }
 }
 
-const char *GetOnlineStreamResultAsJson(
+const char *SherpaOnnxGetOnlineStreamResultAsJson(
     const SherpaOnnxOnlineRecognizer *recognizer,
     const SherpaOnnxOnlineStream *stream) {
   sherpa_onnx::OnlineRecognizerResult result =
@@ -264,29 +296,32 @@ const char *GetOnlineStreamResultAsJson(
   return pJson;
 }
 
-void DestroyOnlineStreamResultJson(const char *s) { delete[] s; }
+void SherpaOnnxDestroyOnlineStreamResultJson(const char *s) { delete[] s; }
 
-void Reset(const SherpaOnnxOnlineRecognizer *recognizer,
-           const SherpaOnnxOnlineStream *stream) {
+void SherpaOnnxOnlineStreamReset(const SherpaOnnxOnlineRecognizer *recognizer,
+                                 const SherpaOnnxOnlineStream *stream) {
   recognizer->impl->Reset(stream->impl.get());
 }
 
-void InputFinished(const SherpaOnnxOnlineStream *stream) {
+void SherpaOnnxOnlineStreamInputFinished(const SherpaOnnxOnlineStream *stream) {
   stream->impl->InputFinished();
 }
 
-int32_t IsEndpoint(const SherpaOnnxOnlineRecognizer *recognizer,
-                   const SherpaOnnxOnlineStream *stream) {
+int32_t SherpaOnnxOnlineStreamIsEndpoint(
+    const SherpaOnnxOnlineRecognizer *recognizer,
+    const SherpaOnnxOnlineStream *stream) {
   return recognizer->impl->IsEndpoint(stream->impl.get());
 }
 
-const SherpaOnnxDisplay *CreateDisplay(int32_t max_word_per_line) {
+const SherpaOnnxDisplay *SherpaOnnxCreateDisplay(int32_t max_word_per_line) {
   SherpaOnnxDisplay *ans = new SherpaOnnxDisplay;
   ans->impl = std::make_unique<sherpa_onnx::Display>(max_word_per_line);
   return ans;
 }
 
-void DestroyDisplay(const SherpaOnnxDisplay *display) { delete display; }
+void SherpaOnnxDestroyDisplay(const SherpaOnnxDisplay *display) {
+  delete display;
+}
 
 void SherpaOnnxPrint(const SherpaOnnxDisplay *display, int32_t idx,
                      const char *s) {
@@ -310,7 +345,8 @@ struct SherpaOnnxOfflineStream {
 
 static sherpa_onnx::OfflineRecognizerConfig convertConfig(
     const SherpaOnnxOfflineRecognizerConfig *config);
-SherpaOnnxOfflineRecognizer *CreateOfflineRecognizer(
+
+SherpaOnnxOfflineRecognizer *SherpaOnnxCreateOfflineRecognizer(
     const SherpaOnnxOfflineRecognizerConfig *config) {
   sherpa_onnx::OfflineRecognizerConfig recognizer_config =
       convertConfig(config);
@@ -381,15 +417,33 @@ sherpa_onnx::OfflineRecognizerConfig convertConfig(
       SHERPA_ONNX_OR(config->model_config.debug, 0);
   recognizer_config.model_config.provider =
       SHERPA_ONNX_OR(config->model_config.provider, "cpu");
+  if (recognizer_config.model_config.provider.empty()) {
+    recognizer_config.model_config.provider = "cpu";
+  }
+
   recognizer_config.model_config.model_type =
       SHERPA_ONNX_OR(config->model_config.model_type, "");
   recognizer_config.model_config.modeling_unit =
       SHERPA_ONNX_OR(config->model_config.modeling_unit, "cjkchar");
+
+  if (recognizer_config.model_config.modeling_unit.empty()) {
+    recognizer_config.model_config.modeling_unit = "cjkchar";
+  }
+
   recognizer_config.model_config.bpe_vocab =
       SHERPA_ONNX_OR(config->model_config.bpe_vocab, "");
 
   recognizer_config.model_config.telespeech_ctc =
       SHERPA_ONNX_OR(config->model_config.telespeech_ctc, "");
+
+  recognizer_config.model_config.sense_voice.model =
+      SHERPA_ONNX_OR(config->model_config.sense_voice.model, "");
+
+  recognizer_config.model_config.sense_voice.language =
+      SHERPA_ONNX_OR(config->model_config.sense_voice.language, "");
+
+  recognizer_config.model_config.sense_voice.use_itn =
+      config->model_config.sense_voice.use_itn;
 
   recognizer_config.lm_config.model =
       SHERPA_ONNX_OR(config->lm_config.model, "");
@@ -410,6 +464,8 @@ sherpa_onnx::OfflineRecognizerConfig convertConfig(
   recognizer_config.hotwords_score =
       SHERPA_ONNX_OR(config->hotwords_score, 1.5);
 
+  recognizer_config.blank_penalty = config->blank_penalty;
+
   recognizer_config.rule_fsts = SHERPA_ONNX_OR(config->rule_fsts, "");
   recognizer_config.rule_fars = SHERPA_ONNX_OR(config->rule_fars, "");
 
@@ -422,41 +478,43 @@ sherpa_onnx::OfflineRecognizerConfig convertConfig(
 
 void SherpaOnnxOfflineRecognizerSetConfig(
     const SherpaOnnxOfflineRecognizer *recognizer,
-    const SherpaOnnxOfflineRecognizerConfig *config){
+    const SherpaOnnxOfflineRecognizerConfig *config) {
   sherpa_onnx::OfflineRecognizerConfig recognizer_config =
       convertConfig(config);
-    recognizer->impl->SetConfig(recognizer_config);
+  recognizer->impl->SetConfig(recognizer_config);
 }
 
-void DestroyOfflineRecognizer(SherpaOnnxOfflineRecognizer *recognizer) {
+void SherpaOnnxDestroyOfflineRecognizer(
+    SherpaOnnxOfflineRecognizer *recognizer) {
   delete recognizer;
 }
 
-SherpaOnnxOfflineStream *CreateOfflineStream(
+SherpaOnnxOfflineStream *SherpaOnnxCreateOfflineStream(
     const SherpaOnnxOfflineRecognizer *recognizer) {
   SherpaOnnxOfflineStream *stream =
       new SherpaOnnxOfflineStream(recognizer->impl->CreateStream());
   return stream;
 }
 
-void DestroyOfflineStream(const SherpaOnnxOfflineStream *stream) {
+void SherpaOnnxDestroyOfflineStream(const SherpaOnnxOfflineStream *stream) {
   delete stream;
 }
 
-void AcceptWaveformOffline(const SherpaOnnxOfflineStream *stream,
-                           int32_t sample_rate, const float *samples,
-                           int32_t n) {
+void SherpaOnnxAcceptWaveformOffline(const SherpaOnnxOfflineStream *stream,
+                                     int32_t sample_rate, const float *samples,
+                                     int32_t n) {
   stream->impl->AcceptWaveform(sample_rate, samples, n);
 }
 
-void DecodeOfflineStream(const SherpaOnnxOfflineRecognizer *recognizer,
-                         const SherpaOnnxOfflineStream *stream) {
+void SherpaOnnxDecodeOfflineStream(
+    const SherpaOnnxOfflineRecognizer *recognizer,
+    const SherpaOnnxOfflineStream *stream) {
   recognizer->impl->DecodeStream(stream->impl.get());
 }
 
-void DecodeMultipleOfflineStreams(SherpaOnnxOfflineRecognizer *recognizer,
-                                  SherpaOnnxOfflineStream **streams,
-                                  int32_t n) {
+void SherpaOnnxDecodeMultipleOfflineStreams(
+    SherpaOnnxOfflineRecognizer *recognizer, SherpaOnnxOfflineStream **streams,
+    int32_t n) {
   std::vector<sherpa_onnx::OfflineStream *> ss(n);
   for (int32_t i = 0; i != n; ++i) {
     ss[i] = streams[i]->impl.get();
@@ -464,7 +522,7 @@ void DecodeMultipleOfflineStreams(SherpaOnnxOfflineRecognizer *recognizer,
   recognizer->impl->DecodeStreams(ss.data(), n);
 }
 
-const SherpaOnnxOfflineRecognizerResult *GetOfflineStreamResult(
+const SherpaOnnxOfflineRecognizerResult *SherpaOnnxGetOfflineStreamResult(
     const SherpaOnnxOfflineStream *stream) {
   const sherpa_onnx::OfflineRecognitionResult &result =
       stream->impl->GetResult();
@@ -478,12 +536,26 @@ const SherpaOnnxOfflineRecognizerResult *GetOfflineStreamResult(
   pText[text.size()] = 0;
   r->text = pText;
 
-  //lang
+  // lang
   const auto &lang = result.lang;
   char *c_lang = new char[lang.size() + 1];
   std::copy(lang.begin(), lang.end(), c_lang);
   c_lang[lang.size()] = '\0';
   r->lang = c_lang;
+
+  // emotion
+  const auto &emotion = result.emotion;
+  char *c_emotion = new char[emotion.size() + 1];
+  std::copy(emotion.begin(), emotion.end(), c_emotion);
+  c_emotion[emotion.size()] = '\0';
+  r->emotion = c_emotion;
+
+  // event
+  const auto &event = result.event;
+  char *c_event = new char[event.size() + 1];
+  std::copy(event.begin(), event.end(), c_event);
+  c_event[event.size()] = '\0';
+  r->event = c_event;
 
   // copy json
   std::string json = result.AsJsonString();
@@ -533,7 +605,7 @@ const SherpaOnnxOfflineRecognizerResult *GetOfflineStreamResult(
   return r;
 }
 
-void DestroyOfflineRecognizerResult(
+void SherpaOnnxDestroyOfflineRecognizerResult(
     const SherpaOnnxOfflineRecognizerResult *r) {
   if (r) {
     delete[] r->text;
@@ -542,11 +614,13 @@ void DestroyOfflineRecognizerResult(
     delete[] r->tokens_arr;
     delete[] r->json;
     delete[] r->lang;
+    delete[] r->emotion;
+    delete[] r->event;
     delete r;
   }
 }
 
-const char *GetOfflineStreamResultAsJson(
+const char *SherpaOnnxGetOfflineStreamResultAsJson(
     const SherpaOnnxOfflineStream *stream) {
   const sherpa_onnx::OfflineRecognitionResult &result =
       stream->impl->GetResult();
@@ -557,7 +631,7 @@ const char *GetOfflineStreamResultAsJson(
   return pJson;
 }
 
-void DestroyOfflineStreamResultJson(const char *s) { delete[] s; }
+void SherpaOnnxDestroyOfflineStreamResultJson(const char *s) { delete[] s; }
 
 // ============================================================
 // For Keyword Spot
@@ -567,7 +641,7 @@ struct SherpaOnnxKeywordSpotter {
   std::unique_ptr<sherpa_onnx::KeywordSpotter> impl;
 };
 
-SherpaOnnxKeywordSpotter *CreateKeywordSpotter(
+SherpaOnnxKeywordSpotter *SherpaOnnxCreateKeywordSpotter(
     const SherpaOnnxKeywordSpotterConfig *config) {
   sherpa_onnx::KeywordSpotterConfig spotter_config;
 
@@ -593,10 +667,20 @@ SherpaOnnxKeywordSpotter *CreateKeywordSpotter(
 
   spotter_config.model_config.tokens =
       SHERPA_ONNX_OR(config->model_config.tokens, "");
+  if (config->model_config.tokens_buf &&
+      config->model_config.tokens_buf_size > 0) {
+    spotter_config.model_config.tokens_buf = std::string(
+        config->model_config.tokens_buf, config->model_config.tokens_buf_size);
+  }
+
   spotter_config.model_config.num_threads =
       SHERPA_ONNX_OR(config->model_config.num_threads, 1);
   spotter_config.model_config.provider_config.provider =
       SHERPA_ONNX_OR(config->model_config.provider, "cpu");
+  if (spotter_config.model_config.provider_config.provider.empty()) {
+    spotter_config.model_config.provider_config.provider = "cpu";
+  }
+
   spotter_config.model_config.model_type =
       SHERPA_ONNX_OR(config->model_config.model_type, "");
   spotter_config.model_config.debug =
@@ -613,6 +697,10 @@ SherpaOnnxKeywordSpotter *CreateKeywordSpotter(
       SHERPA_ONNX_OR(config->keywords_threshold, 0.25);
 
   spotter_config.keywords_file = SHERPA_ONNX_OR(config->keywords_file, "");
+  if (config->keywords_buf && config->keywords_buf_size > 0) {
+    spotter_config.keywords_buf =
+        std::string(config->keywords_buf, config->keywords_buf_size);
+  }
 
   if (config->model_config.debug) {
     SHERPA_ONNX_LOGE("%s\n", spotter_config.ToString().c_str());
@@ -630,36 +718,37 @@ SherpaOnnxKeywordSpotter *CreateKeywordSpotter(
   return spotter;
 }
 
-void DestroyKeywordSpotter(SherpaOnnxKeywordSpotter *spotter) {
+void SherpaOnnxDestroyKeywordSpotter(SherpaOnnxKeywordSpotter *spotter) {
   delete spotter;
 }
 
-SherpaOnnxOnlineStream *CreateKeywordStream(
+SherpaOnnxOnlineStream *SherpaOnnxCreateKeywordStream(
     const SherpaOnnxKeywordSpotter *spotter) {
   SherpaOnnxOnlineStream *stream =
       new SherpaOnnxOnlineStream(spotter->impl->CreateStream());
   return stream;
 }
 
-SherpaOnnxOnlineStream *CreateKeywordStreamWithKeywords(
+SherpaOnnxOnlineStream *SherpaOnnxCreateKeywordStreamWithKeywords(
     const SherpaOnnxKeywordSpotter *spotter, const char *keywords) {
   SherpaOnnxOnlineStream *stream =
       new SherpaOnnxOnlineStream(spotter->impl->CreateStream(keywords));
   return stream;
 }
 
-int32_t IsKeywordStreamReady(SherpaOnnxKeywordSpotter *spotter,
-                             SherpaOnnxOnlineStream *stream) {
+int32_t SherpaOnnxIsKeywordStreamReady(SherpaOnnxKeywordSpotter *spotter,
+                                       SherpaOnnxOnlineStream *stream) {
   return spotter->impl->IsReady(stream->impl.get());
 }
 
-void DecodeKeywordStream(SherpaOnnxKeywordSpotter *spotter,
-                         SherpaOnnxOnlineStream *stream) {
+void SherpaOnnxDecodeKeywordStream(SherpaOnnxKeywordSpotter *spotter,
+                                   SherpaOnnxOnlineStream *stream) {
   return spotter->impl->DecodeStream(stream->impl.get());
 }
 
-void DecodeMultipleKeywordStreams(SherpaOnnxKeywordSpotter *spotter,
-                                  SherpaOnnxOnlineStream **streams, int32_t n) {
+void SherpaOnnxDecodeMultipleKeywordStreams(SherpaOnnxKeywordSpotter *spotter,
+                                            SherpaOnnxOnlineStream **streams,
+                                            int32_t n) {
   std::vector<sherpa_onnx::OnlineStream *> ss(n);
   for (int32_t i = 0; i != n; ++i) {
     ss[i] = streams[i]->impl.get();
@@ -667,7 +756,7 @@ void DecodeMultipleKeywordStreams(SherpaOnnxKeywordSpotter *spotter,
   spotter->impl->DecodeStreams(ss.data(), n);
 }
 
-const SherpaOnnxKeywordResult *GetKeywordResult(
+const SherpaOnnxKeywordResult *SherpaOnnxGetKeywordResult(
     SherpaOnnxKeywordSpotter *spotter, SherpaOnnxOnlineStream *stream) {
   const sherpa_onnx::KeywordResult &result =
       spotter->impl->GetResult(stream->impl.get());
@@ -732,7 +821,7 @@ const SherpaOnnxKeywordResult *GetKeywordResult(
   return r;
 }
 
-void DestroyKeywordResult(const SherpaOnnxKeywordResult *r) {
+void SherpaOnnxDestroyKeywordResult(const SherpaOnnxKeywordResult *r) {
   if (r) {
     delete[] r->keyword;
     delete[] r->json;
@@ -743,8 +832,8 @@ void DestroyKeywordResult(const SherpaOnnxKeywordResult *r) {
   }
 }
 
-const char *GetKeywordResultAsJson(SherpaOnnxKeywordSpotter *spotter,
-                                   SherpaOnnxOnlineStream *stream) {
+const char *SherpaOnnxGetKeywordResultAsJson(SherpaOnnxKeywordSpotter *spotter,
+                                             SherpaOnnxOnlineStream *stream) {
   const sherpa_onnx::KeywordResult &result =
       spotter->impl->GetResult(stream->impl.get());
 
@@ -755,7 +844,7 @@ const char *GetKeywordResultAsJson(SherpaOnnxKeywordSpotter *spotter,
   return pJson;
 }
 
-void FreeKeywordResultJson(const char *s) { delete[] s; }
+void SherpaOnnxFreeKeywordResultJson(const char *s) { delete[] s; }
 
 // ============================================================
 // For VAD
@@ -828,9 +917,16 @@ SherpaOnnxVoiceActivityDetector *SherpaOnnxCreateVoiceActivityDetector(
   vad_config.silero_vad.window_size =
       SHERPA_ONNX_OR(config->silero_vad.window_size, 512);
 
+  vad_config.silero_vad.max_speech_duration =
+      SHERPA_ONNX_OR(config->silero_vad.max_speech_duration, 20);
+
   vad_config.sample_rate = SHERPA_ONNX_OR(config->sample_rate, 16000);
   vad_config.num_threads = SHERPA_ONNX_OR(config->num_threads, 1);
   vad_config.provider = SHERPA_ONNX_OR(config->provider, "cpu");
+  if (vad_config.provider.empty()) {
+    vad_config.provider = "cpu";
+  }
+
   vad_config.debug = SHERPA_ONNX_OR(config->debug, false);
 
   if (vad_config.debug) {
@@ -932,6 +1028,10 @@ SherpaOnnxOfflineTts *SherpaOnnxCreateOfflineTts(
   tts_config.model.num_threads = SHERPA_ONNX_OR(config->model.num_threads, 1);
   tts_config.model.debug = config->model.debug;
   tts_config.model.provider = SHERPA_ONNX_OR(config->model.provider, "cpu");
+  if (tts_config.model.provider.empty()) {
+    tts_config.model.provider = "cpu";
+  }
+
   tts_config.rule_fsts = SHERPA_ONNX_OR(config->rule_fsts, "");
   tts_config.rule_fars = SHERPA_ONNX_OR(config->rule_fars, "");
   tts_config.max_num_sentences = SHERPA_ONNX_OR(config->max_num_sentences, 2);
@@ -1077,6 +1177,9 @@ SherpaOnnxCreateSpokenLanguageIdentification(
   slid_config.num_threads = SHERPA_ONNX_OR(config->num_threads, 1);
   slid_config.debug = config->debug;
   slid_config.provider = SHERPA_ONNX_OR(config->provider, "cpu");
+  if (slid_config.provider.empty()) {
+    slid_config.provider = "cpu";
+  }
 
   if (slid_config.debug) {
     SHERPA_ONNX_LOGE("%s\n", slid_config.ToString().c_str());
@@ -1143,6 +1246,9 @@ SherpaOnnxCreateSpeakerEmbeddingExtractor(
   c.num_threads = SHERPA_ONNX_OR(config->num_threads, 1);
   c.debug = SHERPA_ONNX_OR(config->debug, 0);
   c.provider = SHERPA_ONNX_OR(config->provider, "cpu");
+  if (c.provider.empty()) {
+    c.provider = "cpu";
+  }
 
   if (config->debug) {
     SHERPA_ONNX_LOGE("%s\n", c.ToString().c_str());
@@ -1312,12 +1418,16 @@ SherpaOnnxSpeakerEmbeddingManagerGetBestMatches(
 
 void SherpaOnnxSpeakerEmbeddingManagerFreeBestMatches(
     const SherpaOnnxSpeakerEmbeddingManagerBestMatchesResult *r) {
+  if (r == nullptr) {
+    return;
+  }
+
   for (int32_t i = 0; i < r->count; ++i) {
     delete[] r->matches[i].name;
   }
   delete[] r->matches;
   delete r;
-};
+}
 
 int32_t SherpaOnnxSpeakerEmbeddingManagerVerify(
     const SherpaOnnxSpeakerEmbeddingManager *p, const char *name,
@@ -1377,6 +1487,10 @@ const SherpaOnnxAudioTagging *SherpaOnnxCreateAudioTagging(
   ac.model.num_threads = SHERPA_ONNX_OR(config->model.num_threads, 1);
   ac.model.debug = config->model.debug;
   ac.model.provider = SHERPA_ONNX_OR(config->model.provider, "cpu");
+  if (ac.model.provider.empty()) {
+    ac.model.provider = "cpu";
+  }
+
   ac.labels = SHERPA_ONNX_OR(config->labels, "");
   ac.top_k = SHERPA_ONNX_OR(config->top_k, 5);
 
@@ -1463,6 +1577,9 @@ const SherpaOnnxOfflinePunctuation *SherpaOnnxCreateOfflinePunctuation(
   c.model.num_threads = SHERPA_ONNX_OR(config->model.num_threads, 1);
   c.model.debug = config->model.debug;
   c.model.provider = SHERPA_ONNX_OR(config->model.provider, "cpu");
+  if (c.model.provider.empty()) {
+    c.model.provider = "cpu";
+  }
 
   if (c.model.debug) {
     SHERPA_ONNX_LOGE("%s\n", c.ToString().c_str());
@@ -1496,3 +1613,60 @@ const char *SherpaOfflinePunctuationAddPunct(
 }
 
 void SherpaOfflinePunctuationFreeText(const char *text) { delete[] text; }
+
+struct SherpaOnnxLinearResampler {
+  std::unique_ptr<sherpa_onnx::LinearResample> impl;
+};
+
+SherpaOnnxLinearResampler *SherpaOnnxCreateLinearResampler(
+    int32_t samp_rate_in_hz, int32_t samp_rate_out_hz, float filter_cutoff_hz,
+    int32_t num_zeros) {
+  SherpaOnnxLinearResampler *p = new SherpaOnnxLinearResampler;
+  p->impl = std::make_unique<sherpa_onnx::LinearResample>(
+      samp_rate_in_hz, samp_rate_out_hz, filter_cutoff_hz, num_zeros);
+
+  return p;
+}
+
+void SherpaOnnxDestroyLinearResampler(SherpaOnnxLinearResampler *p) {
+  delete p;
+}
+
+const SherpaOnnxResampleOut *SherpaOnnxLinearResamplerResample(
+    SherpaOnnxLinearResampler *p, const float *input, int32_t input_dim,
+    int32_t flush) {
+  std::vector<float> o;
+  p->impl->Resample(input, input_dim, flush, &o);
+
+  float *s = new float[o.size()];
+  std::copy(o.begin(), o.end(), s);
+
+  SherpaOnnxResampleOut *ans = new SherpaOnnxResampleOut;
+  ans->samples = s;
+  ans->n = static_cast<int32_t>(o.size());
+
+  return ans;
+}
+
+void SherpaOnnxLinearResamplerResampleFree(const SherpaOnnxResampleOut *p) {
+  delete[] p->samples;
+  delete p;
+}
+
+int32_t SherpaOnnxLinearResamplerResampleGetInputSampleRate(
+    const SherpaOnnxLinearResampler *p) {
+  return p->impl->GetInputSamplingRate();
+}
+
+int32_t SherpaOnnxLinearResamplerResampleGetOutputSampleRate(
+    const SherpaOnnxLinearResampler *p) {
+  return p->impl->GetOutputSamplingRate();
+}
+
+void SherpaOnnxLinearResamplerReset(SherpaOnnxLinearResampler *p) {
+  p->impl->Reset();
+}
+
+int32_t SherpaOnnxFileExists(const char *filename) {
+  return sherpa_onnx::FileExists(filename);
+}

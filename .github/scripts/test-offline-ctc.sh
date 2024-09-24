@@ -15,7 +15,55 @@ echo "PATH: $PATH"
 
 which $EXE
 
-if false; then
+log "------------------------------------------------------------"
+log "Run SenseVoice models"
+log "------------------------------------------------------------"
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+repo=sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+
+for m in model.onnx model.int8.onnx; do
+  for w in zh en yue ja ko; do
+    for use_itn in 0 1; do
+      echo "$m $w $use_itn"
+      time $EXE \
+        --tokens=$repo/tokens.txt \
+        --sense-voice-model=$repo/$m \
+        --sense-voice-use-itn=$use_itn \
+        $repo/test_wavs/$w.wav
+    done
+  done
+done
+
+
+# test wav reader for non-standard wav files
+waves=(
+  naudio.wav
+  junk-padding.wav
+  int8-1-channel-zh.wav
+  int8-2-channel-zh.wav
+  int8-4-channel-zh.wav
+  int16-1-channel-zh.wav
+  int16-2-channel-zh.wav
+  int32-1-channel-zh.wav
+  int32-2-channel-zh.wav
+  float32-1-channel-zh.wav
+  float32-2-channel-zh.wav
+)
+for w in ${waves[@]}; do
+  curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/$w
+
+  time $EXE \
+    --tokens=$repo/tokens.txt \
+    --sense-voice-model=$repo/model.int8.onnx \
+    $w
+  rm -v $w
+done
+
+rm -rf $repo
+
+if true; then
   # It has problems with onnxruntime 1.18
   log "------------------------------------------------------------"
   log "Run Wenet models"

@@ -79,6 +79,23 @@ class OfflineTdnnModelConfig {
   final String model;
 }
 
+class OfflineSenseVoiceModelConfig {
+  const OfflineSenseVoiceModelConfig({
+    this.model = '',
+    this.language = '',
+    this.useInverseTextNormalization = false,
+  });
+
+  @override
+  String toString() {
+    return 'OfflineSenseVoiceModelConfig(model: $model, language: $language, useInverseTextNormalization: $useInverseTextNormalization)';
+  }
+
+  final String model;
+  final String language;
+  final bool useInverseTextNormalization;
+}
+
 class OfflineLMConfig {
   const OfflineLMConfig({this.model = '', this.scale = 1.0});
 
@@ -98,6 +115,7 @@ class OfflineModelConfig {
     this.nemoCtc = const OfflineNemoEncDecCtcModelConfig(),
     this.whisper = const OfflineWhisperModelConfig(),
     this.tdnn = const OfflineTdnnModelConfig(),
+    this.senseVoice = const OfflineSenseVoiceModelConfig(),
     required this.tokens,
     this.numThreads = 1,
     this.debug = true,
@@ -110,7 +128,7 @@ class OfflineModelConfig {
 
   @override
   String toString() {
-    return 'OfflineModelConfig(transducer: $transducer, paraformer: $paraformer, nemoCtc: $nemoCtc, whisper: $whisper, tdnn: $tdnn, tokens: $tokens, numThreads: $numThreads, debug: $debug, provider: $provider, modelType: $modelType, modelingUnit: $modelingUnit, bpeVocab: $bpeVocab, telespeechCtc: $telespeechCtc)';
+    return 'OfflineModelConfig(transducer: $transducer, paraformer: $paraformer, nemoCtc: $nemoCtc, whisper: $whisper, tdnn: $tdnn, senseVoice: $senseVoice, tokens: $tokens, numThreads: $numThreads, debug: $debug, provider: $provider, modelType: $modelType, modelingUnit: $modelingUnit, bpeVocab: $bpeVocab, telespeechCtc: $telespeechCtc)';
   }
 
   final OfflineTransducerModelConfig transducer;
@@ -118,6 +136,7 @@ class OfflineModelConfig {
   final OfflineNemoEncDecCtcModelConfig nemoCtc;
   final OfflineWhisperModelConfig whisper;
   final OfflineTdnnModelConfig tdnn;
+  final OfflineSenseVoiceModelConfig senseVoice;
 
   final String tokens;
   final int numThreads;
@@ -140,11 +159,12 @@ class OfflineRecognizerConfig {
     this.hotwordsScore = 1.5,
     this.ruleFsts = '',
     this.ruleFars = '',
+    this.blankPenalty = 0.0,
   });
 
   @override
   String toString() {
-    return 'OfflineRecognizerConfig(feat: $feat, model: $model, lm: $lm, decodingMethod: $decodingMethod, maxActivePaths: $maxActivePaths, hotwordsFile: $hotwordsFile, hotwordsScore: $hotwordsScore, ruleFsts: $ruleFsts, ruleFars: $ruleFars)';
+    return 'OfflineRecognizerConfig(feat: $feat, model: $model, lm: $lm, decodingMethod: $decodingMethod, maxActivePaths: $maxActivePaths, hotwordsFile: $hotwordsFile, hotwordsScore: $hotwordsScore, ruleFsts: $ruleFsts, ruleFars: $ruleFars, blankPenalty: $blankPenalty)';
   }
 
   final FeatureConfig feat;
@@ -160,20 +180,30 @@ class OfflineRecognizerConfig {
 
   final String ruleFsts;
   final String ruleFars;
+
+  final double blankPenalty;
 }
 
 class OfflineRecognizerResult {
   OfflineRecognizerResult(
-      {required this.text, required this.tokens, required this.timestamps});
+      {required this.text,
+      required this.tokens,
+      required this.timestamps,
+      required this.lang,
+      required this.emotion,
+      required this.event});
 
   @override
   String toString() {
-    return 'OfflineRecognizerResult(text: $text, tokens: $tokens, timestamps: $timestamps)';
+    return 'OfflineRecognizerResult(text: $text, tokens: $tokens, timestamps: $timestamps, lang: $lang, emotion: $emotion, event: $event)';
   }
 
   final String text;
   final List<String> tokens;
   final List<double> timestamps;
+  final String lang;
+  final String emotion;
+  final String event;
 }
 
 class OfflineRecognizer {
@@ -219,6 +249,14 @@ class OfflineRecognizer {
 
     c.ref.model.tdnn.model = config.model.tdnn.model.toNativeUtf8();
 
+    c.ref.model.senseVoice.model = config.model.senseVoice.model.toNativeUtf8();
+
+    c.ref.model.senseVoice.language =
+        config.model.senseVoice.language.toNativeUtf8();
+
+    c.ref.model.senseVoice.useInverseTextNormalization =
+        config.model.senseVoice.useInverseTextNormalization ? 1 : 0;
+
     c.ref.model.tokens = config.model.tokens.toNativeUtf8();
 
     c.ref.model.numThreads = config.model.numThreads;
@@ -241,6 +279,8 @@ class OfflineRecognizer {
     c.ref.ruleFsts = config.ruleFsts.toNativeUtf8();
     c.ref.ruleFars = config.ruleFars.toNativeUtf8();
 
+    c.ref.blankPenalty = config.blankPenalty;
+
     final ptr = SherpaOnnxBindings.createOfflineRecognizer?.call(c) ?? nullptr;
 
     calloc.free(c.ref.ruleFars);
@@ -254,6 +294,8 @@ class OfflineRecognizer {
     calloc.free(c.ref.model.modelType);
     calloc.free(c.ref.model.provider);
     calloc.free(c.ref.model.tokens);
+    calloc.free(c.ref.model.senseVoice.language);
+    calloc.free(c.ref.model.senseVoice.model);
     calloc.free(c.ref.model.tdnn.model);
     calloc.free(c.ref.model.whisper.task);
     calloc.free(c.ref.model.whisper.language);
@@ -285,7 +327,13 @@ class OfflineRecognizer {
         SherpaOnnxBindings.getOfflineStreamResultAsJson?.call(stream.ptr) ??
             nullptr;
     if (json == nullptr) {
-      return OfflineRecognizerResult(text: '', tokens: [], timestamps: []);
+      return OfflineRecognizerResult(
+          text: '',
+          tokens: [],
+          timestamps: [],
+          lang: '',
+          emotion: '',
+          event: '');
     }
 
     final parsedJson = jsonDecode(toDartString(json));
@@ -295,7 +343,10 @@ class OfflineRecognizer {
     return OfflineRecognizerResult(
         text: parsedJson['text'],
         tokens: List<String>.from(parsedJson['tokens']),
-        timestamps: List<double>.from(parsedJson['timestamps']));
+        timestamps: List<double>.from(parsedJson['timestamps']),
+        lang: parsedJson['lang'],
+        emotion: parsedJson['emotion'],
+        event: parsedJson['event']);
   }
 
   Pointer<SherpaOnnxOfflineRecognizer> ptr;

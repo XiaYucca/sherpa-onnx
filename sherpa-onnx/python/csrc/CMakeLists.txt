@@ -15,6 +15,7 @@ set(srcs
   offline-paraformer-model-config.cc
   offline-punctuation.cc
   offline-recognizer.cc
+  offline-sense-voice-model-config.cc
   offline-stream.cc
   offline-tdnn-model-config.cc
   offline-transducer-model-config.cc
@@ -26,6 +27,7 @@ set(srcs
   online-model-config.cc
   online-nemo-ctc-model-config.cc
   online-paraformer-model-config.cc
+  online-punctuation.cc
   online-recognizer.cc
   online-stream.cc
   online-transducer-model-config.cc
