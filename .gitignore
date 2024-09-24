@@ -111,3 +111,5 @@ sherpa-onnx-telespeech-ctc-*
 *.fst
 .ccache
 lib*.a
+android-ndk-r10e
+android-ndk-r10e-darwin-x86_64.bin
