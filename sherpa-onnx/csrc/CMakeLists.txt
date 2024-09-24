@@ -36,6 +36,8 @@ set(sources
   offline-recognizer-impl.cc
   offline-recognizer.cc
   offline-rnn-lm.cc
+  offline-sense-voice-model-config.cc
+  offline-sense-voice-model.cc
   offline-stream.cc
   offline-tdnn-ctc-model.cc
   offline-tdnn-model-config.cc
@@ -136,13 +138,19 @@ list(APPEND sources
   offline-punctuation-impl.cc
   offline-punctuation-model-config.cc
   offline-punctuation.cc
+  online-cnn-bilstm-model.cc
+  online-punctuation-impl.cc
+  online-punctuation-model-config.cc
+  online-punctuation.cc
 )
 
 if(SHERPA_ONNX_ENABLE_TTS)
   list(APPEND sources
     jieba-lexicon.cc
     lexicon.cc
+    melo-tts-lexicon.cc
     offline-tts-character-frontend.cc
+    offline-tts-frontend.cc
     offline-tts-impl.cc
     offline-tts-model-config.cc
     offline-tts-vits-model-config.cc
@@ -185,7 +193,6 @@ target_link_libraries(sherpa-onnx-core
 
 if(SHERPA_ONNX_ENABLE_GPU)
   target_link_libraries(sherpa-onnx-core
-    onnxruntime_providers_cuda
     onnxruntime_providers_shared
   )
 endif()
@@ -240,6 +247,7 @@ if(SHERPA_ONNX_ENABLE_BINARY)
   add_executable(sherpa-onnx-offline-language-identification sherpa-onnx-offline-language-identification.cc)
   add_executable(sherpa-onnx-offline-parallel sherpa-onnx-offline-parallel.cc)
   add_executable(sherpa-onnx-offline-punctuation sherpa-onnx-offline-punctuation.cc)
+  add_executable(sherpa-onnx-online-punctuation sherpa-onnx-online-punctuation.cc)
 
   if(SHERPA_ONNX_ENABLE_TTS)
     add_executable(sherpa-onnx-offline-tts sherpa-onnx-offline-tts.cc)
@@ -253,6 +261,7 @@ if(SHERPA_ONNX_ENABLE_BINARY)
     sherpa-onnx-offline-language-identification
     sherpa-onnx-offline-parallel
     sherpa-onnx-offline-punctuation
+    sherpa-onnx-online-punctuation
   )
   if(SHERPA_ONNX_ENABLE_TTS)
     list(APPEND main_exes

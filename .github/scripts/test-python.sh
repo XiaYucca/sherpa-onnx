@@ -10,6 +10,50 @@ log() {
 
 export GIT_CLONE_PROTECTION_ACTIVE=false
 
+log "test offline SenseVoice CTC"
+url=https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+name=$(basename $url)
+repo=$(basename -s .tar.bz2 $name)
+
+curl -SL -O $url
+tar xvf $name
+rm $name
+ls -lh $repo
+python3 ./python-api-examples/offline-sense-voice-ctc-decode-files.py
+
+if [[ $(uname) == Linux ]]; then
+  # It needs ffmpeg
+  log  "generate subtitles (Chinese)"
+  curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+  curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+
+  python3 ./python-api-examples/generate-subtitles.py \
+    --silero-vad-model=./silero_vad.onnx \
+    --sense-voice=$repo/model.onnx \
+    --tokens=$repo/tokens.txt \
+    --num-threads=2 \
+    ./lei-jun-test.wav
+
+  cat lei-jun-test.srt
+
+  rm lei-jun-test.wav
+
+  log  "generate subtitles (English)"
+  curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+  python3 ./python-api-examples/generate-subtitles.py \
+    --silero-vad-model=./silero_vad.onnx \
+    --sense-voice=$repo/model.onnx \
+    --tokens=$repo/tokens.txt \
+    --num-threads=2 \
+    ./Obama.wav
+
+  cat Obama.srt
+  rm Obama.wav
+  rm silero_vad.onnx
+fi
+rm -rf $repo
+
 log "test offline TeleSpeech CTC"
 url=https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
 name=$(basename $url)
@@ -44,6 +88,18 @@ repo=sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12
 ls -lh $repo
 
 python3 ./python-api-examples/add-punctuation.py
+
+rm -rf $repo
+
+log "test online punctuation"
+
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/punctuation-models/sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+tar xvf sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+rm sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+repo=sherpa-onnx-online-punct-en-2024-08-06
+ls -lh $repo
+
+python3 ./python-api-examples/add-punctuation-online.py
 
 rm -rf $repo
 

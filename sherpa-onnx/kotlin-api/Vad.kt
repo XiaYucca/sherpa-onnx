@@ -9,6 +9,7 @@ data class SileroVadModelConfig(
     var minSilenceDuration: Float = 0.25F,
     var minSpeechDuration: Float = 0.25F,
     var windowSize: Int = 512,
+    var maxSpeechDuration: Float = 5.0F,
 )
 
 data class VadModelConfig(
@@ -19,11 +20,13 @@ data class VadModelConfig(
     var debug: Boolean = false,
 )
 
+class SpeechSegment(val start: Int, val samples: FloatArray)
+
 class Vad(
     assetManager: AssetManager? = null,
     var config: VadModelConfig,
 ) {
-    private val ptr: Long
+    private var ptr: Long
 
     init {
         if (assetManager != null) {
@@ -34,17 +37,23 @@ class Vad(
     }
 
     protected fun finalize() {
-        delete(ptr)
+        if (ptr != 0L) {
+            delete(ptr)
+            ptr = 0
+        }
     }
+
+    fun release() = finalize()
 
     fun acceptWaveform(samples: FloatArray) = acceptWaveform(ptr, samples)
 
     fun empty(): Boolean = empty(ptr)
     fun pop() = pop(ptr)
 
-    // return an array containing
-    // [start: Int, samples: FloatArray]
-    fun front() = front(ptr)
+    fun front(): SpeechSegment {
+        val segment = front(ptr)
+        return SpeechSegment(segment[0] as Int, segment[1] as FloatArray)
+    }
 
     fun clear() = clear(ptr)
 

@@ -116,7 +116,7 @@ jobs:
             rm ./lib/*.a
             rm ./lib/libonnxruntime.dylib
             cd lib
-            ln -s libonnxruntime.1.18.1.dylib libonnxruntime.dylib
+            ln -s libonnxruntime.1.17.1.dylib libonnxruntime.dylib
             cd ..
           fi
 
@@ -190,6 +190,10 @@ jobs:
           cat go.mod
           go build
           ls -lh
+
+          echo "Test SenseVoice ctc"
+          ./run-sense-voice-small.sh
+          rm -rf sherpa-onnx-sense-*
 
           echo "Test telespeech ctc"
           ./run-telespeech-ctc.sh
