@@ -166,7 +166,7 @@ jobs:
             git pull
             git merge -m "merge remote" --ff origin main
 
-            d=vad/SHERPA_ONNX_VERSION
+            d=vad/$SHERPA_ONNX_VERSION
             mkdir -p $d
             cp -v ../apks/*.apk $d/
             git status
