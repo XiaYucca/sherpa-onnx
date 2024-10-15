@@ -1,8 +1,12 @@
 ### Supported functions
 
-|Speech recognition| Speech synthesis | Speaker verification | Speaker identification |
-|------------------|------------------|----------------------|------------------------|
-|   ✔️              |         ✔️        |          ✔️           |                ✔️       |
+|Speech recognition| Speech synthesis |
+|------------------|------------------|
+|   ✔️              |         ✔️        |
+
+|Speaker identification| Speaker diarization | Speaker verification |
+|----------------------|-------------------- |------------------------|
+|   ✔️                  |         ✔️           |            ✔️           |
 
 | Spoken Language identification | Audio tagging | Voice activity detection |
 |--------------------------------|---------------|--------------------------|
@@ -47,6 +51,7 @@ This repository supports running the following functions **locally**
 
   - Speech-to-text (i.e., ASR); both streaming and non-streaming are supported
   - Text-to-speech (i.e., TTS)
+  - Speaker diarization
   - Speaker identification
   - Speaker verification
   - Spoken language identification
@@ -79,17 +84,19 @@ with the following APIs
 
 ### Links for Huggingface Spaces
 
-You can visit the following Huggingface spaces to try `sherpa-onnx` without
-installing anything. All you need is a browser.
+<details>
+<summary>You can visit the following Huggingface spaces to try sherpa-onnx without
+installing anything. All you need is a browser.</summary>
 
-| Description                                           | URL                                |
-|-------------------------------------------------------|------------------------------------|
-| Speech recognition                                    | [Click me][hf-space-asr]           |
-| Speech recognition with [Whisper][Whisper]            | [Click me][hf-space-asr-whisper]   |
-| Speech synthesis                                      | [Click me][hf-space-tts]           |
-| Generate subtitles                                    | [Click me][hf-space-subtitle]      |
-| Audio tagging                                         | [Click me][hf-space-audio-tagging] |
-| Spoken language identification with [Whisper][Whisper]| [Click me][hf-space-slid-whisper]  |
+| Description                                           | URL                                     |
+|-------------------------------------------------------|-----------------------------------------|
+| Speaker diarization                                   | [Click me][hf-space-speaker-diarization]|
+| Speech recognition                                    | [Click me][hf-space-asr]                |
+| Speech recognition with [Whisper][Whisper]            | [Click me][hf-space-asr-whisper]        |
+| Speech synthesis                                      | [Click me][hf-space-tts]                |
+| Generate subtitles                                    | [Click me][hf-space-subtitle]           |
+| Audio tagging                                         | [Click me][hf-space-audio-tagging]      |
+| Spoken language identification with [Whisper][Whisper]| [Click me][hf-space-slid-whisper]       |
 
 We also have spaces built using WebAssembly. They are listed below:
 
@@ -111,23 +118,35 @@ We also have spaces built using WebAssembly. They are listed below:
 |VAD + speech recognition (English + Chinese, 及多种中文方言) with Paraformer-small          |[Click me][wasm-hf-vad-asr-zh-en-paraformer-small]| [地址][wasm-ms-vad-asr-zh-en-paraformer-small]|
 |Speech synthesis (English)                                                                  |[Click me][wasm-hf-tts-piper-en]| [地址][wasm-ms-tts-piper-en]|
 |Speech synthesis (German)                                                                   |[Click me][wasm-hf-tts-piper-de]| [地址][wasm-ms-tts-piper-de]|
+|Speaker diarization                                                                         |[Click me][wasm-hf-speaker-diarization]|[地址][wasm-ms-speaker-diarization]|
+
+</details>
 
 ### Links for pre-built Android APKs
 
-| Description                            | URL                          | 中国用户                    |
-|----------------------------------------|------------------------------|-----------------------------|
-| Streaming speech recognition           | [Address][apk-streaming-asr] | [点此][apk-streaming-asr-cn]|
-| Text-to-speech                         | [Address][apk-tts]           | [点此][apk-tts-cn]          |
-| Voice activity detection (VAD)         | [Address][apk-vad]           | [点此][apk-vad-cn]          |
-| VAD + non-streaming speech recognition | [Address][apk-vad-asr]       | [点此][apk-vad-asr-cn]      |
-| Two-pass speech recognition            | [Address][apk-2pass]         | [点此][apk-2pass-cn]        |
-| Audio tagging                          | [Address][apk-at]            | [点此][apk-at-cn]           |
-| Audio tagging (WearOS)                 | [Address][apk-at-wearos]     | [点此][apk-at-wearos-cn]    |
-| Speaker identification                 | [Address][apk-sid]           | [点此][apk-sid-cn]          |
-| Spoken language identification         | [Address][apk-slid]          | [点此][apk-slid-cn]         |
-| Keyword spotting                       | [Address][apk-kws]           | [点此][apk-kws-cn]          |
+<details>
+
+<summary>You can find pre-built Android APKs for this repository in the following table</summary>
+
+| Description                            | URL                                | 中国用户                          |
+|----------------------------------------|------------------------------------|-----------------------------------|
+| Speaker diarization                    | [Address][apk-speaker-diarization] | [点此][apk-speaker-diarization-cn]|
+| Streaming speech recognition           | [Address][apk-streaming-asr]       | [点此][apk-streaming-asr-cn]      |
+| Text-to-speech                         | [Address][apk-tts]                 | [点此][apk-tts-cn]                |
+| Voice activity detection (VAD)         | [Address][apk-vad]                 | [点此][apk-vad-cn]                |
+| VAD + non-streaming speech recognition | [Address][apk-vad-asr]             | [点此][apk-vad-asr-cn]            |
+| Two-pass speech recognition            | [Address][apk-2pass]               | [点此][apk-2pass-cn]              |
+| Audio tagging                          | [Address][apk-at]                  | [点此][apk-at-cn]                 |
+| Audio tagging (WearOS)                 | [Address][apk-at-wearos]           | [点此][apk-at-wearos-cn]          |
+| Speaker identification                 | [Address][apk-sid]                 | [点此][apk-sid-cn]                |
+| Spoken language identification         | [Address][apk-slid]                | [点此][apk-slid-cn]               |
+| Keyword spotting                       | [Address][apk-kws]                 | [点此][apk-kws-cn]                |
+
+</details>
 
 ### Links for pre-built Flutter APPs
+
+<details>
 
 #### Real-time speech recognition
 
@@ -147,7 +166,11 @@ We also have spaces built using WebAssembly. They are listed below:
 
 > Note: You need to build from source for iOS.
 
+</details>
+
 ### Links for pre-built Lazarus APPs
+
+<details>
 
 #### Generating subtitles
 
@@ -155,8 +178,11 @@ We also have spaces built using WebAssembly. They are listed below:
 |--------------------------------|----------------------------|----------------------------|
 | Generate subtitles (生成字幕)  | [Address][lazarus-subtitle]| [点此][lazarus-subtitle-cn]|
 
+</details>
 
 ### Links for pre-trained models
+
+<details>
 
 | Description                                 | URL                                                                                   |
 |---------------------------------------------|---------------------------------------------------------------------------------------|
@@ -168,6 +194,9 @@ We also have spaces built using WebAssembly. They are listed below:
 | Speaker identification (Speaker ID)         | [Address][sid-models]                                                                 |
 | Spoken language identification (Language ID)| See multi-lingual [Whisper][Whisper] ASR models from  [Speech recognition][asr-models]|
 | Punctuation                                 | [Address][punct-models]                                                               |
+| Speaker segmentation                        | [Address][speaker-segmentation-models]                                                |
+
+</details>
 
 ### Useful links
 
@@ -191,9 +220,17 @@ for 新一代 Kaldi **微信交流群** and **QQ 交流群**.
 It shows how to use the ASR and TTS Python APIs with FastAPI.
 </details>
 
-### [TMSpeech](https://github.com/jxlpzqc/TMSpeech)
+### [腾讯会议摸鱼工具 TMSpeech](https://github.com/jxlpzqc/TMSpeech)
 
 Uses streaming ASR in C# with graphical user interface.
+
+Video demo in Chinese: [【开源】Windows实时字幕软件（网课/开会必备）](https://www.bilibili.com/video/BV1rX4y1p7Nx)
+
+### [lol互动助手](https://github.com/l1veIn/lol-wom-electron)
+
+It uses the JavaScript API of sherpa-onnx along with [Electron](https://electronjs.org/)
+
+Video demo in Chinese: [爆了！炫神教你开打字挂！真正影响胜率的英雄联盟工具！英雄联盟的最后一块拼图！和游戏中的每个人无障碍沟通！](https://www.bilibili.com/video/BV142tje9E74)
 
 
 [sherpa-rs]: https://github.com/thewh1teagle/sherpa-rs
@@ -204,6 +241,7 @@ Uses streaming ASR in C# with graphical user interface.
 [VisionFive 2]: https://www.starfivetech.com/en/site/boards
 [旭日X3派]: https://developer.horizon.ai/api/v1/fileData/documents_pi/index.html
 [爱芯派]: https://wiki.sipeed.com/hardware/zh/maixIII/ax-pi/axpi.html
+[hf-space-speaker-diarization]: https://huggingface.co/spaces/k2-fsa/speaker-diarization
 [hf-space-asr]: https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition
 [Whisper]: https://github.com/openai/whisper
 [hf-space-asr-whisper]: https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition-with-whisper
@@ -248,6 +286,10 @@ Uses streaming ASR in C# with graphical user interface.
 [wasm-ms-tts-piper-en]: https://modelscope.cn/studios/k2-fsa/web-assembly-tts-sherpa-onnx-en
 [wasm-hf-tts-piper-de]: https://huggingface.co/spaces/k2-fsa/web-assembly-tts-sherpa-onnx-de
 [wasm-ms-tts-piper-de]: https://modelscope.cn/studios/k2-fsa/web-assembly-tts-sherpa-onnx-de
+[wasm-hf-speaker-diarization]: https://huggingface.co/spaces/k2-fsa/web-assembly-speaker-diarization-sherpa-onnx
+[wasm-ms-speaker-diarization]: https://www.modelscope.cn/studios/csukuangfj/web-assembly-speaker-diarization-sherpa-onnx
+[apk-speaker-diarization]: https://k2-fsa.github.io/sherpa/onnx/speaker-diarization/apk.html
+[apk-speaker-diarization-cn]: https://k2-fsa.github.io/sherpa/onnx/speaker-diarization/apk-cn.html
 [apk-streaming-asr]: https://k2-fsa.github.io/sherpa/onnx/android/apk.html
 [apk-streaming-asr-cn]: https://k2-fsa.github.io/sherpa/onnx/android/apk-cn.html
 [apk-tts]: https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine.html
@@ -290,5 +332,6 @@ Uses streaming ASR in C# with graphical user interface.
 [sid-models]: https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models
 [slid-models]: https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models
 [punct-models]: https://github.com/k2-fsa/sherpa-onnx/releases/tag/punctuation-models
+[speaker-segmentation-models]: https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-segmentation-models
 [GigaSpeech]: https://github.com/SpeechColab/GigaSpeech
 [WenetSpeech]: https://github.com/wenet-e2e/WenetSpeech

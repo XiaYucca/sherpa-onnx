@@ -11,7 +11,7 @@ project(sherpa-onnx)
 # ./nodejs-addon-examples
 # ./dart-api-examples/
 # ./CHANGELOG.md
-set(SHERPA_ONNX_VERSION "1.10.27")
+set(SHERPA_ONNX_VERSION "1.10.28")
 
 # Disable warning about
 #
@@ -32,6 +32,7 @@ option(SHERPA_ONNX_ENABLE_WEBSOCKET "Whether to build webscoket server/client" O
 option(SHERPA_ONNX_ENABLE_GPU "Enable ONNX Runtime GPU support" OFF)
 option(SHERPA_ONNX_ENABLE_DIRECTML "Enable ONNX Runtime DirectML support" OFF)
 option(SHERPA_ONNX_ENABLE_WASM "Whether to enable WASM" OFF)
+option(SHERPA_ONNX_ENABLE_WASM_SPEAKER_DIARIZATION "Whether to enable WASM for speaker diarization" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_TTS "Whether to enable WASM for TTS" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_ASR "Whether to enable WASM for ASR" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_KWS "Whether to enable WASM for KWS" OFF)
@@ -40,6 +41,7 @@ option(SHERPA_ONNX_ENABLE_WASM_VAD_ASR "Whether to enable WASM for VAD+ASR" OFF)
 option(SHERPA_ONNX_ENABLE_WASM_NODEJS "Whether to enable WASM for NodeJS" OFF)
 option(SHERPA_ONNX_ENABLE_BINARY "Whether to build binaries" ON)
 option(SHERPA_ONNX_ENABLE_TTS "Whether to build TTS related code" ON)
+option(SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION "Whether to build speaker diarization related code" ON)
 option(SHERPA_ONNX_LINK_LIBSTDCPP_STATICALLY "True to link libstdc++ statically. Used only when BUILD_SHARED_LIBS is OFF on Linux" ON)
 option(SHERPA_ONNX_USE_PRE_INSTALLED_ONNXRUNTIME_IF_AVAILABLE "True to use pre-installed onnxruntime if available" ON)
 option(SHERPA_ONNX_ENABLE_SANITIZER "Whether to enable ubsan and asan" OFF)
@@ -134,6 +136,7 @@ message(STATUS "SHERPA_ONNX_ENABLE_C_API ${SHERPA_ONNX_ENABLE_C_API}")
 message(STATUS "SHERPA_ONNX_ENABLE_WEBSOCKET ${SHERPA_ONNX_ENABLE_WEBSOCKET}")
 message(STATUS "SHERPA_ONNX_ENABLE_GPU ${SHERPA_ONNX_ENABLE_GPU}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM ${SHERPA_ONNX_ENABLE_WASM}")
+message(STATUS "SHERPA_ONNX_ENABLE_WASM_SPEAKER_DIARIZATION ${SHERPA_ONNX_ENABLE_WASM_SPEAKER_DIARIZATION}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_TTS ${SHERPA_ONNX_ENABLE_WASM_TTS}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_ASR ${SHERPA_ONNX_ENABLE_WASM_ASR}")
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_KWS ${SHERPA_ONNX_ENABLE_WASM_KWS}")
@@ -142,6 +145,7 @@ message(STATUS "SHERPA_ONNX_ENABLE_WASM_VAD_ASR ${SHERPA_ONNX_ENABLE_WASM_VAD_AS
 message(STATUS "SHERPA_ONNX_ENABLE_WASM_NODEJS ${SHERPA_ONNX_ENABLE_WASM_NODEJS}")
 message(STATUS "SHERPA_ONNX_ENABLE_BINARY ${SHERPA_ONNX_ENABLE_BINARY}")
 message(STATUS "SHERPA_ONNX_ENABLE_TTS ${SHERPA_ONNX_ENABLE_TTS}")
+message(STATUS "SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION ${SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION}")
 message(STATUS "SHERPA_ONNX_LINK_LIBSTDCPP_STATICALLY ${SHERPA_ONNX_LINK_LIBSTDCPP_STATICALLY}")
 message(STATUS "SHERPA_ONNX_USE_PRE_INSTALLED_ONNXRUNTIME_IF_AVAILABLE ${SHERPA_ONNX_USE_PRE_INSTALLED_ONNXRUNTIME_IF_AVAILABLE}")
 message(STATUS "SHERPA_ONNX_ENABLE_SANITIZER: ${SHERPA_ONNX_ENABLE_SANITIZER}")
@@ -178,6 +182,14 @@ else()
   add_definitions(-DSHERPA_ONNX_ENABLE_TTS=0)
 endif()
 
+if(SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION)
+  message(STATUS "speaker diarization is enabled")
+  add_definitions(-DSHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION=1)
+else()
+  message(WARNING "speaker diarization is disabled")
+  add_definitions(-DSHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION=0)
+endif()
+
 if(SHERPA_ONNX_ENABLE_DIRECTML)
   message(STATUS "DirectML is enabled")
   add_definitions(-DSHERPA_ONNX_ENABLE_DIRECTML=1)
@@ -186,9 +198,19 @@ else()
   add_definitions(-DSHERPA_ONNX_ENABLE_DIRECTML=0)
 endif()
 
+if(SHERPA_ONNX_ENABLE_WASM_SPEAKER_DIARIZATION)
+  if(NOT SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION)
+    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION to ON if you want to build WASM for speaker diarization")
+  endif()
+
+  if(NOT SHERPA_ONNX_ENABLE_WASM)
+    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_WASM to ON if you enable WASM for speaker diarization")
+  endif()
+endif()
+
 if(SHERPA_ONNX_ENABLE_WASM_TTS)
   if(NOT SHERPA_ONNX_ENABLE_TTS)
-    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_TTS to ON if you want to build wasm TTS")
+    message(FATAL_ERROR "Please set SHERPA_ONNX_ENABLE_TTS to ON if you want to build WASM for TTS")
   endif()
 
   if(NOT SHERPA_ONNX_ENABLE_WASM)
@@ -339,6 +361,10 @@ if(SHERPA_ONNX_ENABLE_TTS)
   message(STATUS "ESPEAK_NG_DIR: ${ESPEAK_NG_DIR}")
   include(piper-phonemize)
   include(cppjieba) # For Chinese TTS. It is a header-only C++ library
+endif()
+
+if(SHERPA_ONNX_ENABLE_SPEAKER_DIARIZATION)
+  include(hclust-cpp)
 endif()
 
 # if(NOT MSVC AND CMAKE_BUILD_TYPE STREQUAL Debug AND (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang"))
