@@ -1097,7 +1097,7 @@ func sherpaOnnxOfflineSpeakerSegmentationPyannoteModelConfig(model: String)
 func sherpaOnnxOfflineSpeakerSegmentationModelConfig(
   pyannote: SherpaOnnxOfflineSpeakerSegmentationPyannoteModelConfig,
   numThreads: Int = 1,
-  debug: Int = 0,
+  debug: Int = 1,
   provider: String = "cpu"
 ) -> SherpaOnnxOfflineSpeakerSegmentationModelConfig {
   return SherpaOnnxOfflineSpeakerSegmentationModelConfig(
@@ -1117,7 +1117,7 @@ func sherpaOnnxFastClusteringConfig(numClusters: Int = -1, threshold: Float = 0.
 func sherpaOnnxSpeakerEmbeddingExtractorConfig(
   model: String,
   numThreads: Int = 1,
-  debug: Int = 0,
+  debug: Int = 1,
   provider: String = "cpu"
 ) -> SherpaOnnxSpeakerEmbeddingExtractorConfig {
   return SherpaOnnxSpeakerEmbeddingExtractorConfig(

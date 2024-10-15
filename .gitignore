@@ -123,4 +123,5 @@ sherpa-onnx-online-punct-en-2024-08-06
 *.mp4
 *.mp3
 sherpa-onnx-pyannote-segmentation-3-0
+speaker-diarization
 
