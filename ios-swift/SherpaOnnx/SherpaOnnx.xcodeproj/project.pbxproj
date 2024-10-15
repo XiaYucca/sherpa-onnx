@@ -10,6 +10,7 @@
 		1605D0E343DEE556389119E5 /* Pods_SherpaOnnxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7619A57FF4A4F44D20DBEB6 /* Pods_SherpaOnnxTests.framework */; };
 		49C5A16B83F3BEC1557EBABC /* Pods_SherpaOnnx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFE6BA4DF44F7FE73F816604 /* Pods_SherpaOnnx.framework */; };
 		97001E341F7235776BCE6961 /* Pods_SherpaOnnx_SherpaOnnxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A021718911F12E3F65192D5F /* Pods_SherpaOnnx_SherpaOnnxUITests.framework */; };
+		B7046FA32CBE431F0061C446 /* speaker-diarization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7046FA22CBE431F0061C446 /* speaker-diarization.swift */; };
 		B7852FB52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */; };
 		B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */; };
 		B7852FB72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */; };
@@ -79,6 +80,7 @@
 		74617BBE4BEF2F4FF0EA044A /* Pods-SherpaOnnxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SherpaOnnxTests.release.xcconfig"; path = "Target Support Files/Pods-SherpaOnnxTests/Pods-SherpaOnnxTests.release.xcconfig"; sourceTree = "<group>"; };
 		A021718911F12E3F65192D5F /* Pods_SherpaOnnx_SherpaOnnxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SherpaOnnx_SherpaOnnxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7619A57FF4A4F44D20DBEB6 /* Pods_SherpaOnnxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SherpaOnnxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7046FA22CBE431F0061C446 /* speaker-diarization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "speaker-diarization.swift"; path = "../../../swift-api-examples/speaker-diarization.swift"; sourceTree = "<group>"; };
 		B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.onnx"; sourceTree = "<group>"; };
 		B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
 		B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "joiner-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
@@ -160,6 +162,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B7046FA42CBE56FA0061C446 /* SpeakerDiarization */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SpeakerDiarization;
+			sourceTree = "<group>";
+		};
 		B7852FA42CA2D3E80059AD63 /* sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +278,7 @@
 		C984A7E629A9EEB700D74C52 /* SherpaOnnx */ = {
 			isa = PBXGroup;
 			children = (
+				B7046FA42CBE56FA0061C446 /* SpeakerDiarization */,
 				B7C46FD52CA39DD200DDA4DB /* Sliero */,
 				B7852FA42CA2D3E80059AD63 /* sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 */,
 				C984A83B29AA430B00D74C52 /* ViewController.swift */,
@@ -277,6 +287,7 @@
 				B7C46FD12CA39A6600DDA4DB /* Prunctuation.swift */,
 				B7C46FD22CA39A6600DDA4DB /* SherpaOnnxManager.swift */,
 				C984A81829AA119400D74C52 /* SherpaOnnx.swift */,
+				B7046FA22CBE431F0061C446 /* speaker-diarization.swift */,
 				B7CA98D12CBA0B5A007C9A7E /* AudioRecorder.swift */,
 				C984A81729A9F51B00D74C52 /* SherpaOnnx-Bridging-Header.h */,
 				C984A7E729A9EEB700D74C52 /* AppDelegate.swift */,
@@ -586,6 +597,7 @@
 				C984A83C29AA430B00D74C52 /* ViewController.swift in Sources */,
 				B7C46FD42CA39A6600DDA4DB /* SherpaOnnxManager.swift in Sources */,
 				B7C46FD32CA39A6600DDA4DB /* Prunctuation.swift in Sources */,
+				B7046FA32CBE431F0061C446 /* speaker-diarization.swift in Sources */,
 				C984A82A29AA19AC00D74C52 /* Model.swift in Sources */,
 				C984A81929AA119400D74C52 /* SherpaOnnx.swift in Sources */,
 				B7C46FD92CA39DD200DDA4DB /* Silero.swift in Sources */,

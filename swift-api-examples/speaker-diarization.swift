@@ -1,16 +1,16 @@
 import AVFoundation
 
-extension AudioBuffer {
-  func array() -> [Float] {
-    return Array(UnsafeBufferPointer(self))
-  }
-}
-
-extension AVAudioPCMBuffer {
-  func array() -> [Float] {
-    return self.audioBufferList.pointee.mBuffers.array()
-  }
-}
+//extension AudioBuffer {
+//  func array() -> [Float] {
+//    return Array(UnsafeBufferPointer(self))
+//  }
+//}
+//
+//extension AVAudioPCMBuffer {
+//  func array() -> [Float] {
+//    return self.audioBufferList.pointee.mBuffers.array()
+//  }
+//}
 
 func run() {
   let segmentationModel = "./sherpa-onnx-pyannote-segmentation-3-0/model.onnx"
@@ -22,7 +22,7 @@ func run() {
   var config = sherpaOnnxOfflineSpeakerDiarizationConfig(
     segmentation: sherpaOnnxOfflineSpeakerSegmentationModelConfig(
       pyannote: sherpaOnnxOfflineSpeakerSegmentationPyannoteModelConfig(model: segmentationModel)),
-    embedding: sherpaOnnxSpeakerEmbeddingExtractorConfig(model: embeddingExtractorModel),
+    embedding: sherpaOnnxSpeakerEmbeddingExtractorConfig(model: embeddingExtractorModel,debug: 1),
     clustering: sherpaOnnxFastClusteringConfig(numClusters: numSpeakers)
   )
 
@@ -48,9 +48,9 @@ func run() {
   }
 }
 
-@main
-struct App {
-  static func main() {
-    run()
-  }
-}
+//@main
+//struct App {
+//  static func main() {
+//    run()
+//  }
+//}
