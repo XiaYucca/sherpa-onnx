@@ -36,6 +36,7 @@ class SileroVadModel : public VadModel {
    * @return Return true if speech is detected. Return false otherwise.
    */
   bool IsSpeech(const float *samples, int32_t n) override;
+    
 
   // For silero vad V4, it is WindowShift().
   // For silero vad V5, it is WindowShift()+64 for 16kHz and
@@ -50,6 +51,8 @@ class SileroVadModel : public VadModel {
 
   void SetMinSilenceDuration(float s) override;
   void SetThreshold(float threshold) override;
+    
+  float run(const float *samples, int32_t n) override;
 
  private:
   class Impl;

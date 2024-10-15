@@ -862,6 +862,10 @@ SHERPA_ONNX_API void SherpaOnnxVoiceActivityDetectorClear(
 SHERPA_ONNX_API const SherpaOnnxSpeechSegment *
 SherpaOnnxVoiceActivityDetectorFront(SherpaOnnxVoiceActivityDetector *p);
 
+SHERPA_ONNX_API const SherpaOnnxSpeechSegment *SherpaOnnxVoiceActivityDetectorInspect(SherpaOnnxVoiceActivityDetector *p);
+
+SHERPA_ONNX_API float SherpaOnnxVoiceActivityDetectorVad(SherpaOnnxVoiceActivityDetector *p,const float *samples, int32_t n);
+
 // Free the pointer returned SherpaOnnxVoiceActivityDetectorFront().
 SHERPA_ONNX_API void SherpaOnnxDestroySpeechSegment(
     const SherpaOnnxSpeechSegment *p);

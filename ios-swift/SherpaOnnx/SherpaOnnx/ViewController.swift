@@ -7,55 +7,73 @@
 
 import AVFoundation
 import UIKit
+import Alamofire
 
-extension AudioBuffer {
-    func array() -> [Float] {
-        return Array(UnsafeBufferPointer(self))
-    }
-}
-
-extension AVAudioPCMBuffer {
-    func array() -> [Float] {
-        return self.audioBufferList.pointee.mBuffers.array()
-    }
-}
 
 class ViewController: UIViewController {
-    @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+
     @IBOutlet weak var recordBtn: UIButton!
 
     var audioEngine: AVAudioEngine? = nil
     var recognizer: SherpaOnnxRecognizer! = nil
+    
+    var sentences =  [Sentence]()
+    
+    weak var lastCell : UITableViewCell?
+ 
+    
+    func translator(text:String,callback:((_ text:String)->())?){
+        let parameters: [String: Any] = ["text": text
+        ]
+        AF.request("http://40.82.153.252:8763/translator", method: .post, parameters: parameters).responseJSON { response in
+                
+            switch response.result{
+                
+            case .success(let data):
+                if let data = data as? [String : Any],
+                   let content = data["content"] as? [String : [String]],
+                   let text = content["text"]?[0]
+                {
+                    print(text)
+                    callback?(text)
+                }
+            case .failure(let error): break
+                
+            }
+        
+        }
 
-    /// It saves the decoded results so far
-    var sentences: [String] = [] {
-        didSet {
-            updateLabel()
+    }
+    
+    func updateLabel(item:Sentence) {
+        var item = item
+        if item.source == "。"{return}
+        
+        self.translator(text: item.source) { text in
+            item.target = text
+            self.updateTableView(item: item)
         }
     }
-    var lastSentence: String = ""
-    let maxSentence: Int = 20
-    var results: String {
-        if sentences.isEmpty && lastSentence.isEmpty {
-            return ""
-        }
-        if sentences.isEmpty {
-            return "0: \(lastSentence.lowercased())"
-        }
-
-        let start = max(sentences.count - maxSentence, 0)
-        if lastSentence.isEmpty {
-            return sentences.enumerated().map { (index, s) in "\(index): \(s.lowercased())" }[start...]
-                .joined(separator: "\n")
-        } else {
-            return sentences.enumerated().map { (index, s) in "\(index): \(s.lowercased())" }[start...]
-                .joined(separator: "\n") + "\n\(sentences.count): \(lastSentence.lowercased())"
-        }
-    }
-
-    func updateLabel() {
+    
+    func updateTableView(item:Sentence){
         DispatchQueue.main.async {
-            self.resultLabel.text = self.results
+            
+            let lastItem = self.sentences.last
+            self.tableView.beginUpdates()
+            
+            if (lastItem?.state ?? .final) == .final{
+                self.sentences.append(item)
+                self.tableView.insertRows(at: [IndexPath(row: self.sentences.count - 1, section: 0)], with: .none)
+            }else{
+                self.sentences.removeLast()
+                self.sentences.append(item)
+                self.tableView.reloadRows(at: [IndexPath(row: self.sentences.count - 1, section: 0)], with: .none)
+            }
+            
+            self.tableView.endUpdates()
+
+            self.tableView.scrollToRow(at: IndexPath(row: self.sentences.count - 1, section: 0), at: .middle, animated: false)
         }
     }
 
@@ -63,18 +81,31 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
-        resultLabel.text = "ASR with Next-gen Kaldi\n\nSee https://github.com/k2-fsa/sherpa-onnx\n\nPress the Start button to run!"
         recordBtn.setTitle("Start", for: .normal)
-        initRecognizer()
-        initRecorder()
+//        initRecognizer()
+//        initRecorder()
+        SherpaOnnxManager.shared.start()
+        SherpaOnnxManager.shared.offline_vad_final_callback = {
+            item in
+            self.updateLabel(item: item)
+        }
+        SherpaOnnxManager.shared.offline_vad_parctial_callback = {
+            item in
+            self.updateLabel(item: item)
+        }
+
     }
 
     @IBAction func onRecordBtnClick(_ sender: UIButton) {
+
         if recordBtn.currentTitle == "Start" {
-            startRecorder()
+//            startRecorder()
+            SherpaOnnxManager.shared.startRecorder()
             recordBtn.setTitle("Stop", for: .normal)
+            
         } else {
-            stopRecorder()
+//            stopRecorder()
+            SherpaOnnxManager.shared.stopRecorder()
             recordBtn.setTitle("Start", for: .normal)
         }
     }
@@ -85,10 +116,10 @@ class ViewController: UIViewController {
         // You can also modify Model.swift to add new pre-trained models from
         // https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html
 
-        // let modelConfig = getBilingualStreamZhEnZipformer20230220()
+         let modelConfig = getBilingualStreamZhEnZipformer20230220()
         // let modelConfig = getZhZipformer20230615()
         // let modelConfig = getEnZipformer20230626()
-        let modelConfig = getBilingualStreamingZhEnParaformer()
+//        let modelConfig = getBilingualStreamingZhEnParaformer()
 
         let featConfig = sherpaOnnxFeatureConfig(
             sampleRate: 16000,
@@ -164,17 +195,11 @@ class ViewController: UIViewController {
                 let isEndpoint = self.recognizer.isEndpoint()
                 let text = self.recognizer.getResult().text
 
-                if !text.isEmpty && self.lastSentence != text {
-                    self.lastSentence = text
-                    self.updateLabel()
-                    print(text)
-                }
+                
 
                 if isEndpoint {
                     if !text.isEmpty {
-                        let tmp = self.lastSentence
-                        self.lastSentence = ""
-                        self.sentences.append(tmp)
+                       
                     }
                     self.recognizer.reset()
                 }
@@ -184,7 +209,6 @@ class ViewController: UIViewController {
     }
 
     func startRecorder() {
-        lastSentence = ""
         sentences = []
 
         do {
@@ -199,4 +223,35 @@ class ViewController: UIViewController {
         audioEngine?.stop()
         print("stopped")
     }
+}
+
+
+extension ViewController : UITableViewDelegate,UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.sentences.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCellId", for: indexPath)
+
+        let titleLabel = cell.viewWithTag(10) as! UILabel
+        let contentLabel = cell.viewWithTag(20) as! UILabel
+        let item = self.sentences[indexPath.row]
+        titleLabel.text = item.source
+        contentLabel.text = item.target
+        
+//        if indexPath.row == self.sentences.count - 1{
+//            contentLabel.font = .systemFont(ofSize: 32)
+//        }
+//        if lastCell != cell{
+//            if let contentLabel = lastCell?.viewWithTag(20) as? UILabel{
+//                contentLabel.font = .systemFont(ofSize: 15)
+//            }
+//            lastCell = cell
+//        }
+        return cell
+    }
+    
+    
 }
