@@ -654,51 +654,60 @@ class SherpaOnnxSpeechSegmentWrapper {
 }
 
 class SherpaOnnxVoiceActivityDetectorWrapper {
-  /// A pointer to the underlying counterpart in C
-  let vad: OpaquePointer!
-
-  init(config: UnsafePointer<SherpaOnnxVadModelConfig>!, buffer_size_in_seconds: Float) {
-    vad = SherpaOnnxCreateVoiceActivityDetector(config, buffer_size_in_seconds)
-  }
-
-  deinit {
-    if let vad {
-      SherpaOnnxDestroyVoiceActivityDetector(vad)
+    /// A pointer to the underlying counterpart in C
+    let vad: OpaquePointer!
+    
+    init(config: UnsafePointer<SherpaOnnxVadModelConfig>!, buffer_size_in_seconds: Float) {
+        vad = SherpaOnnxCreateVoiceActivityDetector(config, buffer_size_in_seconds)
     }
-  }
-
-  func acceptWaveform(samples: [Float]) {
-    SherpaOnnxVoiceActivityDetectorAcceptWaveform(vad, samples, Int32(samples.count))
-  }
-
-  func isEmpty() -> Bool {
-    return SherpaOnnxVoiceActivityDetectorEmpty(vad) == 1
-  }
-
-  func isSpeechDetected() -> Bool {
-    return SherpaOnnxVoiceActivityDetectorDetected(vad) == 1
-  }
-
-  func pop() {
-    SherpaOnnxVoiceActivityDetectorPop(vad)
-  }
-
-  func clear() {
-    SherpaOnnxVoiceActivityDetectorClear(vad)
-  }
-
-  func front() -> SherpaOnnxSpeechSegmentWrapper {
-    let p: UnsafePointer<SherpaOnnxSpeechSegment>? = SherpaOnnxVoiceActivityDetectorFront(vad)
-    return SherpaOnnxSpeechSegmentWrapper(p: p)
-  }
-
-  func reset() {
-    SherpaOnnxVoiceActivityDetectorReset(vad)
-  }
-
-  func flush() {
-    SherpaOnnxVoiceActivityDetectorFlush(vad)
-  }
+    
+    deinit {
+        if let vad {
+            SherpaOnnxDestroyVoiceActivityDetector(vad)
+        }
+    }
+    
+    func acceptWaveform(samples: [Float]) {
+        SherpaOnnxVoiceActivityDetectorAcceptWaveform(vad, samples, Int32(samples.count))
+    }
+    
+    func isEmpty() -> Bool {
+        return SherpaOnnxVoiceActivityDetectorEmpty(vad) == 1
+    }
+    
+    func isSpeechDetected() -> Bool {
+        return SherpaOnnxVoiceActivityDetectorDetected(vad) == 1
+    }
+    
+    func pop() {
+        SherpaOnnxVoiceActivityDetectorPop(vad)
+    }
+    
+    func clear() {
+        SherpaOnnxVoiceActivityDetectorClear(vad)
+    }
+    
+    func front() -> SherpaOnnxSpeechSegmentWrapper {
+        let p: UnsafePointer<SherpaOnnxSpeechSegment>? = SherpaOnnxVoiceActivityDetectorFront(vad)
+        return SherpaOnnxSpeechSegmentWrapper(p: p)
+    }
+    
+    func reset() {
+        SherpaOnnxVoiceActivityDetectorReset(vad)
+    }
+    
+    func flush() {
+        SherpaOnnxVoiceActivityDetectorFlush(vad)
+    }
+    
+    func inspect()-> SherpaOnnxSpeechSegmentWrapper{
+        let p: UnsafePointer<SherpaOnnxSpeechSegment>? = SherpaOnnxVoiceActivityDetectorInspect(vad)
+        return SherpaOnnxSpeechSegmentWrapper(p: p)
+    }
+    
+    func vad(samples: [Float])->Float {
+        return SherpaOnnxVoiceActivityDetectorVad(vad, samples, Int32(samples.count))
+    }
 }
 
 // offline tts

@@ -32,7 +32,7 @@ class VoiceActivityDetector {
 #endif
 
   ~VoiceActivityDetector();
-
+  float vad(const float *samples, int32_t n) const;
   void AcceptWaveform(const float *samples, int32_t n);
   bool Empty() const;
   void Pop();
@@ -46,6 +46,7 @@ class VoiceActivityDetector {
   // At the end of the utterance, you can invoke this method so that
   // the last speech segment can be detected.
   void Flush() const;
+  SpeechSegment inspect() const;
 
   const VadModelConfig &GetConfig() const;
 

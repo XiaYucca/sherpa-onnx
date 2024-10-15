@@ -72,6 +72,14 @@ class SileroVadModel::Impl {
     temp_start_ = 0;
     temp_end_ = 0;
   }
+    
+  float Run_sample(const float *samples, int32_t n) {
+        if (is_v5_) {
+          return RunV5(samples, n);
+        } else {
+          return RunV4(samples, n);
+        }
+  }
 
   bool IsSpeech(const float *samples, int32_t n) {
     if (n != WindowSize()) {
@@ -162,6 +170,9 @@ class SileroVadModel::Impl {
   void SetThreshold(float threshold) {
     config_.silero_vad.threshold = threshold;
   }
+    
+
+
 
  private:
   void Init(void *model_data, size_t model_data_length) {
@@ -195,6 +206,14 @@ class SileroVadModel::Impl {
     Reset();
   }
 
+  float Run(const float *samples, int32_t n) {
+      if (is_v5_) {
+        return RunV5(samples, n);
+      } else {
+        return RunV4(samples, n);
+      }
+  }
+    
   void ResetV5() {
     // 2 - number of LSTM layer
     // 1 - batch size
@@ -335,13 +354,6 @@ class SileroVadModel::Impl {
     }
   }
 
-  float Run(const float *samples, int32_t n) {
-    if (is_v5_) {
-      return RunV5(samples, n);
-    } else {
-      return RunV4(samples, n);
-    }
-  }
 
   float RunV5(const float *samples, int32_t n) {
     auto memory_info =
@@ -464,5 +476,10 @@ void SileroVadModel::SetMinSilenceDuration(float s) {
 void SileroVadModel::SetThreshold(float threshold) {
   impl_->SetThreshold(threshold);
 }
+
+float SileroVadModel::run(const float *samples, int32_t n) {
+  return impl_->Run_sample(samples, n);
+}
+
 
 }  // namespace sherpa_onnx

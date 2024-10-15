@@ -27,6 +27,8 @@
 #include "sherpa-onnx/csrc/wave-reader.h"
 #include "sherpa-onnx/csrc/wave-writer.h"
 
+//#include "sherpa-onnx/csrc/silero-vad-model.h"
+
 #if SHERPA_ONNX_ENABLE_TTS == 1
 #include "sherpa-onnx/csrc/offline-tts.h"
 #endif
@@ -984,6 +986,23 @@ const SherpaOnnxSpeechSegment *SherpaOnnxVoiceActivityDetectorFront(
   ans->n = segment.samples.size();
 
   return ans;
+}
+
+const SherpaOnnxSpeechSegment *SherpaOnnxVoiceActivityDetectorInspect(SherpaOnnxVoiceActivityDetector *p) {
+    sherpa_onnx::SpeechSegment segment = p->impl->inspect();
+
+    SherpaOnnxSpeechSegment *ans = new SherpaOnnxSpeechSegment;
+    ans->start = segment.start;
+    if (segment.start != -1){
+        ans->samples = new float[segment.samples.size()];
+        std::copy(segment.samples.begin(), segment.samples.end(), ans->samples);
+        ans->n = segment.samples.size();
+    }
+    return ans;
+}
+
+float SherpaOnnxVoiceActivityDetectorVad(SherpaOnnxVoiceActivityDetector *p,const float *samples, int32_t n){
+    return p->impl->vad(samples,n);
 }
 
 void SherpaOnnxDestroySpeechSegment(const SherpaOnnxSpeechSegment *p) {
