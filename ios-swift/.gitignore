@@ -30,6 +30,9 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 *.dSYM
+Pods
+*.xcworkspace
+Podfile.lock
 
 ## Playgrounds
 timeline.xctimeline

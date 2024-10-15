@@ -1,0 +1,22 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'SherpaOnnx' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  pod 'onnxruntime-objc', :path =>"LocalPods/OnnxRuntime-Rain"
+  
+  pod 'Alamofire', '~> 5.2'
+  # Pods for SherpaOnnx
+
+  target 'SherpaOnnxTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'SherpaOnnxUITests' do
+    # Pods for testing
+  end
+
+end
