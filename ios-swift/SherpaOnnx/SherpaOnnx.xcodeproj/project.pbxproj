@@ -11,6 +11,17 @@
 		49C5A16B83F3BEC1557EBABC /* Pods_SherpaOnnx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFE6BA4DF44F7FE73F816604 /* Pods_SherpaOnnx.framework */; };
 		97001E341F7235776BCE6961 /* Pods_SherpaOnnx_SherpaOnnxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A021718911F12E3F65192D5F /* Pods_SherpaOnnx_SherpaOnnxUITests.framework */; };
 		B7046FA32CBE431F0061C446 /* speaker-diarization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7046FA22CBE431F0061C446 /* speaker-diarization.swift */; };
+		B7046FB02CBE6A460061C446 /* model-pynonote.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7046FA62CBE6A460061C446 /* model-pynonote.int8.onnx */; };
+		B7046FB12CBE6A460061C446 /* vad-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FA72CBE6A460061C446 /* vad-onnx.py */; };
+		B7046FB22CBE6A460061C446 /* speaker-diarization-torch.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FA82CBE6A460061C446 /* speaker-diarization-torch.py */; };
+		B7046FB32CBE6A460061C446 /* vad-torch.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FA92CBE6A460061C446 /* vad-torch.py */; };
+		B7046FB42CBE6A460061C446 /* run.sh in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAA2CBE6A460061C446 /* run.sh */; };
+		B7046FB52CBE6A460061C446 /* speaker-diarization-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAB2CBE6A460061C446 /* speaker-diarization-onnx.py */; };
+		B7046FB62CBE6A460061C446 /* model-pynonote.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAC2CBE6A460061C446 /* model-pynonote.onnx */; };
+		B7046FB72CBE6A460061C446 /* show-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAD2CBE6A460061C446 /* show-onnx.py */; };
+		B7046FB82CBE6A460061C446 /* export-pyannote-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAE2CBE6A460061C446 /* export-pyannote-onnx.py */; };
+		B7046FB92CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAF2CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx */; };
+		B7046FBB2CBE6B1D0061C446 /* 0-four-speakers-zh.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7046FBA2CBE6B1D0061C446 /* 0-four-speakers-zh.wav */; };
 		B7852FB52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */; };
 		B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */; };
 		B7852FB72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */; };
@@ -40,6 +51,7 @@
 		B7C46FF12CA3A1DC00DDA4DB /* ko.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7C46FE62CA3A1DC00DDA4DB /* ko.wav */; };
 		B7C46FF22CA3A1DC00DDA4DB /* export-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7C46FE72CA3A1DC00DDA4DB /* export-onnx.py */; };
 		B7CA98D22CBA0B5A007C9A7E /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA98D12CBA0B5A007C9A7E /* AudioRecorder.swift */; };
+		B7E6E3032CBF5DFF00387B74 /* test.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7E6E3022CBF5DFF00387B74 /* test.wav */; };
 		C93989AE2A89FE13009AB859 /* sherpa-onnx.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C984A81B29AA11C500D74C52 /* sherpa-onnx.xcframework */; };
 		C984A7E829A9EEB700D74C52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984A7E729A9EEB700D74C52 /* AppDelegate.swift */; };
 		C984A7EA29A9EEB700D74C52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984A7E929A9EEB700D74C52 /* SceneDelegate.swift */; };
@@ -81,6 +93,17 @@
 		A021718911F12E3F65192D5F /* Pods_SherpaOnnx_SherpaOnnxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SherpaOnnx_SherpaOnnxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7619A57FF4A4F44D20DBEB6 /* Pods_SherpaOnnxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SherpaOnnxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7046FA22CBE431F0061C446 /* speaker-diarization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "speaker-diarization.swift"; path = "../../../swift-api-examples/speaker-diarization.swift"; sourceTree = "<group>"; };
+		B7046FA62CBE6A460061C446 /* model-pynonote.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-pynonote.int8.onnx"; sourceTree = "<group>"; };
+		B7046FA72CBE6A460061C446 /* vad-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "vad-onnx.py"; sourceTree = "<group>"; };
+		B7046FA82CBE6A460061C446 /* speaker-diarization-torch.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "speaker-diarization-torch.py"; sourceTree = "<group>"; };
+		B7046FA92CBE6A460061C446 /* vad-torch.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "vad-torch.py"; sourceTree = "<group>"; };
+		B7046FAA2CBE6A460061C446 /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
+		B7046FAB2CBE6A460061C446 /* speaker-diarization-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "speaker-diarization-onnx.py"; sourceTree = "<group>"; };
+		B7046FAC2CBE6A460061C446 /* model-pynonote.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "model-pynonote.onnx"; sourceTree = "<group>"; };
+		B7046FAD2CBE6A460061C446 /* show-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "show-onnx.py"; sourceTree = "<group>"; };
+		B7046FAE2CBE6A460061C446 /* export-pyannote-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "export-pyannote-onnx.py"; sourceTree = "<group>"; };
+		B7046FAF2CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx"; sourceTree = "<group>"; };
+		B7046FBA2CBE6B1D0061C446 /* 0-four-speakers-zh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "0-four-speakers-zh.wav"; sourceTree = "<group>"; };
 		B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.onnx"; sourceTree = "<group>"; };
 		B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
 		B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "joiner-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
@@ -96,6 +119,7 @@
 		B7852FB22CA2D3E80059AD63 /* 3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3.wav; sourceTree = "<group>"; };
 		B7852FB32CA2D3E80059AD63 /* 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2.wav; sourceTree = "<group>"; };
 		B7852FB42CA2D3E80059AD63 /* decoder-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "decoder-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
+		B7B52B352CBE8388004224B6 /* SherpaOnnx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SherpaOnnx.entitlements; sourceTree = "<group>"; };
 		B7C46FD12CA39A6600DDA4DB /* Prunctuation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prunctuation.swift; sourceTree = "<group>"; };
 		B7C46FD22CA39A6600DDA4DB /* SherpaOnnxManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SherpaOnnxManager.swift; sourceTree = "<group>"; };
 		B7C46FD62CA39DD200DDA4DB /* Silero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Silero.swift; sourceTree = "<group>"; };
@@ -110,6 +134,7 @@
 		B7C46FE62CA3A1DC00DDA4DB /* ko.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ko.wav; sourceTree = "<group>"; };
 		B7C46FE72CA3A1DC00DDA4DB /* export-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "export-onnx.py"; sourceTree = "<group>"; };
 		B7CA98D12CBA0B5A007C9A7E /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		B7E6E3022CBF5DFF00387B74 /* test.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test.wav; sourceTree = "<group>"; };
 		C3272197DE93017CD811142D /* Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig"; path = "Target Support Files/Pods-SherpaOnnx-SherpaOnnxUITests/Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C984A7E429A9EEB700D74C52 /* SherpaOnnx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SherpaOnnx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C984A7E729A9EEB700D74C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,8 +190,28 @@
 		B7046FA42CBE56FA0061C446 /* SpeakerDiarization */ = {
 			isa = PBXGroup;
 			children = (
+				B7046FBA2CBE6B1D0061C446 /* 0-four-speakers-zh.wav */,
+				B7E6E3022CBF5DFF00387B74 /* test.wav */,
+				B7046FAF2CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx */,
+				B7046FA52CBE6A460061C446 /* sherpa-onnx-pyannote-segmentation-3-0 */,
 			);
 			path = SpeakerDiarization;
+			sourceTree = "<group>";
+		};
+		B7046FA52CBE6A460061C446 /* sherpa-onnx-pyannote-segmentation-3-0 */ = {
+			isa = PBXGroup;
+			children = (
+				B7046FA62CBE6A460061C446 /* model-pynonote.int8.onnx */,
+				B7046FA72CBE6A460061C446 /* vad-onnx.py */,
+				B7046FA82CBE6A460061C446 /* speaker-diarization-torch.py */,
+				B7046FA92CBE6A460061C446 /* vad-torch.py */,
+				B7046FAA2CBE6A460061C446 /* run.sh */,
+				B7046FAB2CBE6A460061C446 /* speaker-diarization-onnx.py */,
+				B7046FAC2CBE6A460061C446 /* model-pynonote.onnx */,
+				B7046FAD2CBE6A460061C446 /* show-onnx.py */,
+				B7046FAE2CBE6A460061C446 /* export-pyannote-onnx.py */,
+			);
+			path = "sherpa-onnx-pyannote-segmentation-3-0";
 			sourceTree = "<group>";
 		};
 		B7852FA42CA2D3E80059AD63 /* sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 */ = {
@@ -278,6 +323,7 @@
 		C984A7E629A9EEB700D74C52 /* SherpaOnnx */ = {
 			isa = PBXGroup;
 			children = (
+				B7B52B352CBE8388004224B6 /* SherpaOnnx.entitlements */,
 				B7046FA42CBE56FA0061C446 /* SpeakerDiarization */,
 				B7C46FD52CA39DD200DDA4DB /* Sliero */,
 				B7852FA42CA2D3E80059AD63 /* sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 */,
@@ -441,6 +487,9 @@
 				B7C46FED2CA3A1DC00DDA4DB /* ja.wav in Resources */,
 				B7852FC02CA2D3E80059AD63 /* 1.wav in Resources */,
 				B7852FBE2CA2D3E80059AD63 /* 8k.wav in Resources */,
+				B7046FB42CBE6A460061C446 /* run.sh in Resources */,
+				B7046FB82CBE6A460061C446 /* export-pyannote-onnx.py in Resources */,
+				B7046FB72CBE6A460061C446 /* show-onnx.py in Resources */,
 				B7852FC32CA2D3E80059AD63 /* decoder-epoch-99-avg-1.int8.onnx in Resources */,
 				B7C46FEF2CA3A1DC00DDA4DB /* zh.wav in Resources */,
 				B7C46FEA2CA3A1DC00DDA4DB /* sense_tokens.txt in Resources */,
@@ -449,21 +498,30 @@
 				B7852FB52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx in Resources */,
 				B7852FB82CA2D3E80059AD63 /* bpe.model in Resources */,
 				B7852FC12CA2D3E80059AD63 /* 3.wav in Resources */,
+				B7046FB62CBE6A460061C446 /* model-pynonote.onnx in Resources */,
+				B7046FB32CBE6A460061C446 /* vad-torch.py in Resources */,
 				B7852FBB2CA2D3E80059AD63 /* README.md in Resources */,
 				B7C46FEE2CA3A1DC00DDA4DB /* en.wav in Resources */,
 				B7C46FEC2CA3A1DC00DDA4DB /* model.onnx in Resources */,
 				C984A82829AA196100D74C52 /* Main.storyboard in Resources */,
+				B7E6E3032CBF5DFF00387B74 /* test.wav in Resources */,
 				B7852FBF2CA2D3E80059AD63 /* 0.wav in Resources */,
 				B7C46FF02CA3A1DC00DDA4DB /* yue.wav in Resources */,
 				B7852FB72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx in Resources */,
 				B7852FBA2CA2D3E80059AD63 /* decoder-epoch-99-avg-1.onnx in Resources */,
+				B7046FB02CBE6A460061C446 /* model-pynonote.int8.onnx in Resources */,
 				B7852FBD2CA2D3E80059AD63 /* joiner-epoch-99-avg-1.onnx in Resources */,
 				B7C46FF12CA3A1DC00DDA4DB /* ko.wav in Resources */,
 				B7C46FE82CA3A1DC00DDA4DB /* model.int8.onnx in Resources */,
+				B7046FBB2CBE6B1D0061C446 /* 0-four-speakers-zh.wav in Resources */,
+				B7046FB92CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx in Resources */,
 				B7852FB92CA2D3E80059AD63 /* tokens.txt in Resources */,
 				B7852FBC2CA2D3E80059AD63 /* bpe.vocab in Resources */,
+				B7046FB22CBE6A460061C446 /* speaker-diarization-torch.py in Resources */,
+				B7046FB52CBE6A460061C446 /* speaker-diarization-onnx.py in Resources */,
 				C984A7F429A9EEB900D74C52 /* LaunchScreen.storyboard in Resources */,
 				B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */,
+				B7046FB12CBE6A460061C446 /* vad-onnx.py in Resources */,
 				C984A7F129A9EEB900D74C52 /* Assets.xcassets in Resources */,
 				B7C46FF22CA3A1DC00DDA4DB /* export-onnx.py in Resources */,
 			);
@@ -778,6 +836,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SherpaOnnx/SherpaOnnx.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C59QQS38F6;
@@ -803,7 +862,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.itour.org.SherpaOnnx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${PROJECT_DIR}/../../swift-api-examples/SherpaOnnx-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -817,6 +876,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SherpaOnnx/SherpaOnnx.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C59QQS38F6;
@@ -842,7 +902,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.itour.org.SherpaOnnx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${PROJECT_DIR}/../../swift-api-examples/SherpaOnnx-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

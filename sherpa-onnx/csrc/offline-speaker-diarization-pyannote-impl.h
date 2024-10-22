@@ -373,7 +373,10 @@ class OfflineSpeakerDiarizationPyannoteImpl
             int32_t end_samples =
                 static_cast<float>(k) / num_frames * window_size +
                 sample_offset;
-
+              
+              SHERPA_ONNX_LOGE(
+                  "start_samples:%d -> end_samples:%d ",
+                               start_samples,end_samples);
             this_speaker_samples.emplace_back(start_samples, end_samples);
           }
         }
@@ -385,6 +388,10 @@ class OfflineSpeakerDiarizationPyannoteImpl
           int32_t end_samples =
               static_cast<float>(num_frames - 1) / num_frames * window_size +
               sample_offset;
+            
+          SHERPA_ONNX_LOGE(
+                "start_samples:%d -> end_samples:%d ",
+                             start_samples,end_samples);
           this_speaker_samples.emplace_back(start_samples, end_samples);
         }
 

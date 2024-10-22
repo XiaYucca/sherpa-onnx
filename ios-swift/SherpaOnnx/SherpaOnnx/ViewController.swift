@@ -21,11 +21,17 @@ class ViewController: UIViewController {
     var sentences =  [Sentence]()
     
     weak var lastCell : UITableViewCell?
- 
+    
+    var diarization = SpeakerDiarization()
+    var totalSamples =  [Float]()
+    var lastSamplesCount = 0
     
     func translator(text:String,callback:((_ text:String)->())?){
         let parameters: [String: Any] = ["text": text
         ]
+        callback?("")
+        return;
+        
         AF.request("http://40.82.153.252:8763/translator", method: .post, parameters: parameters).responseJSON { response in
                 
             switch response.result{
@@ -41,7 +47,6 @@ class ViewController: UIViewController {
             case .failure(let error): break
                 
             }
-        
         }
 
     }
@@ -80,6 +85,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        
+//        diarization.initModel()
+////        initRecorder()
+//        return
 
         recordBtn.setTitle("Start", for: .normal)
 //        initRecognizer()
@@ -97,6 +107,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onRecordBtnClick(_ sender: UIButton) {
+        
+//        initRecorder()
+//        startRecorder()
+//        self.diarization.run()
+//        return;
 
         if recordBtn.currentTitle == "Start" {
 //            startRecorder()
@@ -140,6 +155,25 @@ class ViewController: UIViewController {
 
     func initRecorder() {
         print("init recorder")
+        
+        AVCaptureDevice.requestAccess(for: .audio) { [weak self] granted in
+            if granted{
+                
+            }else{
+                
+            }
+        }
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+            let sampleRate = audioSession.sampleRate
+            print("Supported sample rate: \(sampleRate)")
+        } catch {
+            print("Failed to set audio session category: \(error)")
+        }
+        
         audioEngine = AVAudioEngine()
         let inputNode = self.audioEngine?.inputNode
         let bus = 0
@@ -187,23 +221,43 @@ class ViewController: UIViewController {
             // TODO(fangjun): Handle status != haveData
 
             let array = convertedBuffer.array()
-            if !array.isEmpty {
-                self.recognizer.acceptWaveform(samples: array)
-                while (self.recognizer.isReady()){
-                    self.recognizer.decode()
-                }
-                let isEndpoint = self.recognizer.isEndpoint()
-                let text = self.recognizer.getResult().text
-
-                
-
-                if isEndpoint {
-                    if !text.isEmpty {
-                       
-                    }
-                    self.recognizer.reset()
+            
+            self.totalSamples += array
+            let totalAudio = self.totalSamples.count
+            var audio = self.totalSamples
+        
+            
+            if totalAudio > 160000{
+                audio = Array( audio[totalAudio-160000 ..< totalAudio])
+                self.totalSamples =  Array( self.totalSamples[totalAudio...])
+                self.diarization.dearization(audio: audio)
+                self.lastSamplesCount = 0
+            }else{
+                if audio.count - self.lastSamplesCount >= 16000{
+                    self.diarization.dearization(audio: audio)
+                    self.lastSamplesCount = audio.count
                 }
             }
+            
+            
+            
+//            if !array.isEmpty {
+//                self.recognizer.acceptWaveform(samples: array)
+//                while (self.recognizer.isReady()){
+//                    self.recognizer.decode()
+//                }
+//                let isEndpoint = self.recognizer.isEndpoint()
+//                let text = self.recognizer.getResult().text
+//
+//                
+//
+//                if isEndpoint {
+//                    if !text.isEmpty {
+//                       
+//                    }
+//                    self.recognizer.reset()
+//                }
+//            }
         }
 
     }
