@@ -18,6 +18,7 @@ set(sources
   endpoint.cc
   features.cc
   file-utils.cc
+  fst-utils.cc
   hypothesis.cc
   keyword-spotter-impl.cc
   keyword-spotter.cc
@@ -28,6 +29,9 @@ set(sources
   offline-lm-config.cc
   offline-lm.cc
   offline-model-config.cc
+  offline-moonshine-greedy-search-decoder.cc
+  offline-moonshine-model-config.cc
+  offline-moonshine-model.cc
   offline-nemo-enc-dec-ctc-model-config.cc
   offline-nemo-enc-dec-ctc-model.cc
   offline-paraformer-greedy-search-decoder.cc
