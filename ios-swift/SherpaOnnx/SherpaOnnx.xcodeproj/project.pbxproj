@@ -22,6 +22,13 @@
 		B7046FB82CBE6A460061C446 /* export-pyannote-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAE2CBE6A460061C446 /* export-pyannote-onnx.py */; };
 		B7046FB92CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAF2CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx */; };
 		B7046FBB2CBE6B1D0061C446 /* 0-four-speakers-zh.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7046FBA2CBE6B1D0061C446 /* 0-four-speakers-zh.wav */; };
+		B70EC9502CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC9492CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx */; };
+		B70EC9512CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94A2CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx */; };
+		B70EC9522CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94B2CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt */; };
+		B70EC9532CCB454900F5BE25 /* encoder-epoch-3-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94C2CCB454900F5BE25 /* encoder-epoch-3-avg-1.onnx */; };
+		B70EC9542CCB454900F5BE25 /* joiner-epoch-3-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94D2CCB454900F5BE25 /* joiner-epoch-3-avg-1.onnx */; };
+		B70EC9552CCB454900F5BE25 /* decoder-epoch-3-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94E2CCB454900F5BE25 /* decoder-epoch-3-avg-1.int8.onnx */; };
+		B70EC9562CCB454900F5BE25 /* encoder-epoch-3-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94F2CCB454900F5BE25 /* encoder-epoch-3-avg-1.int8.onnx */; };
 		B7852FB52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */; };
 		B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */; };
 		B7852FB72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */; };
@@ -52,6 +59,23 @@
 		B7C46FF22CA3A1DC00DDA4DB /* export-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7C46FE72CA3A1DC00DDA4DB /* export-onnx.py */; };
 		B7CA98D22CBA0B5A007C9A7E /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CA98D12CBA0B5A007C9A7E /* AudioRecorder.swift */; };
 		B7E6E3032CBF5DFF00387B74 /* test.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7E6E3022CBF5DFF00387B74 /* test.wav */; };
+		B7ED6C662CC7813700489462 /* nemo_es_tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C602CC7813700489462 /* nemo_es_tokens.txt */; };
+		B7ED6C672CC7813700489462 /* nemo_es_decoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C612CC7813700489462 /* nemo_es_decoder.onnx */; };
+		B7ED6C682CC7813700489462 /* nemo_es_joiner.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C622CC7813700489462 /* nemo_es_joiner.onnx */; };
+		B7ED6C692CC7813700489462 /* es-spanish.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C642CC7813700489462 /* es-spanish.wav */; };
+		B7ED6C6A2CC7813700489462 /* nemo_es_encoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C652CC7813700489462 /* nemo_es_encoder.onnx */; };
+		B7ED6C6E2CC78A3C00489462 /* nemo_es_ctc_tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C6C2CC78A3C00489462 /* nemo_es_ctc_tokens.txt */; };
+		B7ED6C6F2CC78A3C00489462 /* nemo_es_ctc_model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C6D2CC78A3C00489462 /* nemo_es_ctc_model.onnx */; };
+		B7ED6C7B2CC7A5BC00489462 /* base-decoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C712CC7A5BC00489462 /* base-decoder.onnx */; };
+		B7ED6C7C2CC7A5BC00489462 /* base-decoder.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C722CC7A5BC00489462 /* base-decoder.int8.onnx */; };
+		B7ED6C7D2CC7A5BC00489462 /* base-encoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C732CC7A5BC00489462 /* base-encoder.onnx */; };
+		B7ED6C7E2CC7A5BC00489462 /* base-encoder.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C742CC7A5BC00489462 /* base-encoder.int8.onnx */; };
+		B7ED6C832CC7A5BC00489462 /* base-tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C7A2CC7A5BC00489462 /* base-tokens.txt */; };
+		B7ED6C8A2CC7A84200489462 /* tiny-encoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C852CC7A84200489462 /* tiny-encoder.onnx */; };
+		B7ED6C8B2CC7A84200489462 /* tiny-decoder.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C862CC7A84200489462 /* tiny-decoder.int8.onnx */; };
+		B7ED6C8C2CC7A84200489462 /* tiny-encoder.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C872CC7A84200489462 /* tiny-encoder.int8.onnx */; };
+		B7ED6C8D2CC7A84200489462 /* tiny-tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C882CC7A84200489462 /* tiny-tokens.txt */; };
+		B7ED6C8E2CC7A84200489462 /* tiny-decoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C892CC7A84200489462 /* tiny-decoder.onnx */; };
 		C93989AE2A89FE13009AB859 /* sherpa-onnx.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C984A81B29AA11C500D74C52 /* sherpa-onnx.xcframework */; };
 		C984A7E829A9EEB700D74C52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984A7E729A9EEB700D74C52 /* AppDelegate.swift */; };
 		C984A7EA29A9EEB700D74C52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984A7E929A9EEB700D74C52 /* SceneDelegate.swift */; };
@@ -104,6 +128,13 @@
 		B7046FAE2CBE6A460061C446 /* export-pyannote-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "export-pyannote-onnx.py"; sourceTree = "<group>"; };
 		B7046FAF2CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx"; sourceTree = "<group>"; };
 		B7046FBA2CBE6B1D0061C446 /* 0-four-speakers-zh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "0-four-speakers-zh.wav"; sourceTree = "<group>"; };
+		B70EC9492CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "decoder-epoch-3-avg-1.onnx"; sourceTree = "<group>"; };
+		B70EC94A2CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "joiner-epoch-3-avg-1.int8.onnx"; sourceTree = "<group>"; };
+		B70EC94B2CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tokens-epoch-3-avg-1.txt"; sourceTree = "<group>"; };
+		B70EC94C2CCB454900F5BE25 /* encoder-epoch-3-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-3-avg-1.onnx"; sourceTree = "<group>"; };
+		B70EC94D2CCB454900F5BE25 /* joiner-epoch-3-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "joiner-epoch-3-avg-1.onnx"; sourceTree = "<group>"; };
+		B70EC94E2CCB454900F5BE25 /* decoder-epoch-3-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "decoder-epoch-3-avg-1.int8.onnx"; sourceTree = "<group>"; };
+		B70EC94F2CCB454900F5BE25 /* encoder-epoch-3-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-3-avg-1.int8.onnx"; sourceTree = "<group>"; };
 		B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.onnx"; sourceTree = "<group>"; };
 		B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
 		B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "joiner-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
@@ -135,8 +166,25 @@
 		B7C46FE72CA3A1DC00DDA4DB /* export-onnx.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "export-onnx.py"; sourceTree = "<group>"; };
 		B7CA98D12CBA0B5A007C9A7E /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		B7E6E3022CBF5DFF00387B74 /* test.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test.wav; sourceTree = "<group>"; };
+		B7ED6C602CC7813700489462 /* nemo_es_tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nemo_es_tokens.txt; sourceTree = "<group>"; };
+		B7ED6C612CC7813700489462 /* nemo_es_decoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = nemo_es_decoder.onnx; sourceTree = "<group>"; };
+		B7ED6C622CC7813700489462 /* nemo_es_joiner.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = nemo_es_joiner.onnx; sourceTree = "<group>"; };
+		B7ED6C642CC7813700489462 /* es-spanish.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "es-spanish.wav"; sourceTree = "<group>"; };
+		B7ED6C652CC7813700489462 /* nemo_es_encoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = nemo_es_encoder.onnx; sourceTree = "<group>"; };
+		B7ED6C6C2CC78A3C00489462 /* nemo_es_ctc_tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nemo_es_ctc_tokens.txt; sourceTree = "<group>"; };
+		B7ED6C6D2CC78A3C00489462 /* nemo_es_ctc_model.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = nemo_es_ctc_model.onnx; sourceTree = "<group>"; };
+		B7ED6C712CC7A5BC00489462 /* base-decoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "base-decoder.onnx"; sourceTree = "<group>"; };
+		B7ED6C722CC7A5BC00489462 /* base-decoder.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "base-decoder.int8.onnx"; sourceTree = "<group>"; };
+		B7ED6C732CC7A5BC00489462 /* base-encoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "base-encoder.onnx"; sourceTree = "<group>"; };
+		B7ED6C742CC7A5BC00489462 /* base-encoder.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "base-encoder.int8.onnx"; sourceTree = "<group>"; };
+		B7ED6C7A2CC7A5BC00489462 /* base-tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "base-tokens.txt"; sourceTree = "<group>"; };
+		B7ED6C852CC7A84200489462 /* tiny-encoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tiny-encoder.onnx"; sourceTree = "<group>"; };
+		B7ED6C862CC7A84200489462 /* tiny-decoder.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tiny-decoder.int8.onnx"; sourceTree = "<group>"; };
+		B7ED6C872CC7A84200489462 /* tiny-encoder.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tiny-encoder.int8.onnx"; sourceTree = "<group>"; };
+		B7ED6C882CC7A84200489462 /* tiny-tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tiny-tokens.txt"; sourceTree = "<group>"; };
+		B7ED6C892CC7A84200489462 /* tiny-decoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tiny-decoder.onnx"; sourceTree = "<group>"; };
 		C3272197DE93017CD811142D /* Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig"; path = "Target Support Files/Pods-SherpaOnnx-SherpaOnnxUITests/Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		C984A7E429A9EEB700D74C52 /* SherpaOnnx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SherpaOnnx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C984A7E429A9EEB700D74C52 /* iTourOffline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTourOffline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C984A7E729A9EEB700D74C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C984A7E929A9EEB700D74C52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C984A7F029A9EEB900D74C52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -214,6 +262,20 @@
 			path = "sherpa-onnx-pyannote-segmentation-3-0";
 			sourceTree = "<group>";
 		};
+		B70EC9482CCB454900F5BE25 /* export_model */ = {
+			isa = PBXGroup;
+			children = (
+				B70EC9492CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx */,
+				B70EC94A2CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx */,
+				B70EC94B2CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt */,
+				B70EC94C2CCB454900F5BE25 /* encoder-epoch-3-avg-1.onnx */,
+				B70EC94D2CCB454900F5BE25 /* joiner-epoch-3-avg-1.onnx */,
+				B70EC94E2CCB454900F5BE25 /* decoder-epoch-3-avg-1.int8.onnx */,
+				B70EC94F2CCB454900F5BE25 /* encoder-epoch-3-avg-1.int8.onnx */,
+			);
+			path = export_model;
+			sourceTree = "<group>";
+		};
 		B7852FA42CA2D3E80059AD63 /* sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,6 +347,59 @@
 			path = test_wavs;
 			sourceTree = "<group>";
 		};
+		B7ED6C5F2CC7813700489462 /* sherpa-onnx-nemo-fast-conformer-transducer-es-1424 */ = {
+			isa = PBXGroup;
+			children = (
+				B7ED6C602CC7813700489462 /* nemo_es_tokens.txt */,
+				B7ED6C612CC7813700489462 /* nemo_es_decoder.onnx */,
+				B7ED6C622CC7813700489462 /* nemo_es_joiner.onnx */,
+				B7ED6C632CC7813700489462 /* test_wavs */,
+				B7ED6C652CC7813700489462 /* nemo_es_encoder.onnx */,
+			);
+			path = "sherpa-onnx-nemo-fast-conformer-transducer-es-1424";
+			sourceTree = "<group>";
+		};
+		B7ED6C632CC7813700489462 /* test_wavs */ = {
+			isa = PBXGroup;
+			children = (
+				B7ED6C642CC7813700489462 /* es-spanish.wav */,
+			);
+			path = test_wavs;
+			sourceTree = "<group>";
+		};
+		B7ED6C6B2CC78A3C00489462 /* sherpa-onnx-nemo-fast-conformer-ctc-es-1424 */ = {
+			isa = PBXGroup;
+			children = (
+				B7ED6C6C2CC78A3C00489462 /* nemo_es_ctc_tokens.txt */,
+				B7ED6C6D2CC78A3C00489462 /* nemo_es_ctc_model.onnx */,
+			);
+			path = "sherpa-onnx-nemo-fast-conformer-ctc-es-1424";
+			sourceTree = "<group>";
+		};
+		B7ED6C702CC7A5BB00489462 /* sherpa-onnx-whisper-base */ = {
+			isa = PBXGroup;
+			children = (
+				B7ED6C712CC7A5BC00489462 /* base-decoder.onnx */,
+				B7ED6C722CC7A5BC00489462 /* base-decoder.int8.onnx */,
+				B7ED6C732CC7A5BC00489462 /* base-encoder.onnx */,
+				B7ED6C742CC7A5BC00489462 /* base-encoder.int8.onnx */,
+				B7ED6C7A2CC7A5BC00489462 /* base-tokens.txt */,
+			);
+			path = "sherpa-onnx-whisper-base";
+			sourceTree = "<group>";
+		};
+		B7ED6C842CC7A84200489462 /* sherpa-onnx-whisper-tiny */ = {
+			isa = PBXGroup;
+			children = (
+				B7ED6C852CC7A84200489462 /* tiny-encoder.onnx */,
+				B7ED6C862CC7A84200489462 /* tiny-decoder.int8.onnx */,
+				B7ED6C872CC7A84200489462 /* tiny-encoder.int8.onnx */,
+				B7ED6C882CC7A84200489462 /* tiny-tokens.txt */,
+				B7ED6C892CC7A84200489462 /* tiny-decoder.onnx */,
+			);
+			path = "sherpa-onnx-whisper-tiny";
+			sourceTree = "<group>";
+		};
 		C982FAAED1553815806A2BA5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,7 +428,7 @@
 		C984A7E529A9EEB700D74C52 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C984A7E429A9EEB700D74C52 /* SherpaOnnx.app */,
+				C984A7E429A9EEB700D74C52 /* iTourOffline.app */,
 				C984A7FA29A9EEBA00D74C52 /* SherpaOnnxTests.xctest */,
 				C984A80429A9EEBA00D74C52 /* SherpaOnnxUITests.xctest */,
 			);
@@ -323,6 +438,11 @@
 		C984A7E629A9EEB700D74C52 /* SherpaOnnx */ = {
 			isa = PBXGroup;
 			children = (
+				B70EC9482CCB454900F5BE25 /* export_model */,
+				B7ED6C842CC7A84200489462 /* sherpa-onnx-whisper-tiny */,
+				B7ED6C702CC7A5BB00489462 /* sherpa-onnx-whisper-base */,
+				B7ED6C6B2CC78A3C00489462 /* sherpa-onnx-nemo-fast-conformer-ctc-es-1424 */,
+				B7ED6C5F2CC7813700489462 /* sherpa-onnx-nemo-fast-conformer-transducer-es-1424 */,
 				B7B52B352CBE8388004224B6 /* SherpaOnnx.entitlements */,
 				B7046FA42CBE56FA0061C446 /* SpeakerDiarization */,
 				B7C46FD52CA39DD200DDA4DB /* Sliero */,
@@ -394,7 +514,7 @@
 			);
 			name = SherpaOnnx;
 			productName = SherpaOnnx;
-			productReference = C984A7E429A9EEB700D74C52 /* SherpaOnnx.app */;
+			productReference = C984A7E429A9EEB700D74C52 /* iTourOffline.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C984A7F929A9EEBA00D74C52 /* SherpaOnnxTests */ = {
@@ -488,40 +608,64 @@
 				B7852FC02CA2D3E80059AD63 /* 1.wav in Resources */,
 				B7852FBE2CA2D3E80059AD63 /* 8k.wav in Resources */,
 				B7046FB42CBE6A460061C446 /* run.sh in Resources */,
+				B7ED6C7C2CC7A5BC00489462 /* base-decoder.int8.onnx in Resources */,
 				B7046FB82CBE6A460061C446 /* export-pyannote-onnx.py in Resources */,
+				B70EC9562CCB454900F5BE25 /* encoder-epoch-3-avg-1.int8.onnx in Resources */,
 				B7046FB72CBE6A460061C446 /* show-onnx.py in Resources */,
+				B7ED6C8B2CC7A84200489462 /* tiny-decoder.int8.onnx in Resources */,
 				B7852FC32CA2D3E80059AD63 /* decoder-epoch-99-avg-1.int8.onnx in Resources */,
+				B7ED6C8E2CC7A84200489462 /* tiny-decoder.onnx in Resources */,
 				B7C46FEF2CA3A1DC00DDA4DB /* zh.wav in Resources */,
 				B7C46FEA2CA3A1DC00DDA4DB /* sense_tokens.txt in Resources */,
+				B7ED6C6F2CC78A3C00489462 /* nemo_es_ctc_model.onnx in Resources */,
 				B7852FC22CA2D3E80059AD63 /* 2.wav in Resources */,
+				B7ED6C7D2CC7A5BC00489462 /* base-encoder.onnx in Resources */,
 				B7C46FDA2CA39DD200DDA4DB /* silero_vad.onnx in Resources */,
+				B7ED6C6A2CC7813700489462 /* nemo_es_encoder.onnx in Resources */,
+				B7ED6C832CC7A5BC00489462 /* base-tokens.txt in Resources */,
 				B7852FB52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx in Resources */,
 				B7852FB82CA2D3E80059AD63 /* bpe.model in Resources */,
 				B7852FC12CA2D3E80059AD63 /* 3.wav in Resources */,
+				B7ED6C7B2CC7A5BC00489462 /* base-decoder.onnx in Resources */,
 				B7046FB62CBE6A460061C446 /* model-pynonote.onnx in Resources */,
 				B7046FB32CBE6A460061C446 /* vad-torch.py in Resources */,
 				B7852FBB2CA2D3E80059AD63 /* README.md in Resources */,
 				B7C46FEE2CA3A1DC00DDA4DB /* en.wav in Resources */,
 				B7C46FEC2CA3A1DC00DDA4DB /* model.onnx in Resources */,
+				B7ED6C8D2CC7A84200489462 /* tiny-tokens.txt in Resources */,
+				B7ED6C6E2CC78A3C00489462 /* nemo_es_ctc_tokens.txt in Resources */,
 				C984A82829AA196100D74C52 /* Main.storyboard in Resources */,
 				B7E6E3032CBF5DFF00387B74 /* test.wav in Resources */,
+				B70EC9552CCB454900F5BE25 /* decoder-epoch-3-avg-1.int8.onnx in Resources */,
 				B7852FBF2CA2D3E80059AD63 /* 0.wav in Resources */,
 				B7C46FF02CA3A1DC00DDA4DB /* yue.wav in Resources */,
+				B7ED6C8A2CC7A84200489462 /* tiny-encoder.onnx in Resources */,
 				B7852FB72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx in Resources */,
 				B7852FBA2CA2D3E80059AD63 /* decoder-epoch-99-avg-1.onnx in Resources */,
 				B7046FB02CBE6A460061C446 /* model-pynonote.int8.onnx in Resources */,
 				B7852FBD2CA2D3E80059AD63 /* joiner-epoch-99-avg-1.onnx in Resources */,
 				B7C46FF12CA3A1DC00DDA4DB /* ko.wav in Resources */,
 				B7C46FE82CA3A1DC00DDA4DB /* model.int8.onnx in Resources */,
+				B70EC9522CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt in Resources */,
 				B7046FBB2CBE6B1D0061C446 /* 0-four-speakers-zh.wav in Resources */,
+				B7ED6C672CC7813700489462 /* nemo_es_decoder.onnx in Resources */,
+				B7ED6C682CC7813700489462 /* nemo_es_joiner.onnx in Resources */,
 				B7046FB92CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx in Resources */,
+				B7ED6C662CC7813700489462 /* nemo_es_tokens.txt in Resources */,
+				B70EC9542CCB454900F5BE25 /* joiner-epoch-3-avg-1.onnx in Resources */,
 				B7852FB92CA2D3E80059AD63 /* tokens.txt in Resources */,
+				B70EC9502CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx in Resources */,
 				B7852FBC2CA2D3E80059AD63 /* bpe.vocab in Resources */,
 				B7046FB22CBE6A460061C446 /* speaker-diarization-torch.py in Resources */,
+				B7ED6C692CC7813700489462 /* es-spanish.wav in Resources */,
 				B7046FB52CBE6A460061C446 /* speaker-diarization-onnx.py in Resources */,
 				C984A7F429A9EEB900D74C52 /* LaunchScreen.storyboard in Resources */,
 				B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */,
+				B7ED6C7E2CC7A5BC00489462 /* base-encoder.int8.onnx in Resources */,
+				B70EC9512CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx in Resources */,
+				B70EC9532CCB454900F5BE25 /* encoder-epoch-3-avg-1.onnx in Resources */,
 				B7046FB12CBE6A460061C446 /* vad-onnx.py in Resources */,
+				B7ED6C8C2CC7A84200489462 /* tiny-encoder.int8.onnx in Resources */,
 				C984A7F129A9EEB900D74C52 /* Assets.xcassets in Resources */,
 				B7C46FF22CA3A1DC00DDA4DB /* export-onnx.py in Resources */,
 			);
@@ -860,7 +1004,7 @@
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.itour.org.SherpaOnnx;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = iTourOffline;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -900,7 +1044,7 @@
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.itour.org.SherpaOnnx;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = iTourOffline;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;

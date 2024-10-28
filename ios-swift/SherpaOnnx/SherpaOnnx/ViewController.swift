@@ -86,15 +86,23 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        //online transcribe
+//        do{
+//            self.initRecorder()
+//            self.initOnlineRecognizer()
+//            self.startRecorder()
+//            return;
+//        }
         
 //        diarization.initModel()
 ////        initRecorder()
 //        return
+        
 
         recordBtn.setTitle("Start", for: .normal)
 //        initRecognizer()
 //        initRecorder()
-        SherpaOnnxManager.shared.start()
+        
         SherpaOnnxManager.shared.offline_vad_final_callback = {
             item in
             self.updateLabel(item: item)
@@ -103,6 +111,10 @@ class ViewController: UIViewController {
             item in
             self.updateLabel(item: item)
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            SherpaOnnxManager.shared.start()
+        })
 
     }
 
@@ -125,13 +137,13 @@ class ViewController: UIViewController {
         }
     }
 
-    func initRecognizer() {
+    func initOnlineRecognizer() {
         // Please select one model that is best suitable for you.
         //
         // You can also modify Model.swift to add new pre-trained models from
         // https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html
 
-         let modelConfig = getBilingualStreamZhEnZipformer20230220()
+         let modelConfig = getCustomStreamZipformer()
         // let modelConfig = getZhZipformer20230615()
         // let modelConfig = getEnZipformer20230626()
 //        let modelConfig = getBilingualStreamingZhEnParaformer()
@@ -222,42 +234,42 @@ class ViewController: UIViewController {
 
             let array = convertedBuffer.array()
             
-            self.totalSamples += array
-            let totalAudio = self.totalSamples.count
-            var audio = self.totalSamples
-        
-            
-            if totalAudio > 160000{
-                audio = Array( audio[totalAudio-160000 ..< totalAudio])
-                self.totalSamples =  Array( self.totalSamples[totalAudio...])
-                self.diarization.dearization(audio: audio)
-                self.lastSamplesCount = 0
-            }else{
-                if audio.count - self.lastSamplesCount >= 16000{
-                    self.diarization.dearization(audio: audio)
-                    self.lastSamplesCount = audio.count
-                }
-            }
-            
-            
-            
-//            if !array.isEmpty {
-//                self.recognizer.acceptWaveform(samples: array)
-//                while (self.recognizer.isReady()){
-//                    self.recognizer.decode()
-//                }
-//                let isEndpoint = self.recognizer.isEndpoint()
-//                let text = self.recognizer.getResult().text
-//
-//                
-//
-//                if isEndpoint {
-//                    if !text.isEmpty {
-//                       
-//                    }
-//                    self.recognizer.reset()
+//            self.totalSamples += array
+//            let totalAudio = self.totalSamples.count
+//            var audio = self.totalSamples
+//        
+//            
+//            if totalAudio > 160000{
+//                audio = Array( audio[totalAudio-160000 ..< totalAudio])
+//                self.totalSamples =  Array( self.totalSamples[totalAudio...])
+//                self.diarization.dearization(audio: audio)
+//                self.lastSamplesCount = 0
+//            }else{
+//                if audio.count - self.lastSamplesCount >= 16000{
+//                    self.diarization.dearization(audio: audio)
+//                    self.lastSamplesCount = audio.count
 //                }
 //            }
+            
+            
+            
+            if !array.isEmpty {
+                self.recognizer.acceptWaveform(samples: array)
+                while (self.recognizer.isReady()){
+                    self.recognizer.decode()
+                }
+                let isEndpoint = self.recognizer.isEndpoint()
+                let text = self.recognizer.getResult().text
+
+                print("stream:\(text)")
+
+                if isEndpoint {
+                    if !text.isEmpty {
+                       
+                    }
+                    self.recognizer.reset()
+                }
+            }
         }
 
     }
