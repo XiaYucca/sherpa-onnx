@@ -1,0 +1,11 @@
+framework module OfflineFramework {
+  umbrella header "OfflineFramework.h"
+  export *
+
+  module * { export * }
+}
+
+module OfflineFramework.Swift {
+  header "OfflineFramework-Swift.h"
+  requires objc
+}

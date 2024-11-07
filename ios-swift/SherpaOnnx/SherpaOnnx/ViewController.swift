@@ -7,10 +7,21 @@
 
 import AVFoundation
 import UIKit
-import Alamofire
+//import Alamofire
+import OfflineFramework
 
 
-class ViewController: UIViewController {
+
+class ViewController: UIViewController, TranscribeManagerDelegate {
+    func recvAudios(audio: [Float]) {
+        
+    }
+    
+    func transcribe(segment: OfflineFramework.Sentence) {
+        print("transcribe \(segment)")
+        self.updateLabel(item: segment)
+    }
+    
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var recordBtn: UIButton!
@@ -32,28 +43,28 @@ class ViewController: UIViewController {
         callback?("")
         return;
         
-        AF.request("http://40.82.153.252:8763/translator", method: .post, parameters: parameters).responseJSON { response in
-                
-            switch response.result{
-                
-            case .success(let data):
-                if let data = data as? [String : Any],
-                   let content = data["content"] as? [String : [String]],
-                   let text = content["text"]?[0]
-                {
-                    print(text)
-                    callback?(text)
-                }
-            case .failure(let error): break
-                
-            }
-        }
+//        AF.request("http://40.82.153.252:8763/translator", method: .post, parameters: parameters).responseJSON { response in
+//                
+//            switch response.result{
+//                
+//            case .success(let data):
+//                if let data = data as? [String : Any],
+//                   let content = data["content"] as? [String : [String]],
+//                   let text = content["text"]?[0]
+//                {
+//                    print(text)
+//                    callback?(text)
+//                }
+//            case .failure(let error): break
+//                
+//            }
+//        }
 
     }
     
     func updateLabel(item:Sentence) {
         var item = item
-        if item.source == "。"{return}
+        if item.source.count == 0 || item.source == "。" {return}
         
         self.translator(text: item.source) { text in
             item.target = text
@@ -81,9 +92,44 @@ class ViewController: UIViewController {
             self.tableView.scrollToRow(at: IndexPath(row: self.sentences.count - 1, section: 0), at: .middle, animated: false)
         }
     }
+    
+    var manager : TranscribeManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ArchiveManager.shared.testArchive()
+//        
+//        return;
+        
+        do{
+           manager = TranscribeManager.init(lan: "zh", delgate: self)
+           var model = getResource("source-zh", "ezn")
+
+            
+            manager.prepare(path: URL.init(fileURLWithPath: model)) { progress, info in
+                print("progress\(progress) info\(info)")
+            }
+           
+            model = getResource("source-en", "ezn")
+            manager.prepare(path: URL.init(fileURLWithPath: model))
+           
+           
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 30) {[weak self] in
+//                self?.manager.stop()
+//                self?.manager.release()
+//                self?.manager = nil
+//            }
+            
+        }
+//        return;
+        
+        //test
+//        do{
+//            ArchiveManager.shared.testArchive()
+//        }
+        
         // Do any additional setup after loading the view.
         
         //online transcribe
@@ -103,18 +149,18 @@ class ViewController: UIViewController {
 //        initRecognizer()
 //        initRecorder()
         
-        SherpaOnnxManager.shared.offline_vad_final_callback = {
-            item in
-            self.updateLabel(item: item)
-        }
-        SherpaOnnxManager.shared.offline_vad_parctial_callback = {
-            item in
-            self.updateLabel(item: item)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-            SherpaOnnxManager.shared.start()
-        })
+//        SherpaOnnxManager.shared.offline_vad_final_callback = {
+//            item in
+//            self.updateLabel(item: item)
+//        }
+//        SherpaOnnxManager.shared.offline_vad_parctial_callback = {
+//            item in
+//            self.updateLabel(item: item)
+//        }
+//        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//            SherpaOnnxManager.shared.start()
+//        })
 
     }
 
@@ -124,16 +170,22 @@ class ViewController: UIViewController {
 //        startRecorder()
 //        self.diarization.run()
 //        return;
+        
 
         if recordBtn.currentTitle == "Start" {
 //            startRecorder()
-            SherpaOnnxManager.shared.startRecorder()
+//            SherpaOnnxManager.shared.startRecorder()
             recordBtn.setTitle("Stop", for: .normal)
+            manager.load()
+            try! manager.start()
             
         } else {
 //            stopRecorder()
-            SherpaOnnxManager.shared.stopRecorder()
+//            SherpaOnnxManager.shared.stopRecorder()
             recordBtn.setTitle("Start", for: .normal)
+            
+            self.manager.stop()
+//            self.manager.release()
         }
     }
 

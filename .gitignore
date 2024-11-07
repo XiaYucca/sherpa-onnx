@@ -129,3 +129,5 @@ speaker-diarization
 sherpa-onnx-moonshine-tiny-en-int8
 sherpa-onnx-moonshine-base-en-int8
 
+**/OfflineFramework.framework/**
+**/*.ezn

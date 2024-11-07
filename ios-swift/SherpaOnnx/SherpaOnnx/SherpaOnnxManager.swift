@@ -7,7 +7,7 @@
 
 import AVFoundation
 import Foundation
-
+import OfflineFramework
 
 enum SentenceState : Int{
     case parital=0,final
@@ -17,13 +17,13 @@ enum ProcessFinalState : Int{
     case none=0,start=1,processing=2,end=3
 }
 
-struct Sentence {
-    var id = ""
-    var source = ""
-    var target = ""
-    var state : SentenceState = .parital
-    var lan = ""
-}
+//struct Sentence {
+//    var id = ""
+//    var source = ""
+//    var target = ""
+//    var state : SentenceState = .parital
+//    var lan = ""
+//}
 
 class SherpaOnnxManager {
 
@@ -59,6 +59,8 @@ class SherpaOnnxManager {
     
     var vad : SlieroVad!
     
+    var pynonote : Pynonote!
+    
     var isRuning = false
     
     func updateLabel() {
@@ -91,6 +93,8 @@ class SherpaOnnxManager {
             self.isProcessFinal = .end
             
         })
+        
+        pynonote = try! Pynonote.init()
 
         initRecognizer(model: "sence")
 //        initPunctuation()
@@ -150,6 +154,30 @@ class SherpaOnnxManager {
                 
                 var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: config)
                 
+                offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
+            }
+            
+        case "moonshine":
+            do{
+                
+                let preprocessor = "moonshine-base_preprocess.onnx"
+                let encoder = "moonshine-base_encode.int8.onnx"
+                let uncachedDecoder = "moonshine-base_uncached_decode.int8.onnx"
+                let cachedDecoder = "moonshine-base_cached_decode.int8.onnx"
+                let tokens = "moonshine-base_tokens.txt"
+                let moonshine = sherpaOnnxOfflineMoonshineModelConfig(
+                    preprocessor: getResource(preprocessor,""),
+                    encoder: getResource(encoder,""),
+                    uncachedDecoder: getResource(uncachedDecoder,""),
+                    cachedDecoder: getResource(cachedDecoder,"")
+                )
+                
+                var modelConfig = sherpaOnnxOfflineModelConfig(
+                    tokens:  getResource(tokens,""),
+                    debug: 0,
+                    moonshine: moonshine
+                )
+                var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: modelConfig)
                 offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
             }
         default:
@@ -270,7 +298,6 @@ class SherpaOnnxManager {
     func initRecorder() {
         self.audioRecord = AudioRecorder(delegate: self,enablePower: true)
         self.audioRecord.requestAccess()
-        self.audioRecord.initEngine()
     }
 
     func initRecorder2() {
@@ -514,6 +541,10 @@ extension SherpaOnnxManager : AudioRecorderDelegate{
     func audioDidRev(audio: [Float], power: Int?) {
         print("power \(power!)")
         self.vad.acceptWav(audio: audio)
+        
+//        try! self.pynonote.process(input: audio)
+        
+        
     }
     
     

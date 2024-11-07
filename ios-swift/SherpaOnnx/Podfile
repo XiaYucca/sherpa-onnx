@@ -8,7 +8,9 @@ target 'SherpaOnnx' do
   pod 'onnxruntime-objc', :path =>"LocalPods/OnnxRuntime-Rain"
   
   pod 'Alamofire', '~> 5.2'
+  pod 'SSZipArchive'
   # Pods for SherpaOnnx
+#  pod 'OfflinePod', :git =>"https://gitee.com/cocoaRain/offline-pod.git"
 
   target 'SherpaOnnxTests' do
     inherit! :search_paths
