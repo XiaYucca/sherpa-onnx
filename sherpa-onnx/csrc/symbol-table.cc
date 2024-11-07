@@ -23,6 +23,28 @@
 
 namespace sherpa_onnx {
 
+namespace {
+// copied from
+// https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
+const char *ws = " \t\n\r\f\v";
+
+// trim from end of string (right)
+inline void TrimRight(std::string *s, const char *t = ws) {
+  s->erase(s->find_last_not_of(t) + 1);
+}
+
+// trim from beginning of string (left)
+inline void TrimLeft(std::string *s, const char *t = ws) {
+  s->erase(0, s->find_first_not_of(t));
+}
+
+// trim from both ends of string (right then left)
+inline void Trim(std::string *s, const char *t = ws) {
+  TrimRight(s, t);
+  TrimLeft(s, t);
+}
+}  // namespace
+
 std::unordered_map<std::string, int32_t> ReadTokens(
     std::istream &is,
     std::unordered_map<int32_t, std::string> *id2token /*= nullptr*/) {
@@ -33,6 +55,7 @@ std::unordered_map<std::string, int32_t> ReadTokens(
   std::string sym;
   int32_t id = -1;
   while (std::getline(is, line)) {
+    Trim(&line);
     std::istringstream iss(line);
     iss >> sym;
     if (iss.eof()) {
