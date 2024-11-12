@@ -3263,130 +3263,6 @@
           },
           {
             "kind": "Var",
-            "name": "realChunk",
-            "printedName": "realChunk",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Array",
-                "printedName": "[Swift.Float]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Float",
-                    "printedName": "Swift.Float",
-                    "usr": "s:Sf"
-                  }
-                ],
-                "usr": "s:Sa"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:16OfflineFramework9SlieroVadC9realChunkSaySfGvp",
-            "mangledName": "$s16OfflineFramework9SlieroVadC9realChunkSaySfGvp",
-            "moduleName": "OfflineFramework",
-            "isOpen": true,
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "RawDocComment"
-            ],
-            "fixedbinaryorder": 2,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Array",
-                    "printedName": "[Swift.Float]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Float",
-                        "printedName": "Swift.Float",
-                        "usr": "s:Sf"
-                      }
-                    ],
-                    "usr": "s:Sa"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:16OfflineFramework9SlieroVadC9realChunkSaySfGvg",
-                "mangledName": "$s16OfflineFramework9SlieroVadC9realChunkSaySfGvg",
-                "moduleName": "OfflineFramework",
-                "implicit": true,
-                "isOpen": true,
-                "declAttributes": [
-                  "Transparent"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Array",
-                    "printedName": "[Swift.Float]",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Float",
-                        "printedName": "Swift.Float",
-                        "usr": "s:Sf"
-                      }
-                    ],
-                    "usr": "s:Sa"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:16OfflineFramework9SlieroVadC9realChunkSaySfGvs",
-                "mangledName": "$s16OfflineFramework9SlieroVadC9realChunkSaySfGvs",
-                "moduleName": "OfflineFramework",
-                "implicit": true,
-                "isOpen": true,
-                "declAttributes": [
-                  "Transparent"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:16OfflineFramework9SlieroVadC9realChunkSaySfGvM",
-                "mangledName": "$s16OfflineFramework9SlieroVadC9realChunkSaySfGvM",
-                "moduleName": "OfflineFramework",
-                "implicit": true,
-                "isOpen": true,
-                "declAttributes": [
-                  "Transparent"
-                ],
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
             "name": "tempChunk",
             "printedName": "tempChunk",
             "children": [
@@ -3412,9 +3288,10 @@
             "isOpen": true,
             "declAttributes": [
               "HasInitialValue",
-              "HasStorage"
+              "HasStorage",
+              "RawDocComment"
             ],
-            "fixedbinaryorder": 3,
+            "fixedbinaryorder": 2,
             "hasStorage": true,
             "accessors": [
               {
@@ -3537,7 +3414,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 4,
+            "fixedbinaryorder": 3,
             "hasStorage": true,
             "accessors": [
               {
@@ -3652,7 +3529,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 5,
+            "fixedbinaryorder": 4,
             "hasStorage": true,
             "accessors": [
               {
@@ -3773,7 +3650,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 6,
+            "fixedbinaryorder": 5,
             "hasStorage": true,
             "accessors": [
               {
@@ -3930,7 +3807,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 7,
+            "fixedbinaryorder": 6,
             "hasStorage": true,
             "accessors": [
               {
@@ -4058,7 +3935,7 @@
               "HasStorage",
               "RawDocComment"
             ],
-            "fixedbinaryorder": 8,
+            "fixedbinaryorder": 7,
             "hasStorage": true,
             "accessors": [
               {
@@ -4157,7 +4034,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 9,
+            "fixedbinaryorder": 8,
             "hasStorage": true,
             "accessors": [
               {
@@ -4256,7 +4133,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 10,
+            "fixedbinaryorder": 9,
             "hasStorage": true,
             "accessors": [
               {
@@ -4355,7 +4232,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 11,
+            "fixedbinaryorder": 10,
             "hasStorage": true,
             "accessors": [
               {
@@ -4454,7 +4331,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 12,
+            "fixedbinaryorder": 11,
             "hasStorage": true,
             "accessors": [
               {
@@ -4553,7 +4430,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
-            "fixedbinaryorder": 13,
+            "fixedbinaryorder": 12,
             "hasStorage": true,
             "accessors": [
               {
@@ -13178,7 +13055,7 @@
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "ImplicitlyUnwrappedOptional",
+                "name": "Optional",
                 "printedName": "OfflineFramework.ArchiveManager?",
                 "children": [
                   {
@@ -13209,7 +13086,7 @@
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "ImplicitlyUnwrappedOptional",
+                    "name": "Optional",
                     "printedName": "OfflineFramework.ArchiveManager?",
                     "children": [
                       {
@@ -13242,7 +13119,7 @@
                   },
                   {
                     "kind": "TypeNominal",
-                    "name": "ImplicitlyUnwrappedOptional",
+                    "name": "Optional",
                     "printedName": "OfflineFramework.ArchiveManager?",
                     "children": [
                       {
@@ -21044,6 +20921,90 @@
             "protocolReq": true,
             "reqNewWitnessTableEntry": true,
             "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "audioData",
+            "printedName": "audioData(audio:power:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16OfflineFramework21AudioRecorderDelegateP9audioData0F05powery10Foundation0G0V_SiSgtF",
+            "mangledName": "$s16OfflineFramework21AudioRecorderDelegateP9audioData0F05powery10Foundation0G0V_SiSgtF",
+            "moduleName": "OfflineFramework",
+            "genericSig": "<τ_0_0 where τ_0_0 : OfflineFramework.AudioRecorderDelegate>",
+            "sugared_genericSig": "<Self where Self : OfflineFramework.AudioRecorderDelegate>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "audioData",
+            "printedName": "audioData(audio:power:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16OfflineFramework21AudioRecorderDelegatePAAE9audioData0F05powery10Foundation0G0V_SiSgtF",
+            "mangledName": "$s16OfflineFramework21AudioRecorderDelegatePAAE9audioData0F05powery10Foundation0G0V_SiSgtF",
+            "moduleName": "OfflineFramework",
+            "genericSig": "<τ_0_0 where τ_0_0 : OfflineFramework.AudioRecorderDelegate>",
+            "sugared_genericSig": "<Self where Self : OfflineFramework.AudioRecorderDelegate>",
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Protocol",
@@ -21051,10 +21012,7 @@
         "mangledName": "$s16OfflineFramework21AudioRecorderDelegateP",
         "moduleName": "OfflineFramework",
         "genericSig": "<τ_0_0 : AnyObject>",
-        "sugared_genericSig": "<Self : AnyObject>",
-        "declAttributes": [
-          "AccessControl"
-        ]
+        "sugared_genericSig": "<Self : AnyObject>"
       },
       {
         "kind": "TypeDecl",
@@ -21090,6 +21048,7 @@
               "HasInitialValue",
               "HasStorage"
             ],
+            "fixedbinaryorder": 0,
             "hasStorage": true,
             "accessors": [
               {
@@ -21118,6 +21077,9 @@
                 "moduleName": "OfflineFramework",
                 "implicit": true,
                 "isOpen": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
                 "accessorKind": "get"
               },
               {
@@ -21151,6 +21113,9 @@
                 "moduleName": "OfflineFramework",
                 "implicit": true,
                 "isOpen": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
                 "accessorKind": "set"
               },
               {
@@ -21170,6 +21135,9 @@
                 "moduleName": "OfflineFramework",
                 "implicit": true,
                 "isOpen": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -21196,6 +21164,7 @@
               "ReferenceOwnership",
               "AccessControl"
             ],
+            "fixedbinaryorder": 1,
             "ownership": 1,
             "hasStorage": true,
             "accessors": [
@@ -21225,6 +21194,9 @@
                 "moduleName": "OfflineFramework",
                 "implicit": true,
                 "isOpen": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
                 "accessorKind": "get"
               },
               {
@@ -21258,6 +21230,9 @@
                 "moduleName": "OfflineFramework",
                 "implicit": true,
                 "isOpen": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
                 "accessorKind": "set"
               },
               {
@@ -21277,9 +21252,120 @@
                 "moduleName": "OfflineFramework",
                 "implicit": true,
                 "isOpen": true,
+                "declAttributes": [
+                  "Transparent"
+                ],
                 "accessorKind": "_modify"
               }
             ]
+          },
+          {
+            "kind": "Var",
+            "name": "buffsize",
+            "printedName": "buffsize",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16OfflineFramework13AudioRecorderC8buffsize33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLSivp",
+            "mangledName": "$s16OfflineFramework13AudioRecorderC8buffsize33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLSivp",
+            "moduleName": "OfflineFramework",
+            "isInternal": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "fixedbinaryorder": 2,
+            "hasStorage": true
+          },
+          {
+            "kind": "Var",
+            "name": "enablePower",
+            "printedName": "enablePower",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16OfflineFramework13AudioRecorderC11enablePower33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLSbvp",
+            "mangledName": "$s16OfflineFramework13AudioRecorderC11enablePower33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLSbvp",
+            "moduleName": "OfflineFramework",
+            "isInternal": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "fixedbinaryorder": 3,
+            "hasStorage": true
+          },
+          {
+            "kind": "Var",
+            "name": "power",
+            "printedName": "power",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SpeechToPower",
+                "printedName": "OfflineFramework.SpeechToPower",
+                "usr": "s:16OfflineFramework13SpeechToPowerC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16OfflineFramework13AudioRecorderC5power33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLAA13SpeechToPowerCvp",
+            "mangledName": "$s16OfflineFramework13AudioRecorderC5power33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLAA13SpeechToPowerCvp",
+            "moduleName": "OfflineFramework",
+            "isInternal": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "fixedbinaryorder": 4,
+            "hasStorage": true
+          },
+          {
+            "kind": "Var",
+            "name": "outputFormat",
+            "printedName": "outputFormat",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "AVFAudio.AVAudioFormat?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AVAudioFormat",
+                    "printedName": "AVFAudio.AVAudioFormat",
+                    "usr": "c:objc(cs)AVAudioFormat"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16OfflineFramework13AudioRecorderC12outputFormat33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLSo07AVAudioF0CSgvp",
+            "mangledName": "$s16OfflineFramework13AudioRecorderC12outputFormat33_D2E46F04F99FF7859A6CBB2A4A2ADEFFLLSo07AVAudioF0CSgvp",
+            "moduleName": "OfflineFramework",
+            "isInternal": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "fixedbinaryorder": 5,
+            "hasStorage": true
           },
           {
             "kind": "Constructor",
@@ -21478,10 +21564,7 @@
         "usr": "s:16OfflineFramework13AudioRecorderC",
         "mangledName": "$s16OfflineFramework13AudioRecorderC",
         "moduleName": "OfflineFramework",
-        "isOpen": true,
-        "declAttributes": [
-          "AccessControl"
-        ]
+        "isOpen": true
       },
       {
         "kind": "Import",
@@ -22988,6 +23071,33 @@
             "moduleName": "OfflineFramework",
             "isFromExtension": true,
             "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "data",
+            "printedName": "data()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:So11AudioBufferV16OfflineFrameworkE4data10Foundation4DataVSgyF",
+            "mangledName": "$sSo11AudioBufferV16OfflineFrameworkE4data10Foundation4DataVSgyF",
+            "moduleName": "OfflineFramework",
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Struct",
@@ -23023,6 +23133,34 @@
             "declKind": "Func",
             "usr": "s:So16AVAudioPCMBufferC16OfflineFrameworkE5arraySaySfGyF",
             "mangledName": "$sSo16AVAudioPCMBufferC16OfflineFrameworkE5arraySaySfGyF",
+            "moduleName": "OfflineFramework",
+            "isOpen": true,
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "data",
+            "printedName": "data()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:So16AVAudioPCMBufferC16OfflineFrameworkE4data10Foundation4DataVSgyF",
+            "mangledName": "$sSo16AVAudioPCMBufferC16OfflineFrameworkE4data10Foundation4DataVSgyF",
             "moduleName": "OfflineFramework",
             "isOpen": true,
             "isFromExtension": true,
@@ -23232,84 +23370,77 @@
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "Array",
-      "offset": 16495,
+      "offset": 16530,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "Array",
-      "offset": 16528,
-      "length": 2,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
-      "kind": "Array",
-      "offset": 16568,
+      "offset": 16570,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "BooleanLiteral",
-      "offset": 16596,
+      "offset": 16598,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "Array",
-      "offset": 16638,
+      "offset": 16640,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "Dictionary",
-      "offset": 16680,
+      "offset": 16682,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "IntegerLiteral",
-      "offset": 16749,
+      "offset": 16751,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "IntegerLiteral",
-      "offset": 16769,
+      "offset": 16771,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "IntegerLiteral",
-      "offset": 16791,
+      "offset": 16793,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "IntegerLiteral",
-      "offset": 16824,
+      "offset": 16826,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "BooleanLiteral",
-      "offset": 16895,
+      "offset": 16897,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Silero.swift",
       "kind": "BooleanLiteral",
-      "offset": 16962,
+      "offset": 16964,
       "length": 4,
       "value": "true"
     },
@@ -23534,62 +23665,62 @@
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "Array",
       "offset": 121,
-      "length": 153,
-      "value": "[\"Y29tLml0b3VyLnRyYW5zbGF0b3I=\", \"Y29tLml0b3VyLm9yZy5TaGVycGFPbm54\", \"Y29tLmlUb3VyLmlUb3VyVHJhbnNsYXRvck1hYy5BcHA=\", \"Y29tLmlUb3VyLmluZm9mbG93ZXJNYWMuQXBw\"]"
+      "length": 180,
+      "value": "[\"Y29tLml0b3VyLnRyYW5zbGF0b3I=\", \"Y29tLml0b3VyLm9yZy5TaGVycGFPbm54\", \"Y29tLmlUb3VyLmlUb3VyVHJhbnNsYXRvck1hYy5BcHA=\", \"Y29tLmlUb3VyLmluZm9mbG93ZXJNYWMuQXBw\", \"Y29tLmxpYW54aWFuLml0b3Vy\"]"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "StringLiteral",
-      "offset": 1003,
+      "offset": 1031,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "StringLiteral",
-      "offset": 2028,
+      "offset": 2056,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "BooleanLiteral",
-      "offset": 5544,
+      "offset": 5572,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "StringLiteral",
-      "offset": 5593,
+      "offset": 5621,
       "length": 17,
       "value": "\"com.parctialQue\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "BooleanLiteral",
-      "offset": 5714,
+      "offset": 5742,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "BooleanLiteral",
-      "offset": 14728,
+      "offset": 14978,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "StringLiteral",
-      "offset": 14747,
+      "offset": 14997,
       "length": 4,
       "value": "\"zh\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/Transcribe.swift",
       "kind": "StringLiteral",
-      "offset": 14938,
+      "offset": 15188,
       "length": 4,
       "value": "\"zh\""
     },
@@ -24086,399 +24217,399 @@
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 16925,
+      "offset": 16931,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 16960,
+      "offset": 16966,
       "length": 4,
       "value": "0.25"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 16995,
+      "offset": 17001,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 17020,
+      "offset": 17026,
       "length": 3,
       "value": "512"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 17054,
+      "offset": 17060,
       "length": 3,
       "value": "5.0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 17467,
+      "offset": 17473,
       "length": 5,
       "value": "16000"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 17494,
+      "offset": 17500,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 17518,
+      "offset": 17524,
       "length": 5,
       "value": "\"cpu\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 17540,
+      "offset": 17546,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 20971,
+      "offset": 20977,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 20997,
+      "offset": 21003,
       "length": 5,
       "value": "0.667"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 21027,
+      "offset": 21033,
       "length": 3,
       "value": "0.8"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 21055,
+      "offset": 21061,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 21080,
+      "offset": 21086,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 21536,
+      "offset": 21542,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 21554,
+      "offset": 21560,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 21578,
+      "offset": 21584,
       "length": 5,
       "value": "\"cpu\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 21880,
+      "offset": 21886,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 21905,
+      "offset": 21911,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 21934,
+      "offset": 21940,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 23584,
+      "offset": 23590,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 23602,
+      "offset": 23608,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 23968,
+      "offset": 23974,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 23990,
+      "offset": 23996,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 24431,
+      "offset": 24437,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 24801,
+      "offset": 24807,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 24819,
+      "offset": 24825,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 24843,
+      "offset": 24849,
       "length": 5,
       "value": "\"cpu\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 26125,
+      "offset": 26131,
       "length": 5,
       "value": "16000"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 27726,
+      "offset": 27732,
       "length": 1,
       "value": "4"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 27756,
+      "offset": 27762,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 27784,
+      "offset": 27790,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 27818,
+      "offset": 27824,
       "length": 4,
       "value": "0.25"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 27848,
+      "offset": 27854,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 27877,
+      "offset": 27883,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 28886,
+      "offset": 28892,
       "length": 5,
       "value": "16000"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 29724,
+      "offset": 29730,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 29742,
+      "offset": 29748,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 29766,
+      "offset": 29772,
       "length": 5,
       "value": "\"cpu\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 31197,
+      "offset": 31203,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 31215,
+      "offset": 31221,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 31239,
+      "offset": 31245,
       "length": 5,
       "value": "\"cpu\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 31540,
+      "offset": 31546,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 31563,
+      "offset": 31569,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 31790,
+      "offset": 31796,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 31808,
+      "offset": 31814,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "StringLiteral",
-      "offset": 31832,
+      "offset": 31838,
       "length": 5,
       "value": "\"cpu\""
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 32312,
+      "offset": 32318,
       "length": 3,
       "value": "0.3"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "FloatLiteral",
-      "offset": 32343,
+      "offset": 32349,
       "length": 3,
       "value": "0.5"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 32694,
+      "offset": 32700,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 32715,
+      "offset": 32721,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/SherpaOnnx.swift",
       "kind": "IntegerLiteral",
-      "offset": 32738,
+      "offset": 32744,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/AudioRecorder.swift",
       "kind": "IntegerLiteral",
-      "offset": 764,
+      "offset": 1578,
       "length": 4,
       "value": "1024"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/AudioRecorder.swift",
       "kind": "BooleanLiteral",
-      "offset": 804,
+      "offset": 1618,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/AudioRecorder.swift",
       "kind": "BooleanLiteral",
-      "offset": 1026,
+      "offset": 1840,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/AudioRecorder.swift",
       "kind": "IntegerLiteral",
-      "offset": 1049,
+      "offset": 1863,
       "length": 4,
       "value": "1024"
     },
     {
       "filePath": "\/Users\/rain\/Desktop\/LianxianPro\/OfflineFramework\/OfflineFramework\/AudioRecorder.swift",
       "kind": "Array",
-      "offset": 4880,
+      "offset": 5699,
       "length": 113,
       "value": "[0, 1, 2, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]"
     }

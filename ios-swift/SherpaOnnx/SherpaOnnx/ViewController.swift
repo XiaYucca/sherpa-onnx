@@ -98,21 +98,21 @@ class ViewController: UIViewController, TranscribeManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ArchiveManager.shared.testArchive()
+//        ArchiveManager.shared.testArchive()
 //        
 //        return;
         
         do{
-           manager = TranscribeManager.init(lan: "zh", delgate: self)
-           var model = getResource("source-zh", "ezn")
-
-            
-            manager.prepare(path: URL.init(fileURLWithPath: model)) { progress, info in
-                print("progress\(progress) info\(info)")
-            }
-           
-            model = getResource("source-en", "ezn")
-            manager.prepare(path: URL.init(fileURLWithPath: model))
+           manager = TranscribeManager.init(lan: "en", delgate: self)
+//           var model = getResource("source-zh", "ezn")
+//
+//            
+//            manager.prepare(path: URL.init(fileURLWithPath: model)) { progress, info in
+//                print("progress\(progress) info\(info)")
+//            }
+//           
+//            model = getResource("source-en", "ezn")
+//            manager.prepare(path: URL.init(fileURLWithPath: model))
            
            
             
@@ -185,7 +185,7 @@ class ViewController: UIViewController, TranscribeManagerDelegate {
             recordBtn.setTitle("Start", for: .normal)
             
             self.manager.stop()
-//            self.manager.release()
+            self.manager.release()
         }
     }
 

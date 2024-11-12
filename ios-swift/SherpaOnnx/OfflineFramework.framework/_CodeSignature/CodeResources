@@ -14,15 +14,15 @@
 		</data>
 		<key>Modules/OfflineFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		vXuBNDaVUIYgSOJ685ZrvEq0lwE=
+		BQEG+OpG5YReYA84R1rwFX+FAjg=
 		</data>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		CLS5DSwoLNsMfft4a+5+4Py0124=
+		DvAvoSTJ4hjLczqcV+jM/AY3Rl4=
 		</data>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		7qNJU+Jn9tgmrVakek+P2yj9nXo=
+		KEXfvDVJSYIvlLs8unxuzSsg24k=
 		</data>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
@@ -30,11 +30,11 @@
 		</data>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		7qNJU+Jn9tgmrVakek+P2yj9nXo=
+		KEXfvDVJSYIvlLs8unxuzSsg24k=
 		</data>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		Jkqi30J2pMdYP6QChaoK3L2X1Ps=
+		0krQI8flyvK5hxfwfqJMnjc9e1g=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -66,33 +66,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vXuBNDaVUIYgSOJ685ZrvEq0lwE=
+			BQEG+OpG5YReYA84R1rwFX+FAjg=
 			</data>
 			<key>hash2</key>
 			<data>
-			ei5WMHU89gh52v6JdQaUSPjm8Qpek5TfbyehXMpPhC0=
+			7zNBnmCeCOt0VoQptfxICkVOqk3KD3vxRsUBwTzzNDI=
 			</data>
 		</dict>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CLS5DSwoLNsMfft4a+5+4Py0124=
+			DvAvoSTJ4hjLczqcV+jM/AY3Rl4=
 			</data>
 			<key>hash2</key>
 			<data>
-			0kIF0Kr77HGh+lEhf5MoSHqUjmY0PmbTHixBEcty/I4=
+			l50uMUGvg588KgWWIefePUFSgZpSnjxZYWiSYgGmmVs=
 			</data>
 		</dict>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7qNJU+Jn9tgmrVakek+P2yj9nXo=
+			KEXfvDVJSYIvlLs8unxuzSsg24k=
 			</data>
 			<key>hash2</key>
 			<data>
-			4chO6+RkBpqVB25W4Ivb5+TwjZ/zXqg1ViqdvQvS7OM=
+			N13JKjHhG5ukbmwscCdKxuvRBxiFmgNiK3zUEBQrcdE=
 			</data>
 		</dict>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
@@ -110,22 +110,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7qNJU+Jn9tgmrVakek+P2yj9nXo=
+			KEXfvDVJSYIvlLs8unxuzSsg24k=
 			</data>
 			<key>hash2</key>
 			<data>
-			4chO6+RkBpqVB25W4Ivb5+TwjZ/zXqg1ViqdvQvS7OM=
+			N13JKjHhG5ukbmwscCdKxuvRBxiFmgNiK3zUEBQrcdE=
 			</data>
 		</dict>
 		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Jkqi30J2pMdYP6QChaoK3L2X1Ps=
+			0krQI8flyvK5hxfwfqJMnjc9e1g=
 			</data>
 			<key>hash2</key>
 			<data>
-			KLt4muBhjsZ4u/mJYklQtBwlxQWkLQ1LwircsyIYFQE=
+			lcg6lRWvpc16APHkDFk6yGbFNSs1Y7qYgYKQi13faAU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
