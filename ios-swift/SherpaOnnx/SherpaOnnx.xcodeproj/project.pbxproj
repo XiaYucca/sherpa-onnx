@@ -22,6 +22,7 @@
 		B7046FB82CBE6A460061C446 /* export-pyannote-onnx.py in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAE2CBE6A460061C446 /* export-pyannote-onnx.py */; };
 		B7046FB92CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7046FAF2CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx */; };
 		B7046FBB2CBE6B1D0061C446 /* 0-four-speakers-zh.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7046FBA2CBE6B1D0061C446 /* 0-four-speakers-zh.wav */; };
+		B70E77BF2CEB25D300C07ABF /* source-zh.ezn in Resources */ = {isa = PBXBuildFile; fileRef = B71CF6832CE44EBB0020CCE2 /* source-zh.ezn */; };
 		B70EC9502CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC9492CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx */; };
 		B70EC9512CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94A2CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx */; };
 		B70EC9522CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70EC94B2CCB454900F5BE25 /* tokens-epoch-3-avg-1.txt */; };
@@ -40,6 +41,11 @@
 		B71451462CCF3C7E00689224 /* moonshine-base_encode.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B71451412CCF3C7E00689224 /* moonshine-base_encode.int8.onnx */; };
 		B71451472CCF3C7E00689224 /* moonshine-base_cached_decode.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B71451422CCF3C7E00689224 /* moonshine-base_cached_decode.int8.onnx */; };
 		B71451492CCF6B8D00689224 /* Pynonote.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71451482CCF6B8D00689224 /* Pynonote.swift */; };
+		B71CF6822CE44C0E0020CCE2 /* source-zh.zn in Resources */ = {isa = PBXBuildFile; fileRef = B71CF6812CE44C0E0020CCE2 /* source-zh.zn */; };
+		B72B41012D0A7C5300779BDB /* TTNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72B41002D0A7C5300779BDB /* TTNetwork.framework */; platformFilter = ios; };
+		B72B41022D0A7C5300779BDB /* TTNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72B41002D0A7C5300779BDB /* TTNetwork.framework */; platformFilter = ios; };
+		B769081D2D13FAF1009A7877 /* OfflineFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B769081C2D13FAF1009A7877 /* OfflineFramework.framework */; };
+		B77B35632CFF4C9C00AB19CD /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77B35622CFF4C9C00AB19CD /* SubscribeViewController.swift */; };
 		B7852FB52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */; };
 		B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */; };
 		B7852FB72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */; };
@@ -55,6 +61,7 @@
 		B7852FC12CA2D3E80059AD63 /* 3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7852FB22CA2D3E80059AD63 /* 3.wav */; };
 		B7852FC22CA2D3E80059AD63 /* 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7852FB32CA2D3E80059AD63 /* 2.wav */; };
 		B7852FC32CA2D3E80059AD63 /* decoder-epoch-99-avg-1.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7852FB42CA2D3E80059AD63 /* decoder-epoch-99-avg-1.int8.onnx */; };
+		B7B9BD142D1165F300B10FE7 /* source-en-sense.ezn in Resources */ = {isa = PBXBuildFile; fileRef = B7B9BD132D1165F300B10FE7 /* source-en-sense.ezn */; };
 		B7C46FD32CA39A6600DDA4DB /* Prunctuation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C46FD12CA39A6600DDA4DB /* Prunctuation.swift */; };
 		B7C46FD92CA39DD200DDA4DB /* Silero.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C46FD62CA39DD200DDA4DB /* Silero.swift */; };
 		B7C46FDA2CA39DD200DDA4DB /* silero_vad.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7C46FD82CA39DD200DDA4DB /* silero_vad.onnx */; };
@@ -80,8 +87,6 @@
 		B7D3F0872CD3A21B00E09AF0 /* encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7D3F07B2CD3A21B00E09AF0 /* encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx */; };
 		B7E6E3032CBF5DFF00387B74 /* test.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7E6E3022CBF5DFF00387B74 /* test.wav */; };
 		B7E7E2702CDA22C600C6286C /* source-en.ezn in Resources */ = {isa = PBXBuildFile; fileRef = B7E7E26F2CDA22C600C6286C /* source-en.ezn */; };
-		B7E7E2722CDA373100C6286C /* source-zh.zn in Resources */ = {isa = PBXBuildFile; fileRef = B7E7E2712CDA373100C6286C /* source-zh.zn */; };
-		B7E7E2742CDA37CA00C6286C /* source-zh.ezn in Resources */ = {isa = PBXBuildFile; fileRef = B7E7E2732CDA37CA00C6286C /* source-zh.ezn */; };
 		B7ED6C662CC7813700489462 /* nemo_es_tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C602CC7813700489462 /* nemo_es_tokens.txt */; };
 		B7ED6C672CC7813700489462 /* nemo_es_decoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C612CC7813700489462 /* nemo_es_decoder.onnx */; };
 		B7ED6C682CC7813700489462 /* nemo_es_joiner.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C622CC7813700489462 /* nemo_es_joiner.onnx */; };
@@ -99,8 +104,6 @@
 		B7ED6C8C2CC7A84200489462 /* tiny-encoder.int8.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C872CC7A84200489462 /* tiny-encoder.int8.onnx */; };
 		B7ED6C8D2CC7A84200489462 /* tiny-tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C882CC7A84200489462 /* tiny-tokens.txt */; };
 		B7ED6C8E2CC7A84200489462 /* tiny-decoder.onnx in Resources */ = {isa = PBXBuildFile; fileRef = B7ED6C892CC7A84200489462 /* tiny-decoder.onnx */; };
-		B7F02FC32CDB727E007E5552 /* source-en.zn in Resources */ = {isa = PBXBuildFile; fileRef = B7F02FC22CDB727E007E5552 /* source-en.zn */; };
-		B7F02FC52CDB74EF007E5552 /* OfflineFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F02FC42CDB74EF007E5552 /* OfflineFramework.framework */; };
 		C984A7E829A9EEB700D74C52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984A7E729A9EEB700D74C52 /* AppDelegate.swift */; };
 		C984A7EA29A9EEB700D74C52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C984A7E929A9EEB700D74C52 /* SceneDelegate.swift */; };
 		C984A7F129A9EEB900D74C52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C984A7F029A9EEB900D74C52 /* Assets.xcassets */; };
@@ -169,6 +172,11 @@
 		B71451412CCF3C7E00689224 /* moonshine-base_encode.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "moonshine-base_encode.int8.onnx"; sourceTree = "<group>"; };
 		B71451422CCF3C7E00689224 /* moonshine-base_cached_decode.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "moonshine-base_cached_decode.int8.onnx"; sourceTree = "<group>"; };
 		B71451482CCF6B8D00689224 /* Pynonote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pynonote.swift; sourceTree = "<group>"; };
+		B71CF6812CE44C0E0020CCE2 /* source-zh.zn */ = {isa = PBXFileReference; lastKnownFileType = file; path = "source-zh.zn"; sourceTree = "<group>"; };
+		B71CF6832CE44EBB0020CCE2 /* source-zh.ezn */ = {isa = PBXFileReference; lastKnownFileType = file; path = "source-zh.ezn"; sourceTree = "<group>"; };
+		B72B41002D0A7C5300779BDB /* TTNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TTNetwork.framework; path = "../../../Library/Developer/Xcode/DerivedData/OfflineFramework-fpimnwjsdohrmjhbvekhmiurihjj/Build/Products/Debug-iphoneos/TTNetwork.framework"; sourceTree = "<group>"; };
+		B769081C2D13FAF1009A7877 /* OfflineFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OfflineFramework.framework; sourceTree = "<group>"; };
+		B77B35622CFF4C9C00AB19CD /* SubscribeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
 		B7852FA52CA2D3E80059AD63 /* encoder-epoch-99-avg-1.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.onnx"; sourceTree = "<group>"; };
 		B7852FA62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
 		B7852FA72CA2D3E80059AD63 /* joiner-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "joiner-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
@@ -185,6 +193,7 @@
 		B7852FB32CA2D3E80059AD63 /* 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2.wav; sourceTree = "<group>"; };
 		B7852FB42CA2D3E80059AD63 /* decoder-epoch-99-avg-1.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "decoder-epoch-99-avg-1.int8.onnx"; sourceTree = "<group>"; };
 		B7B52B352CBE8388004224B6 /* SherpaOnnx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SherpaOnnx.entitlements; sourceTree = "<group>"; };
+		B7B9BD132D1165F300B10FE7 /* source-en-sense.ezn */ = {isa = PBXFileReference; lastKnownFileType = file; path = "source-en-sense.ezn"; sourceTree = "<group>"; };
 		B7C46FD12CA39A6600DDA4DB /* Prunctuation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prunctuation.swift; sourceTree = "<group>"; };
 		B7C46FD62CA39DD200DDA4DB /* Silero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Silero.swift; sourceTree = "<group>"; };
 		B7C46FD82CA39DD200DDA4DB /* silero_vad.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = silero_vad.onnx; sourceTree = "<group>"; };
@@ -210,8 +219,8 @@
 		B7D3F07B2CD3A21B00E09AF0 /* encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx"; sourceTree = "<group>"; };
 		B7E6E3022CBF5DFF00387B74 /* test.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = test.wav; sourceTree = "<group>"; };
 		B7E7E26F2CDA22C600C6286C /* source-en.ezn */ = {isa = PBXFileReference; lastKnownFileType = file; name = "source-en.ezn"; path = "sherpa-onnx-moonshine-tiny-en-int8/data/source-en.ezn"; sourceTree = "<group>"; };
-		B7E7E2712CDA373100C6286C /* source-zh.zn */ = {isa = PBXFileReference; lastKnownFileType = file; name = "source-zh.zn"; path = "sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/model/source-zh.zn"; sourceTree = "<group>"; };
-		B7E7E2732CDA37CA00C6286C /* source-zh.ezn */ = {isa = PBXFileReference; lastKnownFileType = file; path = "source-zh.ezn"; sourceTree = SOURCE_ROOT; };
+		B7E7E2712CDA373100C6286C /* source-zh-zipformer.zn */ = {isa = PBXFileReference; lastKnownFileType = file; name = "source-zh-zipformer.zn"; path = "sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/model/source-zh-zipformer.zn"; sourceTree = "<group>"; };
+		B7E7E2732CDA37CA00C6286C /* source-zh-zipformer.ezn */ = {isa = PBXFileReference; lastKnownFileType = file; path = "source-zh-zipformer.ezn"; sourceTree = SOURCE_ROOT; };
 		B7ED6C602CC7813700489462 /* nemo_es_tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nemo_es_tokens.txt; sourceTree = "<group>"; };
 		B7ED6C612CC7813700489462 /* nemo_es_decoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = nemo_es_decoder.onnx; sourceTree = "<group>"; };
 		B7ED6C622CC7813700489462 /* nemo_es_joiner.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = nemo_es_joiner.onnx; sourceTree = "<group>"; };
@@ -230,7 +239,6 @@
 		B7ED6C882CC7A84200489462 /* tiny-tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tiny-tokens.txt"; sourceTree = "<group>"; };
 		B7ED6C892CC7A84200489462 /* tiny-decoder.onnx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tiny-decoder.onnx"; sourceTree = "<group>"; };
 		B7F02FC22CDB727E007E5552 /* source-en.zn */ = {isa = PBXFileReference; lastKnownFileType = file; name = "source-en.zn"; path = "sherpa-onnx-moonshine-tiny-en-int8/data/source-en.zn"; sourceTree = "<group>"; };
-		B7F02FC42CDB74EF007E5552 /* OfflineFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OfflineFramework.framework; sourceTree = "<group>"; };
 		C3272197DE93017CD811142D /* Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig"; path = "Target Support Files/Pods-SherpaOnnx-SherpaOnnxUITests/Pods-SherpaOnnx-SherpaOnnxUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C984A7E429A9EEB700D74C52 /* iTourOffline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTourOffline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C984A7E729A9EEB700D74C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -257,7 +265,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				49C5A16B83F3BEC1557EBABC /* Pods_SherpaOnnx.framework in Frameworks */,
-				B7F02FC52CDB74EF007E5552 /* OfflineFramework.framework in Frameworks */,
+				B72B41012D0A7C5300779BDB /* TTNetwork.framework in Frameworks */,
+				B769081D2D13FAF1009A7877 /* OfflineFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1605D0E343DEE556389119E5 /* Pods_SherpaOnnxTests.framework in Frameworks */,
+				B72B41022D0A7C5300779BDB /* TTNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +407,9 @@
 			isa = PBXGroup;
 			children = (
 				B7C46FDC2CA3A1DC00DDA4DB /* model.int8.onnx */,
+				B71CF6812CE44C0E0020CCE2 /* source-zh.zn */,
+				B71CF6832CE44EBB0020CCE2 /* source-zh.ezn */,
+				B7B9BD132D1165F300B10FE7 /* source-en-sense.ezn */,
 				B7C46FDE2CA3A1DC00DDA4DB /* sense_tokens.txt */,
 				B7C46FE02CA3A1DC00DDA4DB /* model.onnx */,
 				B7C46FE12CA3A1DC00DDA4DB /* test_wavs */,
@@ -535,8 +548,8 @@
 			isa = PBXGroup;
 			children = (
 				B7F02FC22CDB727E007E5552 /* source-en.zn */,
-				B7E7E2732CDA37CA00C6286C /* source-zh.ezn */,
-				B7E7E2712CDA373100C6286C /* source-zh.zn */,
+				B7E7E2732CDA37CA00C6286C /* source-zh-zipformer.ezn */,
+				B7E7E2712CDA373100C6286C /* source-zh-zipformer.zn */,
 				B7E7E26F2CDA22C600C6286C /* source-en.ezn */,
 				B7D3F06E2CD3A21B00E09AF0 /* sherpa-onnx-streaming-zipformer-en-2023-06-26-mobile */,
 				B7D3F0612CD381D600E09AF0 /* sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12 */,
@@ -561,6 +574,7 @@
 				C984A7E729A9EEB700D74C52 /* AppDelegate.swift */,
 				C984A7E929A9EEB700D74C52 /* SceneDelegate.swift */,
 				C984A82629AA196100D74C52 /* Main.storyboard */,
+				B77B35622CFF4C9C00AB19CD /* SubscribeViewController.swift */,
 				C984A7F029A9EEB900D74C52 /* Assets.xcassets */,
 				C984A7F229A9EEB900D74C52 /* LaunchScreen.storyboard */,
 				C984A7F529A9EEB900D74C52 /* Info.plist */,
@@ -588,7 +602,8 @@
 		C984A81A29AA11C500D74C52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B7F02FC42CDB74EF007E5552 /* OfflineFramework.framework */,
+				B769081C2D13FAF1009A7877 /* OfflineFramework.framework */,
+				B72B41002D0A7C5300779BDB /* TTNetwork.framework */,
 				FFE6BA4DF44F7FE73F816604 /* Pods_SherpaOnnx.framework */,
 				A021718911F12E3F65192D5F /* Pods_SherpaOnnx_SherpaOnnxUITests.framework */,
 				A7619A57FF4A4F44D20DBEB6 /* Pods_SherpaOnnxTests.framework */,
@@ -713,7 +728,6 @@
 				B7D3F0872CD3A21B00E09AF0 /* encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx in Resources */,
 				B71451432CCF3C7E00689224 /* moonshine-base_uncached_decode.int8.onnx in Resources */,
 				B7046FB42CBE6A460061C446 /* run.sh in Resources */,
-				B7E7E2742CDA37CA00C6286C /* source-zh.ezn in Resources */,
 				B7ED6C7C2CC7A5BC00489462 /* base-decoder.int8.onnx in Resources */,
 				B7046FB82CBE6A460061C446 /* export-pyannote-onnx.py in Resources */,
 				B70EC9562CCB454900F5BE25 /* encoder-epoch-3-avg-1.int8.onnx in Resources */,
@@ -742,6 +756,7 @@
 				B7D3F0692CD381D600E09AF0 /* config.yaml in Resources */,
 				B7D3F07F2CD3A21B00E09AF0 /* decoder-epoch-99-avg-1-chunk-16-left-128.onnx in Resources */,
 				B7046FB62CBE6A460061C446 /* model-pynonote.onnx in Resources */,
+				B71CF6822CE44C0E0020CCE2 /* source-zh.zn in Resources */,
 				B7046FB32CBE6A460061C446 /* vad-torch.py in Resources */,
 				B714513C2CCF359000689224 /* moonshine_cached_decode.int8.onnx in Resources */,
 				B7852FBB2CA2D3E80059AD63 /* README.md in Resources */,
@@ -755,7 +770,6 @@
 				B71451472CCF3C7E00689224 /* moonshine-base_cached_decode.int8.onnx in Resources */,
 				B7ED6C6E2CC78A3C00489462 /* nemo_es_ctc_tokens.txt in Resources */,
 				C984A82829AA196100D74C52 /* Main.storyboard in Resources */,
-				B7E7E2722CDA373100C6286C /* source-zh.zn in Resources */,
 				B7E6E3032CBF5DFF00387B74 /* test.wav in Resources */,
 				B714513B2CCF359000689224 /* moonshine_preprocess.onnx in Resources */,
 				B70EC9552CCB454900F5BE25 /* decoder-epoch-3-avg-1.int8.onnx in Resources */,
@@ -773,10 +787,10 @@
 				B7ED6C672CC7813700489462 /* nemo_es_decoder.onnx in Resources */,
 				B7ED6C682CC7813700489462 /* nemo_es_joiner.onnx in Resources */,
 				B7046FB92CBE6A460061C446 /* 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx in Resources */,
-				B7F02FC32CDB727E007E5552 /* source-en.zn in Resources */,
 				B7ED6C662CC7813700489462 /* nemo_es_tokens.txt in Resources */,
 				B70EC9542CCB454900F5BE25 /* joiner-epoch-3-avg-1.onnx in Resources */,
 				B7852FB92CA2D3E80059AD63 /* tokens.txt in Resources */,
+				B7B9BD142D1165F300B10FE7 /* source-en-sense.ezn in Resources */,
 				B70EC9502CCB454900F5BE25 /* decoder-epoch-3-avg-1.onnx in Resources */,
 				B7852FBC2CA2D3E80059AD63 /* bpe.vocab in Resources */,
 				B7046FB22CBE6A460061C446 /* speaker-diarization-torch.py in Resources */,
@@ -787,6 +801,7 @@
 				C984A7F429A9EEB900D74C52 /* LaunchScreen.storyboard in Resources */,
 				B7852FB62CA2D3E80059AD63 /* encoder-epoch-99-avg-1.int8.onnx in Resources */,
 				B7ED6C7E2CC7A5BC00489462 /* base-encoder.int8.onnx in Resources */,
+				B70E77BF2CEB25D300C07ABF /* source-zh.ezn in Resources */,
 				B70EC9512CCB454900F5BE25 /* joiner-epoch-3-avg-1.int8.onnx in Resources */,
 				B70EC9532CCB454900F5BE25 /* encoder-epoch-3-avg-1.onnx in Resources */,
 				B7046FB12CBE6A460061C446 /* vad-onnx.py in Resources */,
@@ -930,6 +945,7 @@
 				B7C46FD92CA39DD200DDA4DB /* Silero.swift in Sources */,
 				C984A7E829A9EEB700D74C52 /* AppDelegate.swift in Sources */,
 				C984A7EA29A9EEB700D74C52 /* SceneDelegate.swift in Sources */,
+				B77B35632CFF4C9C00AB19CD /* SubscribeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1128,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pods/OfflinePod/OfflinePod/Classes/iOS",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1125,19 +1142,21 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-lc++";
-				PRODUCT_BUNDLE_IDENTIFIER = com.itour.org.SherpaOnnx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lianxian.deafmute;
 				PRODUCT_NAME = iTourOffline;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${PROJECT_DIR}/../../swift-api-examples/SherpaOnnx-Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1156,6 +1175,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pods/OfflinePod/OfflinePod/Classes/iOS",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1169,19 +1189,21 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "-lc++";
-				PRODUCT_BUNDLE_IDENTIFIER = com.itour.org.SherpaOnnx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lianxian.deafmute;
 				PRODUCT_NAME = iTourOffline;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${PROJECT_DIR}/../../swift-api-examples/SherpaOnnx-Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

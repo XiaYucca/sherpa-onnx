@@ -129,6 +129,13 @@ class OfflineRecognizerMoonshineImpl : public OfflineRecognizerImpl {
       auto r = Convert(results[0], symbol_table_);
       r.text = ApplyInverseTextNormalization(std::move(r.text));
       s->SetResult(r);
+        
+        audio_tensor.release();
+        features.release();
+        features_len_tensor.release();
+        encoder_out.release();
+        
+        
     } catch (const Ort::Exception &ex) {
       SHERPA_ONNX_LOGE(
           "\n\nCaught exception:\n\n%s\n\nReturn an empty result. Number of "

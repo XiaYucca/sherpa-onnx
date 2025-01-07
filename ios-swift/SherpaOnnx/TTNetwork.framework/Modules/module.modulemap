@@ -1,0 +1,11 @@
+framework module TTNetwork {
+  umbrella header "TTNetwork.h"
+  export *
+
+  module * { export * }
+}
+
+module TTNetwork.Swift {
+  header "TTNetwork-Swift.h"
+  requires objc
+}

@@ -9,6 +9,9 @@ import AVFoundation
 import UIKit
 //import Alamofire
 import OfflineFramework
+//import MLKitCommon
+//import MLKitTranslate
+import TTNetwork
 
 
 
@@ -98,19 +101,55 @@ class ViewController: UIViewController, TranscribeManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        ArchiveManager.shared.testArchive()
+//        TTRequest().test()
 //        
 //        return;
         
-        do{
-           manager = TranscribeManager.init(lan: "en", delgate: self)
-//           var model = getResource("source-zh", "ezn")
+        // Create an English-German translator:
+        
+//        let options = TranslatorOptions(sourceLanguage: .english, targetLanguage: .german)
+//        let englishGermanTranslator = Translator.translator(options: options)
+        
+//        let conditions = ModelDownloadConditions(
+//            allowsCellularAccess: false,
+//            allowsBackgroundDownloading: true
+//        )
+//        englishGermanTranslator.downloadModelIfNeeded(with: conditions) { error in
+//            guard error == nil else { return }
 //
-//            
-//            manager.prepare(path: URL.init(fileURLWithPath: model)) { progress, info in
-//                print("progress\(progress) info\(info)")
-//            }
-//           
+//            // Model downloaded successfully. Okay to start translating.
+//        }
+        
+//        // 示例
+//        let charset = "TUVWXYZ" + "MNOPQRS" + "mnopqrstuvwxyz" + "0123456789" + "abcdefghijkl" + "ABCDEFGHIJKL" + "+/"
+//        let encoder = CustomBaseEncoder(charset: charset, paddingCharacter: "@")
+//          
+//        // 原始数据
+//        let originalData = "Hello, World!".data(using: .utf8)!
+//          
+//        // 编码
+//        let encodedString = encoder.encode(data: originalData)
+//        print("Encoded String: \(encodedString)")
+//          
+//        // 解码
+//        if let decodedData = encoder.decode(string: encodedString),
+//           let decodedString = String(data: decodedData, encoding: .utf8) {
+//            print("Decoded String: \(decodedString)")
+//        }
+        
+//        ArchiveManager.shared.testArchive(file: "source-zh")
+//
+//        return;
+        
+        do{
+           
+           var model = getResource("source-en", "ezn")
+
+            manager = TranscribeManager.init(lan: "en", delgate: self)
+            manager.prepare(path: URL.init(fileURLWithPath: model)) { progress, info in
+                print("progress\(progress) info\(info)")
+            }
+//            manager = TranscribeManager.init(lan: "en", delgate: self)
 //            model = getResource("source-en", "ezn")
 //            manager.prepare(path: URL.init(fileURLWithPath: model))
            
@@ -163,6 +202,8 @@ class ViewController: UIViewController, TranscribeManagerDelegate {
 //        })
 
     }
+    
+    var index = 0
 
     @IBAction func onRecordBtnClick(_ sender: UIButton) {
         
@@ -175,6 +216,16 @@ class ViewController: UIViewController, TranscribeManagerDelegate {
         if recordBtn.currentTitle == "Start" {
 //            startRecorder()
 //            SherpaOnnxManager.shared.startRecorder()
+            
+//            if index % 2 == 0{
+//                manager = TranscribeManager.init(lan: "zh", delgate: self)
+//            }else{
+//                manager = TranscribeManager.init(lan: "en", delgate: self)
+//            }
+//            index = index + 1
+            manager = TranscribeManager.init(lan: "en", delgate: self)
+            
+            
             recordBtn.setTitle("Stop", for: .normal)
             manager.load()
             try! manager.start()
@@ -186,6 +237,7 @@ class ViewController: UIViewController, TranscribeManagerDelegate {
             
             self.manager.stop()
             self.manager.release()
+            
         }
     }
 

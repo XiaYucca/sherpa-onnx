@@ -87,8 +87,18 @@ class OfflineMoonshineModel::Impl {
         {}, encoder_input_names_ptr_.data(), encoder_inputs.data(),
         encoder_inputs.size(), encoder_output_names_ptr_.data(),
         encoder_output_names_ptr_.size());
+      
+      // 使用智能指针来管理 Ort::Value 对象
+          std::unique_ptr<Ort::Value> result = std::make_unique<Ort::Value>(std::move(encoder_out[0]));
+        
+          // 手动释放 encoder_out 中的其他元素
+          for (size_t i = 1; i < encoder_out.size(); ++i) {
+              encoder_out[i].release();
+          }
+        
+          return std::move(*result);
 
-    return std::move(encoder_out[0]);
+//    return std::move(encoder_out[0]);
   }
 
   std::pair<Ort::Value, std::vector<Ort::Value>> ForwardUnCachedDecoder(

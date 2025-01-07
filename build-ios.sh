@@ -182,9 +182,9 @@ rm -rf sherpa-onnx.xcframework
 #      -library "build/simulator/sherpa-onnx.a" \
 #      -output sherpa-onnx.xcframework
       
-xcodebuild -create-xcframework \
-      -library "build/simulator/sherpa-onnx.a" \
-      -output sherpa-onnx.xcframework
+#xcodebuild -create-xcframework \
+#      -library "build/simulator/sherpa-onnx.a" \
+#      -output sherpa-onnx.xcframework
       
 xcodebuild -create-xcframework \
       -library "build/simulator/sherpa-onnx.a" \
@@ -205,3 +205,6 @@ popd
 
 pushd sherpa-onnx.xcframework/ios-arm64
 ln -s sherpa-onnx.a libsherpa-onnx.a
+popd
+
+cp -r sherpa-onnx.xcframework /Users/rain/Desktop/LianxianPro/OfflineFramework/OfflineFramework/sherpa-onnx.xcframework

@@ -4,161 +4,146 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/OfflineFramework-Swift.h</key>
+		<key>Alamofire.bundle/Info.plist</key>
 		<data>
-		AyR9YmVdBIWz1CGvRpG8u7FN6r8=
+		x7l1F4qmyLbcDF4ja1uL4gV4CtE=
+		</data>
+		<key>Alamofire.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		ovFJMFOLMjzh8DLJKmXncj8JIgU=
+		</data>
+		<key>Headers/TTNetwork-Swift.h</key>
+		<data>
+		pGbwej2PAJ+txq3dZUifKebcKKQ=
+		</data>
+		<key>Headers/TTNetwork.h</key>
+		<data>
+		LX+8TGQ+HU/bXVVl6O6yD9plZUo=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		l+3VezaQk9YCBYspXNlR8IUQyF8=
+		9lyN8Ge/DdkMO71w/3yfNunwEkM=
 		</data>
-		<key>Modules/OfflineFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
+		<key>Modules/TTNetwork.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		UuhOui5qBAPazwUSP7pHhRyY3NM=
+		uCyBLPRnSI+O2ubf6WrFUoOrU7Q=
 		</data>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.abi.json</key>
+		<key>Modules/TTNetwork.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		2b28dFKScfiEtYibktkAOFwfRNU=
+		FSPnLbho3G+LL9smI3XgVOqBIQ4=
 		</data>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<key>Modules/TTNetwork.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		/O+9wfbBO+sCKBPRuCiMDq46dzc=
+		8lNIMuYIJstxhj0QlWq///bWA7Q=
 		</data>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<key>Modules/TTNetwork.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		SeuJTsCD0fwX8O5JLraKicD9ag8=
-		</data>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftinterface</key>
-		<data>
-		/O+9wfbBO+sCKBPRuCiMDq46dzc=
-		</data>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
-		<data>
-		93IqfdwJ18B/E5X624OKYRTGNHA=
+		Ev9iLMt48GDW7Ve5rEHunbl8Npg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		kJWB5hzMNWHqgfTJYPDfSsTbSRk=
-		</data>
-		<key>PrivateHeaders/OfflineFramework.h</key>
-		<data>
-		g0nNdgq9rbEh5vM++8+Igr2c8n8=
-		</data>
-		<key>PrivateHeaders/c-api.h</key>
-		<data>
-		hgq8k0BqfaHcfy+XPNhzPOksNbI=
+		kL94oKNEPtOYISmFGKRdFvf5+nw=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/OfflineFramework-Swift.h</key>
+		<key>Alamofire.bundle/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			AyR9YmVdBIWz1CGvRpG8u7FN6r8=
+			x7l1F4qmyLbcDF4ja1uL4gV4CtE=
 			</data>
 			<key>hash2</key>
 			<data>
-			39d3fbRAvZ/Y6su9SFglEjFPWufHQkZ+VzwOVni7g2o=
+			bKiPPWvLwQsuvJzLjD7GNzX774nu3PG18lYWF28sMME=
 			</data>
 		</dict>
-		<key>Modules/OfflineFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
+		<key>Alamofire.bundle/PrivacyInfo.xcprivacy</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			UuhOui5qBAPazwUSP7pHhRyY3NM=
+			ovFJMFOLMjzh8DLJKmXncj8JIgU=
 			</data>
 			<key>hash2</key>
 			<data>
-			ulJlo45EO/hxExNDAVfnsV72ITH8fvaP2E7JcxGf5T4=
+			CNkOaUbb/qDQtbF/tlnXfu0j5EO3Rdjntbn6N4y3RHc=
 			</data>
 		</dict>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.abi.json</key>
+		<key>Headers/TTNetwork-Swift.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2b28dFKScfiEtYibktkAOFwfRNU=
+			pGbwej2PAJ+txq3dZUifKebcKKQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			rPsGwJVkbr1cGitPk/kzrzdUcsw0Pm0xsUBgnJKusjM=
+			QklYR3cv2HhqtjUdvsdi1VX2pKFDUUsObLZOTciW22o=
 			</data>
 		</dict>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<key>Headers/TTNetwork.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/O+9wfbBO+sCKBPRuCiMDq46dzc=
+			LX+8TGQ+HU/bXVVl6O6yD9plZUo=
 			</data>
 			<key>hash2</key>
 			<data>
-			jxGmusyKaUzGX8lLH3LGdUJOHp1mU9FoP2rQ1ucOvWo=
+			eGJIkesycpTKGUMtQdkhWN+dgo6PsWHfvb7zUMA3ryA=
 			</data>
 		</dict>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<key>Modules/TTNetwork.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			SeuJTsCD0fwX8O5JLraKicD9ag8=
+			uCyBLPRnSI+O2ubf6WrFUoOrU7Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			n7NkTJyVohLI3odNtvZLqyWzTeB2cGT+8u2GPU9lb78=
+			0iwgqOWqE8/9HFfuoeckgPQgAIA7XrWIrMrk2YMPhZ8=
 			</data>
 		</dict>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftinterface</key>
+		<key>Modules/TTNetwork.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/O+9wfbBO+sCKBPRuCiMDq46dzc=
+			FSPnLbho3G+LL9smI3XgVOqBIQ4=
 			</data>
 			<key>hash2</key>
 			<data>
-			jxGmusyKaUzGX8lLH3LGdUJOHp1mU9FoP2rQ1ucOvWo=
+			KnRdWE4y6t4QM5zi5JDptPdHFgJy1Tku+7GLkZS2aNM=
 			</data>
 		</dict>
-		<key>Modules/OfflineFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<key>Modules/TTNetwork.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			93IqfdwJ18B/E5X624OKYRTGNHA=
+			8lNIMuYIJstxhj0QlWq///bWA7Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			8Wstx562mR7z8bwQVd4uQRSAxH6IWpZjZ4YM4IgaQ7g=
+			wzdBTR/Mcyx3hqjJ/oYp3ndGVCsJ7GdPowrfaPdjLso=
+			</data>
+		</dict>
+		<key>Modules/TTNetwork.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Ev9iLMt48GDW7Ve5rEHunbl8Npg=
+			</data>
+			<key>hash2</key>
+			<data>
+			mqQzKonSNolKJuEvYvJllmL4tKr6hiiDn/tXWYy3uOs=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			kJWB5hzMNWHqgfTJYPDfSsTbSRk=
+			kL94oKNEPtOYISmFGKRdFvf5+nw=
 			</data>
 			<key>hash2</key>
 			<data>
-			cHMsdmLKuyNCoLxCI/kQUt9rBToZ//sjFYnZ1GNIR+Y=
-			</data>
-		</dict>
-		<key>PrivateHeaders/OfflineFramework.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			g0nNdgq9rbEh5vM++8+Igr2c8n8=
-			</data>
-			<key>hash2</key>
-			<data>
-			dLoseJXZGTQ7leV5Nsj9hGAKCDdTAM5OGEnm80HvrYg=
-			</data>
-		</dict>
-		<key>PrivateHeaders/c-api.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			hgq8k0BqfaHcfy+XPNhzPOksNbI=
-			</data>
-			<key>hash2</key>
-			<data>
-			TIMVEgdgPnkxJ5hjWTwJi/riLjytXsqMI+TeCeHwCHs=
+			0j7AWKh/wrPr32zktpYj5iwlg5ay548KeuoemGOiq2g=
 			</data>
 		</dict>
 	</dict>

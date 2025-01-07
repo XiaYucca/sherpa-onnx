@@ -6,6 +6,11 @@
 //
 
 import UIKit
+//import TTNetwork
+//import MLKitTranslate
+//import MLKit
+//import GoogleMLKit.*
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,7 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+//        let reques = TTRequest.init()
+//        reques.test()
+        
+//        let options = TranslatorOptions.init(sourceLanguage: .english, targetLanguage: .chinese)
+//        let translator = Translator.translator(options: options)
+//        
         return true
     }
 
