@@ -31,6 +31,7 @@ class SpokenLanguageIdentificationImpl {
   virtual std::unique_ptr<OfflineStream> CreateStream() const = 0;
 
   virtual std::string Compute(OfflineStream *s) const = 0;
+  virtual std::string Computes(OfflineStream *s) const = 0;
 };
 
 }  // namespace sherpa_onnx
