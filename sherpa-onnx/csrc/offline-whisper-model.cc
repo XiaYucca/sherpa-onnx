@@ -162,7 +162,7 @@ class OfflineWhisperModel::Impl {
        }
 
        // 记录调试信息
-       if (debug_) {
+       if (config_.debug) {
            for (const auto &lang_prob : language_probs) {
                SHERPA_ONNX_LOGE("Language: %s, Probability: %f", lang_prob.first.c_str(), lang_prob.second);
            }
