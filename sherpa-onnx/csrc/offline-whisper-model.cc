@@ -5,6 +5,7 @@
 #include "sherpa-onnx/csrc/offline-whisper-model.h"
 
 #include <algorithm>
+#include <cmath>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -22,7 +23,6 @@ class OfflineWhisperModel::Impl {
   explicit Impl(const OfflineModelConfig &config)
       : config_(config),
         env_(ORT_LOGGING_LEVEL_ERROR),
-        debug_(config.debug),
         sess_opts_(GetSessionOptions(config)),
         allocator_{} {
     {
@@ -39,7 +39,6 @@ class OfflineWhisperModel::Impl {
   explicit Impl(const SpokenLanguageIdentificationConfig &config)
       : lid_config_(config),
         env_(ORT_LOGGING_LEVEL_ERROR),
-        debug_(config_.debug),
         sess_opts_(GetSessionOptions(config)),
         allocator_{} {
     {
@@ -59,7 +58,6 @@ class OfflineWhisperModel::Impl {
         env_(ORT_LOGGING_LEVEL_ERROR),
         sess_opts_(GetSessionOptions(config)),
         allocator_{} {
-    debug_ = config_.debug;
     {
       auto buf = ReadFile(mgr, config.whisper.encoder);
       InitEncoder(buf.data(), buf.size());
@@ -76,7 +74,6 @@ class OfflineWhisperModel::Impl {
         env_(ORT_LOGGING_LEVEL_ERROR),
         sess_opts_(GetSessionOptions(config)),
         allocator_{} {
-    debug_ = config_.debug;
     {
       auto buf = ReadFile(mgr, config.whisper.encoder);
       InitEncoder(buf.data(), buf.size());
@@ -120,6 +117,60 @@ class OfflineWhisperModel::Impl {
         std::move(decoder_out[2]),   std::move(decoder_input[3]),
         std::move(decoder_input[4]), std::move(decoder_input[5])};
   }
+    
+    // return std::vector<std::pair<std::string, float>>
+   std::vector<std::pair<std::string, float>> DetectLanguages(Ort::Value &cross_k,    // NOLINT
+                                                                Ort::Value &cross_v) {  // NOLINT
+       int64_t token_val = SOT();
+       std::array<int64_t, 2> token_shape{1, 1};
+
+       auto memory_info =
+           Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeDefault);
+
+       Ort::Value tokens = Ort::Value::CreateTensor(
+           memory_info, &token_val, 1, token_shape.data(), token_shape.size());
+
+       auto self_kv_cache = GetInitialSelfKVCache();
+
+       std::array<int64_t, 1> offset_shape{1};
+       Ort::Value offset = Ort::Value::CreateTensor<int64_t>(
+           Allocator(), offset_shape.data(), offset_shape.size());
+       *(offset.GetTensorMutableData<int64_t>()) = 0;
+
+       auto decoder_out =
+           ForwardDecoder(std::move(tokens), std::move(self_kv_cache.first),
+                          std::move(self_kv_cache.second), std::move(cross_k),
+                          std::move(cross_v), std::move(offset));
+
+       cross_k = std::move(std::get<3>(decoder_out));
+       cross_v = std::move(std::get<4>(decoder_out));
+
+       const float *p_logits = std::get<0>(decoder_out).GetTensorData<float>();
+       int32_t vocab_size = VocabSize();
+       const auto &all_language_ids = GetAllLanguageIDs();
+
+       // 存储所有语言的代码和概率
+       std::vector<std::pair<std::string, float>> language_probs;
+
+       for (int32_t i = 0; i != all_language_ids.size(); ++i) {
+           int32_t id = all_language_ids[i];
+           float p = p_logits[id];
+
+           // 获取语言代码
+           std::string lang_code = GetID2Lang().at(id);
+           language_probs.emplace_back(lang_code, p);
+       }
+
+       // 记录调试信息
+       if (debug_) {
+           for (const auto &lang_prob : language_probs) {
+               SHERPA_ONNX_LOGE("Language: %s, Probability: %f", lang_prob.first.c_str(), lang_prob.second);
+           }
+       }
+
+       // 返回所有语言的代码和概率
+       return language_probs;
+   }
 
   int32_t DetectLanguage(Ort::Value &cross_k,    // NOLINT
                          Ort::Value &cross_v) {  // NOLINT
@@ -163,7 +214,7 @@ class OfflineWhisperModel::Impl {
       }
     }
 
-    if (debug_) {
+    if (config_.debug) {
       SHERPA_ONNX_LOGE("Detected language: %s",
                        GetID2Lang().at(lang_id).c_str());
     }
@@ -191,7 +242,7 @@ class OfflineWhisperModel::Impl {
     return {std::move(n_layer_self_k_cache), std::move(n_layer_self_v_cache)};
   }
 
-  OrtAllocator *Allocator() const { return allocator_; }
+  OrtAllocator *Allocator() { return allocator_; }
 
   const std::vector<int64_t> &GetInitialTokens() const { return sot_sequence_; }
 
@@ -236,7 +287,7 @@ class OfflineWhisperModel::Impl {
 
     // get meta data
     Ort::ModelMetadata meta_data = encoder_sess_->GetModelMetadata();
-    if (debug_) {
+    if (config_.debug) {
       std::ostringstream os;
       os << "---encoder---\n";
       PrintModelMetadata(os, meta_data);
@@ -293,7 +344,6 @@ class OfflineWhisperModel::Impl {
  private:
   OfflineModelConfig config_;
   SpokenLanguageIdentificationConfig lid_config_;
-  bool debug_ = false;
   Ort::Env env_;
   Ort::SessionOptions sess_opts_;
   Ort::AllocatorWithDefaultOptions allocator_;
@@ -377,6 +427,11 @@ OfflineWhisperModel::ForwardDecoder(Ort::Value tokens,
 int32_t OfflineWhisperModel::DetectLanguage(Ort::Value &cross_k,    // NOLINT
                                             Ort::Value &cross_v) {  // NOLINT
   return impl_->DetectLanguage(cross_k, cross_v);
+}
+
+std::vector<std::pair<std::string, float>> OfflineWhisperModel::DetectLanguages(Ort::Value &cross_k,    // NOLINT
+                                                                                Ort::Value &cross_v){
+    return impl_->DetectLanguages(cross_k, cross_v);
 }
 
 std::pair<Ort::Value, Ort::Value> OfflineWhisperModel::GetInitialSelfKVCache()

@@ -5,6 +5,7 @@
 #include "sherpa-onnx/c-api/c-api.h"
 
 #include <algorithm>
+#include <cstring>
 #include <memory>
 #include <string>
 #include <utility>
@@ -53,7 +54,7 @@ struct SherpaOnnxDisplay {
 
 #define SHERPA_ONNX_OR(x, y) (x ? x : y)
 
-SherpaOnnxOnlineRecognizer *SherpaOnnxCreateOnlineRecognizer(
+const SherpaOnnxOnlineRecognizer *SherpaOnnxCreateOnlineRecognizer(
     const SherpaOnnxOnlineRecognizerConfig *config) {
   sherpa_onnx::OnlineRecognizerConfig recognizer_config;
 
@@ -169,14 +170,14 @@ void SherpaOnnxDestroyOnlineRecognizer(
   delete recognizer;
 }
 
-SherpaOnnxOnlineStream *SherpaOnnxCreateOnlineStream(
+const SherpaOnnxOnlineStream *SherpaOnnxCreateOnlineStream(
     const SherpaOnnxOnlineRecognizer *recognizer) {
   SherpaOnnxOnlineStream *stream =
       new SherpaOnnxOnlineStream(recognizer->impl->CreateStream());
   return stream;
 }
 
-SherpaOnnxOnlineStream *SherpaOnnxCreateOnlineStreamWithHotwords(
+const SherpaOnnxOnlineStream *SherpaOnnxCreateOnlineStreamWithHotwords(
     const SherpaOnnxOnlineRecognizer *recognizer, const char *hotwords) {
   SherpaOnnxOnlineStream *stream =
       new SherpaOnnxOnlineStream(recognizer->impl->CreateStream(hotwords));
@@ -352,7 +353,7 @@ struct SherpaOnnxOfflineStream {
 static sherpa_onnx::OfflineRecognizerConfig convertConfig(
     const SherpaOnnxOfflineRecognizerConfig *config);
 
-SherpaOnnxOfflineRecognizer *SherpaOnnxCreateOfflineRecognizer(
+const SherpaOnnxOfflineRecognizer *SherpaOnnxCreateOfflineRecognizer(
     const SherpaOnnxOfflineRecognizerConfig *config) {
   sherpa_onnx::OfflineRecognizerConfig recognizer_config =
       convertConfig(config);
@@ -451,6 +452,18 @@ sherpa_onnx::OfflineRecognizerConfig convertConfig(
   recognizer_config.model_config.sense_voice.use_itn =
       config->model_config.sense_voice.use_itn;
 
+  recognizer_config.model_config.moonshine.preprocessor =
+      SHERPA_ONNX_OR(config->model_config.moonshine.preprocessor, "");
+
+  recognizer_config.model_config.moonshine.encoder =
+      SHERPA_ONNX_OR(config->model_config.moonshine.encoder, "");
+
+  recognizer_config.model_config.moonshine.uncached_decoder =
+      SHERPA_ONNX_OR(config->model_config.moonshine.uncached_decoder, "");
+
+  recognizer_config.model_config.moonshine.cached_decoder =
+      SHERPA_ONNX_OR(config->model_config.moonshine.cached_decoder, "");
+
   recognizer_config.lm_config.model =
       SHERPA_ONNX_OR(config->lm_config.model, "");
   recognizer_config.lm_config.scale =
@@ -491,11 +504,11 @@ void SherpaOnnxOfflineRecognizerSetConfig(
 }
 
 void SherpaOnnxDestroyOfflineRecognizer(
-    SherpaOnnxOfflineRecognizer *recognizer) {
+    const SherpaOnnxOfflineRecognizer *recognizer) {
   delete recognizer;
 }
 
-SherpaOnnxOfflineStream *SherpaOnnxCreateOfflineStream(
+const SherpaOnnxOfflineStream *SherpaOnnxCreateOfflineStream(
     const SherpaOnnxOfflineRecognizer *recognizer) {
   SherpaOnnxOfflineStream *stream =
       new SherpaOnnxOfflineStream(recognizer->impl->CreateStream());
@@ -519,8 +532,8 @@ void SherpaOnnxDecodeOfflineStream(
 }
 
 void SherpaOnnxDecodeMultipleOfflineStreams(
-    SherpaOnnxOfflineRecognizer *recognizer, SherpaOnnxOfflineStream **streams,
-    int32_t n) {
+    const SherpaOnnxOfflineRecognizer *recognizer,
+    const SherpaOnnxOfflineStream **streams, int32_t n) {
   std::vector<sherpa_onnx::OfflineStream *> ss(n);
   for (int32_t i = 0; i != n; ++i) {
     ss[i] = streams[i]->impl.get();

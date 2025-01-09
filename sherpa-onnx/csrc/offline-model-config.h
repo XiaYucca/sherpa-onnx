@@ -6,6 +6,10 @@
 
 #include <string>
 
+<<<<<<< HEAD
+=======
+#include "sherpa-onnx/csrc/offline-moonshine-model-config.h"
+>>>>>>> master-0109
 #include "sherpa-onnx/csrc/offline-nemo-enc-dec-ctc-model-config.h"
 #include "sherpa-onnx/csrc/offline-paraformer-model-config.h"
 #include "sherpa-onnx/csrc/offline-sense-voice-model-config.h"
@@ -26,6 +30,10 @@ struct OfflineModelConfig {
   OfflineZipformerCtcModelConfig zipformer_ctc;
   OfflineWenetCtcModelConfig wenet_ctc;
   OfflineSenseVoiceModelConfig sense_voice;
+<<<<<<< HEAD
+=======
+  OfflineMoonshineModelConfig moonshine;
+>>>>>>> master-0109
   std::string telespeech_ctc;
 
   std::string tokens;
@@ -56,6 +64,10 @@ struct OfflineModelConfig {
                      const OfflineZipformerCtcModelConfig &zipformer_ctc,
                      const OfflineWenetCtcModelConfig &wenet_ctc,
                      const OfflineSenseVoiceModelConfig &sense_voice,
+<<<<<<< HEAD
+=======
+                     const OfflineMoonshineModelConfig &moonshine,
+>>>>>>> master-0109
                      const std::string &telespeech_ctc,
                      const std::string &tokens, int32_t num_threads, bool debug,
                      const std::string &provider, const std::string &model_type,
@@ -69,6 +81,10 @@ struct OfflineModelConfig {
         zipformer_ctc(zipformer_ctc),
         wenet_ctc(wenet_ctc),
         sense_voice(sense_voice),
+<<<<<<< HEAD
+=======
+        moonshine(moonshine),
+>>>>>>> master-0109
         telespeech_ctc(telespeech_ctc),
         tokens(tokens),
         num_threads(num_threads),

@@ -12,7 +12,7 @@ struct VadOptions {
     var threshold: Float = 0.35
     var minSilenceDurationMs: Float = 0.6
     var minSpeechDurationMs: Float = 0.25
-    var maxSpeechDurationS: Float = 30
+    var maxSpeechDurationS: Float = 20
     var speechPadMs: Float = 0.2
     var windowSizeSamples: Int = 512
 }

@@ -382,6 +382,13 @@ type OfflineWhisperModelConfig struct {
 	TailPaddings int
 }
 
+type OfflineMoonshineModelConfig struct {
+	Preprocessor    string
+	Encoder         string
+	UncachedDecoder string
+	CachedDecoder   string
+}
+
 type OfflineTdnnModelConfig struct {
 	Model string
 }
@@ -405,6 +412,7 @@ type OfflineModelConfig struct {
 	Whisper    OfflineWhisperModelConfig
 	Tdnn       OfflineTdnnModelConfig
 	SenseVoice OfflineSenseVoiceModelConfig
+	Moonshine  OfflineMoonshineModelConfig
 	Tokens     string // Path to tokens.txt
 
 	// Number of threads to use for neural network computation
@@ -514,6 +522,18 @@ func NewOfflineRecognizer(config *OfflineRecognizerConfig) *OfflineRecognizer {
 	defer C.free(unsafe.Pointer(c.model_config.sense_voice.language))
 
 	c.model_config.sense_voice.use_itn = C.int(config.ModelConfig.SenseVoice.UseInverseTextNormalization)
+
+	c.model_config.moonshine.preprocessor = C.CString(config.ModelConfig.Moonshine.Preprocessor)
+	defer C.free(unsafe.Pointer(c.model_config.moonshine.preprocessor))
+
+	c.model_config.moonshine.encoder = C.CString(config.ModelConfig.Moonshine.Encoder)
+	defer C.free(unsafe.Pointer(c.model_config.moonshine.encoder))
+
+	c.model_config.moonshine.uncached_decoder = C.CString(config.ModelConfig.Moonshine.UncachedDecoder)
+	defer C.free(unsafe.Pointer(c.model_config.moonshine.uncached_decoder))
+
+	c.model_config.moonshine.cached_decoder = C.CString(config.ModelConfig.Moonshine.CachedDecoder)
+	defer C.free(unsafe.Pointer(c.model_config.moonshine.cached_decoder))
 
 	c.model_config.tokens = C.CString(config.ModelConfig.Tokens)
 	defer C.free(unsafe.Pointer(c.model_config.tokens))
@@ -1283,7 +1303,7 @@ func (sd *OfflineSpeakerDiarization) SetConfig(config *OfflineSpeakerDiarization
 	c.clustering.num_clusters = C.int(config.Clustering.NumClusters)
 	c.clustering.threshold = C.float(config.Clustering.Threshold)
 
-	SherpaOnnxOfflineSpeakerDiarizationSetConfig(sd.impl, &c)
+	C.SherpaOnnxOfflineSpeakerDiarizationSetConfig(sd.impl, &c)
 }
 
 type OfflineSpeakerDiarizationSegment struct {
@@ -1316,4 +1336,52 @@ func (sd *OfflineSpeakerDiarization) Process(samples []float32) []OfflineSpeaker
 	}
 
 	return ans
+}
+
+// ============================================================
+// For punctuation
+// ============================================================
+type OfflinePunctuationModelConfig struct {
+	CtTransformer string
+	NumThreads    C.int
+	Debug         C.int // true to print debug information of the model
+	Provider      string
+}
+
+type OfflinePunctuationConfig struct {
+	Model OfflinePunctuationModelConfig
+}
+
+type OfflinePunctuation struct {
+	impl *C.struct_SherpaOnnxOfflinePunctuation
+}
+
+func NewOfflinePunctuation(config *OfflinePunctuationConfig) *OfflinePunctuation {
+	cfg := C.struct_SherpaOnnxOfflinePunctuationConfig{}
+	cfg.model.ct_transformer = C.CString(config.Model.CtTransformer)
+	defer C.free(unsafe.Pointer(cfg.model.ct_transformer))
+
+	cfg.model.num_threads = config.Model.NumThreads
+	cfg.model.debug = config.Model.Debug
+	cfg.model.provider = C.CString(config.Model.Provider)
+	defer C.free(unsafe.Pointer(cfg.model.provider))
+
+	punc := &OfflinePunctuation{}
+	punc.impl = C.SherpaOnnxCreateOfflinePunctuation(&cfg)
+
+	return punc
+}
+
+func DeleteOfflinePunc(punc *OfflinePunctuation) {
+	C.SherpaOnnxDestroyOfflinePunctuation(punc.impl)
+	punc.impl = nil
+}
+
+func (punc *OfflinePunctuation) AddPunct(text string) string {
+	p := C.SherpaOfflinePunctuationAddPunct(punc.impl, C.CString(text))
+	defer C.free(unsafe.Pointer(p))
+
+	text_with_punct := C.GoString(p)
+
+	return text_with_punct
 }

@@ -125,26 +125,26 @@ class VoiceActivityDetector::Impl {
     start_ = -1;
   }
     
-    SpeechSegment inspect(){
-        SpeechSegment segment;
-        segment.start = -1;
-        if (start_ == -1 || buffer_.Size() == 0) {
-            return segment;
-        }
-        
-//        int32_t end = buffer_.Tail();
-        int32_t end = buffer_.Tail() - model_->MinSilenceDurationSamples();
-//        std::vector<float> s = buffer_.Get(start_, end - start_);
-        
-        if (end <= start_) {
-            return segment;
-        }
-        std::vector<float> s = buffer_.Get(start_, end - start_);
-        
-        segment.start = start_;
-        segment.samples = std::move(s);
+  SpeechSegment inspect(){
+    SpeechSegment segment;
+    segment.start = -1;
+    if (start_ == -1 || buffer_.Size() == 0) {
         return segment;
     }
+    
+//        int32_t end = buffer_.Tail();
+    int32_t end = buffer_.Tail() - model_->MinSilenceDurationSamples();
+//        std::vector<float> s = buffer_.Get(start_, end - start_);
+    
+    if (end <= start_) {
+        return segment;
+    }
+    std::vector<float> s = buffer_.Get(start_, end - start_);
+    
+    segment.start = start_;
+    segment.samples = std::move(s);
+    return segment;
+}
 
   void Flush() {
     if (start_ == -1 || buffer_.Size() == 0) {

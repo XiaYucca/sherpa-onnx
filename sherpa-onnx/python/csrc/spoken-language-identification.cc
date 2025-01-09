@@ -54,6 +54,8 @@ void PybindSpokenLanguageIdentification(py::module *m) {
       .def("create_stream", &PyClass::CreateStream,
            py::call_guard<py::gil_scoped_release>())
       .def("compute", &PyClass::Compute, py::arg("s"),
+      py::call_guard<py::gil_scoped_release>())
+      .def("computes", &PyClass::Computes, py::arg("s"),
            py::call_guard<py::gil_scoped_release>());
 }
 

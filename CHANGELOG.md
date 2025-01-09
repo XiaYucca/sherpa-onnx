@@ -1,3 +1,33 @@
+## 1.10.30
+
+* Fix building node-addon for Windows x86. (#1469)
+* Begin to support https://github.com/usefulsensors/moonshine (#1470)
+* Publish pre-built JNI libs for Linux aarch64 (#1472)
+* Add C++ runtime and Python APIs for Moonshine models (#1473)
+* Add Kotlin and Java API for Moonshine models (#1474)
+* Add C and C++ API for Moonshine models (#1476)
+* Add Swift API for Moonshine models. (#1477)
+* Add Go API examples for adding punctuations to text. (#1478)
+* Add Go API for Moonshine models (#1479)
+* Add JavaScript API for Moonshine models (#1480)
+* Add Dart API for Moonshine models. (#1481)
+* Add Pascal API for Moonshine models (#1482)
+* Add C# API for Moonshine models. (#1483)
+
+## 1.10.29
+
+* Add Go API for offline punctuation models (#1434)
+* Support https://huggingface.co/Revai/reverb-diarization-v1 (#1437)
+* Add more models for speaker diarization (#1440)
+* Add Java API example for hotwords. (#1442)
+* Add java android demo (#1454)
+* Add C++ API for streaming ASR. (#1455)
+* Add C++ API for non-streaming ASR (#1456)
+* Handle NaN embeddings in speaker diarization. (#1461)
+* Add speaker identification with VAD and non-streaming ASR using ALSA (#1463)
+* Support GigaAM CTC models for Russian ASR (#1464)
+* Add GigaAM NeMo transducer model for Russian ASR (#1467)
+
 ## 1.10.28
 
 * Fix swift example for generating subtitles. (#1362)
