@@ -11,15 +11,12 @@
 #include "kaldi-decoder/csrc/decodable-ctc.h"
 #include "kaldi-decoder/csrc/eigen.h"
 #include "kaldi-decoder/csrc/faster-decoder.h"
-<<<<<<< HEAD
-=======
+
 #include "sherpa-onnx/csrc/fst-utils.h"
->>>>>>> master-0109
 #include "sherpa-onnx/csrc/macros.h"
 
 namespace sherpa_onnx {
 
-<<<<<<< HEAD
 // This function is copied from kaldi.
 //
 // @param filename Path to a StdVectorFst or StdConstFst graph
@@ -62,8 +59,6 @@ fst::Fst<fst::StdArc> *ReadGraph(const std::string &filename) {
   }
 }
 
-=======
->>>>>>> master-0109
 /**
  * @param decoder
  * @param p Pointer to a 2-d array of shape (num_frames, vocab_size)
