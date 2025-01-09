@@ -92,3 +92,9 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+SherpaOnnx/*.ezn
+SherpaOnnx/*.zn
+SherpaOnnx/Frameworks/
+SherpaOnnx/SherpaOnnx/
+SherpaOnnx/*.framework/
+
