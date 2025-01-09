@@ -156,10 +156,10 @@ class SpeechToPower {
         0, 1, 2, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9
     ]
   
-    func speechAbs(vector: [Int16]) -> Int16 {
+    func speechAbs(vector: [Float32]) -> Int16 {
         var maximum: Int = 0
-  
         for value in vector {
+            let t = value * 32768
             let absolute = abs(Int(value))
             if absolute > maximum {
                 maximum = absolute
@@ -173,12 +173,11 @@ class SpeechToPower {
         return Int16(maximum)
     }
   
-    func speechToLevel(data: [Int16]) -> Int {
+    func speechToLevel(data: [Float32]) -> Int {
         var absMax: Int16 = 0
         var currentLevel: Int8 = 0
-  
         let absValue = speechAbs(vector: data)
-  
+
         if absValue > absMax {
             absMax = absValue
         }
@@ -197,30 +196,30 @@ class SpeechToPower {
     
     
     func speechDataToPower(fromFloat32 array: [Float32]) -> Int {
-        let audio : [Int16] = array.map { value in
-            let scaledValue = Int(value * 32768)
-            return Int16(clamping: scaledValue)
-        }
-        return speechToLevel(data: audio)
+//        let audio : [Int16] = array.map { value in
+//            let scaledValue = Int(value * 32768)
+//            return Int16(clamping: scaledValue)
+//        }
+        return speechToLevel(data: array)
     }
   
-    func speechDataToPower(fromInt16 data: NSData) -> Int {
-        let length = data.length / MemoryLayout<Int16>.size
-        var int16Array = [Int16](repeating: 0, count: length)
-        data.getBytes(&int16Array, length: data.length)
-        return speechToLevel(data: int16Array)
-    }
-  
-    func speechDataToPower(fromFloat32 data: NSData) -> Int {
-        let length = data.length / MemoryLayout<Float>.size
-        var floatArray = [Float](repeating: 0, count: length)
-        data.getBytes(&floatArray, length: data.length)
-  
-        var int16Array = [Int16](repeating: 0, count: length)
-        for (index, value) in floatArray.enumerated() {
-            int16Array[index] = Int16(value * 32768)
-        }
-        return speechToLevel(data: int16Array)
-    }
+//    func speechDataToPower(fromInt16 data: NSData) -> Int {
+//        let length = data.length / MemoryLayout<Int16>.size
+//        var int16Array = [Int16](repeating: 0, count: length)
+//        data.getBytes(&int16Array, length: data.length)
+//        return speechToLevel(data: int16Array)
+//    }
+//  
+//    func speechDataToPower(fromFloat32 data: NSData) -> Int {
+//        let length = data.length / MemoryLayout<Float>.size
+//        var floatArray = [Float](repeating: 0, count: length)
+//        data.getBytes(&floatArray, length: data.length)
+//  
+//        var int16Array = [Int16](repeating: 0, count: length)
+//        for (index, value) in floatArray.enumerated() {
+//            int16Array[index] = Int16(value * 32768)
+//        }
+//        return speechToLevel(data: int16Array)
+//    }
 }
 

@@ -7,7 +7,7 @@
 
 import AVFoundation
 import Foundation
-
+import OfflineFramework
 
 enum SentenceState : Int{
     case parital=0,final
@@ -17,13 +17,13 @@ enum ProcessFinalState : Int{
     case none=0,start=1,processing=2,end=3
 }
 
-struct Sentence {
-    var id = ""
-    var source = ""
-    var target = ""
-    var state : SentenceState = .parital
-    var lan = ""
-}
+//struct Sentence {
+//    var id = ""
+//    var source = ""
+//    var target = ""
+//    var state : SentenceState = .parital
+//    var lan = ""
+//}
 
 class SherpaOnnxManager {
 
@@ -59,6 +59,8 @@ class SherpaOnnxManager {
     
     var vad : SlieroVad!
     
+    var pynonote : Pynonote!
+    
     var isRuning = false
     
     func updateLabel() {
@@ -81,9 +83,9 @@ class SherpaOnnxManager {
             let res = self.offlineRecognizer.decode(samples: sample)
             print("final:\(res.lang): \(self.lastFinalTempText)\(res.text)")
             var item = Sentence()
-            var lan = res.lang
-            lan = String(lan[lan.index(lan.startIndex, offsetBy: 2)..<lan.index(lan.startIndex, offsetBy: lan.count - 2)])
-            item.lan = lan
+//            var lan = res.lang
+//            lan = String(lan[lan.index(lan.startIndex, offsetBy: 2)..<lan.index(lan.startIndex, offsetBy: lan.count - 2)])
+//            item.lan = lan
             item.source = res.text
             item.state = .final
             
@@ -91,8 +93,10 @@ class SherpaOnnxManager {
             self.isProcessFinal = .end
             
         })
+        
+        pynonote = try! Pynonote.init()
 
-        initRecognizer()
+        initRecognizer(model: "sence")
 //        initPunctuation()
         initRecorder()
 //        initVoiceActivityDetector()
@@ -107,13 +111,81 @@ class SherpaOnnxManager {
 
     
     
-    func initRecognizer() {
+    func initRecognizer(model:String = "sence") {
 //        let modelConfig = getES()//getStreame1040MS()
         
-//
         let featConfig = sherpaOnnxFeatureConfig(
             sampleRate: 16000,
             featureDim: 80)
+        
+        switch model {
+        case "sence":
+            do{
+                let modelConfig = sherpaOnnxOfflineSenseVoiceModelConfig(model: getResource("model.int8","onnx"),language: "zh",useInverseTextNormalization: true)
+                
+                let config = sherpaOnnxOfflineModelConfig(tokens: getResource("sense_tokens", "txt"),numThreads:2,provider: "coreml",debug:0, senseVoice: modelConfig)
+                
+                var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: config)
+                
+                offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
+            }
+        case "nemo":
+            do{
+                
+                let modelConfig = sherpaOnnxOfflineNemoEncDecCtcModelConfig(model:getResource("nemo_es_ctc_model","onnx") )
+                
+//                let modelConfig = sherpaOnnxOfflineTransducerModelConfig(
+//                encoder: getResource("nemo_es_encoder","onnx"),
+//                decoder: getResource("nemo_es_decoder","onnx"),
+//                joiner: getResource("nemo_es_joiner","onnx")
+//                )
+//                
+                let config = sherpaOnnxOfflineModelConfig(tokens: getResource("nemo_es_ctc_tokens", "txt"),nemoCtc:modelConfig,numThreads:2,provider: "coreml",debug:1 )
+                
+                var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: config)
+                
+                offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
+            }
+        case "whisper":
+            do{
+                let modelConfig = sherpaOnnxOfflineWhisperModelConfig(encoder: getResource("tiny-encoder.int8","onnx"),decoder: getResource("tiny-decoder.int8","onnx"),language: "en")
+                
+                let config = sherpaOnnxOfflineModelConfig(tokens: getResource("tiny-tokens", "txt"),whisper: modelConfig,numThreads:1,provider: "cpu",debug:0,modelType: "whisper" )
+                
+                var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: config)
+                
+                offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
+            }
+            
+        case "moonshine":
+            do{
+                
+                let preprocessor = "moonshine-base_preprocess.onnx"
+                let encoder = "moonshine-base_encode.int8.onnx"
+                let uncachedDecoder = "moonshine-base_uncached_decode.int8.onnx"
+                let cachedDecoder = "moonshine-base_cached_decode.int8.onnx"
+                let tokens = "moonshine-base_tokens.txt"
+                let moonshine = sherpaOnnxOfflineMoonshineModelConfig(
+                    preprocessor: getResource(preprocessor,""),
+                    encoder: getResource(encoder,""),
+                    uncachedDecoder: getResource(uncachedDecoder,""),
+                    cachedDecoder: getResource(cachedDecoder,"")
+                )
+                
+                var modelConfig = sherpaOnnxOfflineModelConfig(
+                    tokens:  getResource(tokens,""),
+                    debug: 0,
+                    moonshine: moonshine
+                )
+                var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: modelConfig)
+                offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
+            }
+        default:
+            break
+        }
+        
+//
+
 //        
 //        var config = sherpaOnnxOnlineRecognizerConfig(
 //            featConfig: featConfig,
@@ -128,15 +200,7 @@ class SherpaOnnxManager {
 //        
 //        recognizer = SherpaOnnxRecognizer(config: &config)
          
-        let modelConfig = sherpaOnnxOfflineSenseVoiceModelConfig(model: getResource("model.int8","onnx"),language: "en",useInverseTextNormalization: true)
-        
-        //offline
-        let config = sherpaOnnxOfflineModelConfig(tokens: getResource("sense_tokens", "txt"),numThreads:2,provider: "coreml",debug:0, senseVoice: modelConfig)
-        
-        var offlineConfig = sherpaOnnxOfflineRecognizerConfig(featConfig: featConfig, modelConfig: config)
-        
-        offlineRecognizer = SherpaOnnxOfflineRecognizer(config: &offlineConfig)
-        
+
     }
     
     func initPunctuation(){
@@ -234,7 +298,6 @@ class SherpaOnnxManager {
     func initRecorder() {
         self.audioRecord = AudioRecorder(delegate: self,enablePower: true)
         self.audioRecord.requestAccess()
-        self.audioRecord.initEngine()
     }
 
     func initRecorder2() {
@@ -427,9 +490,10 @@ class SherpaOnnxManager {
             print("final 0:\(res.lang): \(self.lastFinalTempText)\(res.text)")
             
             var item = Sentence()
-            var lan = res.lang
-            lan = String(lan[lan.index(lan.startIndex, offsetBy: 2)..<lan.index(lan.startIndex, offsetBy: lan.count - 2)])
-            item.lan = lan
+            
+//            var lan = res.lang
+//            lan = String(lan[lan.index(lan.startIndex, offsetBy: 2)..<lan.index(lan.startIndex, offsetBy: lan.count - 2)])
+//            item.lan = lan
             item.source = res.text
             
             if self.isProcessFinal != .none {
@@ -477,6 +541,10 @@ extension SherpaOnnxManager : AudioRecorderDelegate{
     func audioDidRev(audio: [Float], power: Int?) {
         print("power \(power!)")
         self.vad.acceptWav(audio: audio)
+        
+//        try! self.pynonote.process(input: audio)
+        
+        
     }
     
     

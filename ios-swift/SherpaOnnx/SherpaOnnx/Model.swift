@@ -33,6 +33,26 @@ func getBilingualStreamZhEnZipformer20230220() -> SherpaOnnxOnlineModelConfig {
   )
 }
 
+
+func getCustomStreamZipformer() -> SherpaOnnxOnlineModelConfig {
+  let encoder = getResource("encoder-epoch-3-avg-1", "onnx")
+  let decoder = getResource("decoder-epoch-3-avg-1", "onnx")
+  let joiner = getResource("joiner-epoch-3-avg-1", "onnx")
+  let tokens = getResource("tokens-epoch-3-avg-1", "txt")
+
+  return sherpaOnnxOnlineModelConfig(
+    tokens: tokens,
+    transducer: sherpaOnnxOnlineTransducerModelConfig(
+      encoder: encoder,
+      decoder: decoder,
+      joiner: joiner
+    ),
+    numThreads: 1,
+    modelType: "zipformer"
+  )
+}
+
+
 func getZhZipformer20230615() -> SherpaOnnxOnlineModelConfig {
   let encoder = getResource("encoder-epoch-12-avg-4-chunk-16-left-128", "onnx")
   let decoder = getResource("decoder-epoch-12-avg-4-chunk-16-left-128", "onnx")

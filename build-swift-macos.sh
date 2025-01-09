@@ -7,6 +7,9 @@ mkdir -p $dir
 cd $dir
 
 cmake \
+  -DSHERPA_ONNX_ENABLE_BINARY=OFF \
+  -DSHERPA_ONNX_BUILD_C_API_EXAMPLES=OFF \
+  -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
   -DCMAKE_INSTALL_PREFIX=./install \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=OFF \
@@ -21,8 +24,9 @@ cmake \
 
 make VERBOSE=1 -j4
 make install
+rm -fv ./install/include/cargs.h
 
-libtool -static -o ./install/lib/libsherpa-onnx.a \
+libtool -static -o ./install/lib/sherpa-onnx.a \
   ./install/lib/libsherpa-onnx-c-api.a \
   ./install/lib/libsherpa-onnx-core.a \
   ./install/lib/libkaldi-native-fbank-core.a \
@@ -33,4 +37,26 @@ libtool -static -o ./install/lib/libsherpa-onnx.a \
   ./install/lib/libucd.a \
   ./install/lib/libpiper_phonemize.a \
   ./install/lib/libespeak-ng.a \
-  ./install/lib/libssentencepiece_core.a
+  
+
+  ./install/lib/libssentencepiece_core.a \
+  ./install/lib/onnxruntime_arm64.a
+
+xcodebuild -create-xcframework \
+      -library "install/lib/libsherpa-onnx.a" \
+      -output sherpa-onnx_macos.xcframework
+
+mkdir -p sherpa-onnx_macos.xcframework/Headers
+cp -av install/include/* sherpa-onnx_macos.xcframework/Headers
+
+pushd sherpa-onnx_macos.xcframework/macos-arm64
+ln -s sherpa-onnx.a libsherpa-onnx.a
+
+
+#  ./install/lib/libssentencepiece_core.a
+#
+#xcodebuild -create-xcframework \
+#  -library install/lib/libsherpa-onnx.a \
+#  -headers install/include \
+#  -output sherpa-onnx.xcframework
+

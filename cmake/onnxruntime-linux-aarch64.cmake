@@ -15,7 +15,7 @@ if(NOT BUILD_SHARED_LIBS)
 endif()
 
 set(onnxruntime_URL  "https://github.com/csukuangfj/onnxruntime-libs/releases/download/v1.17.1/onnxruntime-linux-aarch64-glibc2_17-Release-1.17.1-patched.zip")
-set(onnxruntime_URL2 "https://hub.nuaa.cf/csukuangfj/onnxruntime-libs/releases/download/v1.17.1/onnxruntime-linux-aarch64-glibc2_17-Release-1.17.1-patched.zip")
+set(onnxruntime_URL2 "https://hf-mirror.com/csukuangfj/onnxruntime-libs/resolve/main/onnxruntime-linux-aarch64-glibc2_17-Release-1.17.1-patched.zip")
 set(onnxruntime_HASH "SHA256=6e0e68985f8dd1f643e5a4dbe7cd54c9e176a0cc62249c6bee0699b87fc6d4fb")
 
 # If you don't have access to the Internet,
@@ -53,11 +53,7 @@ if(NOT onnxruntime_POPULATED)
 endif()
 message(STATUS "onnxruntime is downloaded to ${onnxruntime_SOURCE_DIR}")
 
-find_library(location_onnxruntime onnxruntime
-  PATHS
-  "${onnxruntime_SOURCE_DIR}/lib"
-  NO_CMAKE_SYSTEM_PATH
-)
+set(location_onnxruntime "${onnxruntime_SOURCE_DIR}/lib/libonnxruntime.so")
 
 message(STATUS "location_onnxruntime: ${location_onnxruntime}")
 

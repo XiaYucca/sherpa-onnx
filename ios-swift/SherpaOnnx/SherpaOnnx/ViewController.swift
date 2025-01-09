@@ -7,10 +7,24 @@
 
 import AVFoundation
 import UIKit
-import Alamofire
+//import Alamofire
+import OfflineFramework
+//import MLKitCommon
+//import MLKitTranslate
+import TTNetwork
 
 
-class ViewController: UIViewController {
+
+class ViewController: UIViewController, TranscribeManagerDelegate {
+    func recvAudios(audio: [Float]) {
+        
+    }
+    
+    func transcribe(segment: OfflineFramework.Sentence) {
+        print("transcribe \(segment)")
+        self.updateLabel(item: segment)
+    }
+    
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var recordBtn: UIButton!
@@ -21,34 +35,39 @@ class ViewController: UIViewController {
     var sentences =  [Sentence]()
     
     weak var lastCell : UITableViewCell?
- 
+    
+    var diarization = SpeakerDiarization()
+    var totalSamples =  [Float]()
+    var lastSamplesCount = 0
     
     func translator(text:String,callback:((_ text:String)->())?){
         let parameters: [String: Any] = ["text": text
         ]
-        AF.request("http://40.82.153.252:8763/translator", method: .post, parameters: parameters).responseJSON { response in
-                
-            switch response.result{
-                
-            case .success(let data):
-                if let data = data as? [String : Any],
-                   let content = data["content"] as? [String : [String]],
-                   let text = content["text"]?[0]
-                {
-                    print(text)
-                    callback?(text)
-                }
-            case .failure(let error): break
-                
-            }
+        callback?("")
+        return;
         
-        }
+//        AF.request("http://40.82.153.252:8763/translator", method: .post, parameters: parameters).responseJSON { response in
+//                
+//            switch response.result{
+//                
+//            case .success(let data):
+//                if let data = data as? [String : Any],
+//                   let content = data["content"] as? [String : [String]],
+//                   let text = content["text"]?[0]
+//                {
+//                    print(text)
+//                    callback?(text)
+//                }
+//            case .failure(let error): break
+//                
+//            }
+//        }
 
     }
     
     func updateLabel(item:Sentence) {
         var item = item
-        if item.source == "。"{return}
+        if item.source.count == 0 || item.source == "。" {return}
         
         self.translator(text: item.source) { text in
             item.target = text
@@ -76,47 +95,159 @@ class ViewController: UIViewController {
             self.tableView.scrollToRow(at: IndexPath(row: self.sentences.count - 1, section: 0), at: .middle, animated: false)
         }
     }
+    
+    var manager : TranscribeManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        TTRequest().test()
+//        
+//        return;
+        
+        // Create an English-German translator:
+        
+//        let options = TranslatorOptions(sourceLanguage: .english, targetLanguage: .german)
+//        let englishGermanTranslator = Translator.translator(options: options)
+        
+//        let conditions = ModelDownloadConditions(
+//            allowsCellularAccess: false,
+//            allowsBackgroundDownloading: true
+//        )
+//        englishGermanTranslator.downloadModelIfNeeded(with: conditions) { error in
+//            guard error == nil else { return }
+//
+//            // Model downloaded successfully. Okay to start translating.
+//        }
+        
+//        // 示例
+//        let charset = "TUVWXYZ" + "MNOPQRS" + "mnopqrstuvwxyz" + "0123456789" + "abcdefghijkl" + "ABCDEFGHIJKL" + "+/"
+//        let encoder = CustomBaseEncoder(charset: charset, paddingCharacter: "@")
+//          
+//        // 原始数据
+//        let originalData = "Hello, World!".data(using: .utf8)!
+//          
+//        // 编码
+//        let encodedString = encoder.encode(data: originalData)
+//        print("Encoded String: \(encodedString)")
+//          
+//        // 解码
+//        if let decodedData = encoder.decode(string: encodedString),
+//           let decodedString = String(data: decodedData, encoding: .utf8) {
+//            print("Decoded String: \(decodedString)")
+//        }
+        
+//        ArchiveManager.shared.testArchive(file: "source-zh")
+//
+//        return;
+        
+        do{
+           
+           var model = getResource("source-en", "ezn")
+
+            manager = TranscribeManager.init(lan: "en", delgate: self)
+            manager.prepare(path: URL.init(fileURLWithPath: model)) { progress, info in
+                print("progress\(progress) info\(info)")
+            }
+//            manager = TranscribeManager.init(lan: "en", delgate: self)
+//            model = getResource("source-en", "ezn")
+//            manager.prepare(path: URL.init(fileURLWithPath: model))
+           
+           
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 30) {[weak self] in
+//                self?.manager.stop()
+//                self?.manager.release()
+//                self?.manager = nil
+//            }
+            
+        }
+//        return;
+        
+        //test
+//        do{
+//            ArchiveManager.shared.testArchive()
+//        }
+        
         // Do any additional setup after loading the view.
+        
+        //online transcribe
+//        do{
+//            self.initRecorder()
+//            self.initOnlineRecognizer()
+//            self.startRecorder()
+//            return;
+//        }
+        
+//        diarization.initModel()
+////        initRecorder()
+//        return
+        
 
         recordBtn.setTitle("Start", for: .normal)
 //        initRecognizer()
 //        initRecorder()
-        SherpaOnnxManager.shared.start()
-        SherpaOnnxManager.shared.offline_vad_final_callback = {
-            item in
-            self.updateLabel(item: item)
-        }
-        SherpaOnnxManager.shared.offline_vad_parctial_callback = {
-            item in
-            self.updateLabel(item: item)
-        }
+        
+//        SherpaOnnxManager.shared.offline_vad_final_callback = {
+//            item in
+//            self.updateLabel(item: item)
+//        }
+//        SherpaOnnxManager.shared.offline_vad_parctial_callback = {
+//            item in
+//            self.updateLabel(item: item)
+//        }
+//        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//            SherpaOnnxManager.shared.start()
+//        })
 
     }
+    
+    var index = 0
 
     @IBAction func onRecordBtnClick(_ sender: UIButton) {
+        
+//        initRecorder()
+//        startRecorder()
+//        self.diarization.run()
+//        return;
+        
 
         if recordBtn.currentTitle == "Start" {
 //            startRecorder()
-            SherpaOnnxManager.shared.startRecorder()
+//            SherpaOnnxManager.shared.startRecorder()
+            
+//            if index % 2 == 0{
+//                manager = TranscribeManager.init(lan: "zh", delgate: self)
+//            }else{
+//                manager = TranscribeManager.init(lan: "en", delgate: self)
+//            }
+//            index = index + 1
+            manager = TranscribeManager.init(lan: "en", delgate: self)
+            
+            
             recordBtn.setTitle("Stop", for: .normal)
+            manager.load()
+            try! manager.start()
             
         } else {
 //            stopRecorder()
-            SherpaOnnxManager.shared.stopRecorder()
+//            SherpaOnnxManager.shared.stopRecorder()
             recordBtn.setTitle("Start", for: .normal)
+            
+            self.manager.stop()
+            self.manager.release()
+            
         }
     }
 
-    func initRecognizer() {
+    func initOnlineRecognizer() {
         // Please select one model that is best suitable for you.
         //
         // You can also modify Model.swift to add new pre-trained models from
         // https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html
 
-         let modelConfig = getBilingualStreamZhEnZipformer20230220()
+         let modelConfig = getCustomStreamZipformer()
         // let modelConfig = getZhZipformer20230615()
         // let modelConfig = getEnZipformer20230626()
 //        let modelConfig = getBilingualStreamingZhEnParaformer()
@@ -140,6 +271,25 @@ class ViewController: UIViewController {
 
     func initRecorder() {
         print("init recorder")
+        
+        AVCaptureDevice.requestAccess(for: .audio) { [weak self] granted in
+            if granted{
+                
+            }else{
+                
+            }
+        }
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+            let sampleRate = audioSession.sampleRate
+            print("Supported sample rate: \(sampleRate)")
+        } catch {
+            print("Failed to set audio session category: \(error)")
+        }
+        
         audioEngine = AVAudioEngine()
         let inputNode = self.audioEngine?.inputNode
         let bus = 0
@@ -187,6 +337,26 @@ class ViewController: UIViewController {
             // TODO(fangjun): Handle status != haveData
 
             let array = convertedBuffer.array()
+            
+//            self.totalSamples += array
+//            let totalAudio = self.totalSamples.count
+//            var audio = self.totalSamples
+//        
+//            
+//            if totalAudio > 160000{
+//                audio = Array( audio[totalAudio-160000 ..< totalAudio])
+//                self.totalSamples =  Array( self.totalSamples[totalAudio...])
+//                self.diarization.dearization(audio: audio)
+//                self.lastSamplesCount = 0
+//            }else{
+//                if audio.count - self.lastSamplesCount >= 16000{
+//                    self.diarization.dearization(audio: audio)
+//                    self.lastSamplesCount = audio.count
+//                }
+//            }
+            
+            
+            
             if !array.isEmpty {
                 self.recognizer.acceptWaveform(samples: array)
                 while (self.recognizer.isReady()){
@@ -195,7 +365,7 @@ class ViewController: UIViewController {
                 let isEndpoint = self.recognizer.isEndpoint()
                 let text = self.recognizer.getResult().text
 
-                
+                print("stream:\(text)")
 
                 if isEndpoint {
                     if !text.isEmpty {

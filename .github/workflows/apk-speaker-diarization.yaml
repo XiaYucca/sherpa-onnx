@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - apk
-      - android-demo-speaker-diarization-2
 
   workflow_dispatch:
 
@@ -75,6 +74,11 @@ jobs:
         shell: bash
         run: |
           cd scripts/apk
+
+          total=${{ matrix.total }}
+          index=${{ matrix.index }}
+
+          python3 ./generate-speaker-diarization-apk-script.py --total $total --index $index
 
           chmod +x build-apk-speaker-diarization.sh
           mv -v ./build-apk-speaker-diarization.sh ../..
@@ -159,7 +163,7 @@ jobs:
             SHERPA_ONNX_VERSION=$(grep "SHERPA_ONNX_VERSION" ./CMakeLists.txt  | cut -d " " -f 2  | cut -d '"' -f 2)
             echo "SHERPA_ONNX_VERSION $SHERPA_ONNX_VERSION"
 
-            git clone https://huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
+            git clone https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
             cd huggingface
             git fetch
             git pull

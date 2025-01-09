@@ -6,6 +6,7 @@ public class OfflineModelConfig {
     private final OfflineTransducerModelConfig transducer;
     private final OfflineParaformerModelConfig paraformer;
     private final OfflineWhisperModelConfig whisper;
+    private final OfflineMoonshineModelConfig moonshine;
     private final OfflineNemoEncDecCtcModelConfig nemo;
     private final OfflineSenseVoiceModelConfig senseVoice;
     private final String teleSpeech;
@@ -22,6 +23,7 @@ public class OfflineModelConfig {
         this.transducer = builder.transducer;
         this.paraformer = builder.paraformer;
         this.whisper = builder.whisper;
+        this.moonshine = builder.moonshine;
         this.nemo = builder.nemo;
         this.senseVoice = builder.senseVoice;
         this.teleSpeech = builder.teleSpeech;
@@ -48,6 +50,10 @@ public class OfflineModelConfig {
 
     public OfflineWhisperModelConfig getZipformer2Ctc() {
         return whisper;
+    }
+
+    public OfflineMoonshineModelConfig getMoonshine() {
+        return moonshine;
     }
 
     public OfflineSenseVoiceModelConfig getSenseVoice() {
@@ -90,6 +96,7 @@ public class OfflineModelConfig {
         private OfflineParaformerModelConfig paraformer = OfflineParaformerModelConfig.builder().build();
         private OfflineTransducerModelConfig transducer = OfflineTransducerModelConfig.builder().build();
         private OfflineWhisperModelConfig whisper = OfflineWhisperModelConfig.builder().build();
+        private OfflineMoonshineModelConfig moonshine = OfflineMoonshineModelConfig.builder().build();
         private OfflineNemoEncDecCtcModelConfig nemo = OfflineNemoEncDecCtcModelConfig.builder().build();
         private OfflineSenseVoiceModelConfig senseVoice = OfflineSenseVoiceModelConfig.builder().build();
         private String teleSpeech = "";
@@ -135,6 +142,11 @@ public class OfflineModelConfig {
             return this;
         }
 
+        public Builder setMoonshine(OfflineMoonshineModelConfig moonshine) {
+            this.moonshine = moonshine;
+            return this;
+        }
+
         public Builder setTokens(String tokens) {
             this.tokens = tokens;
             return this;
@@ -160,12 +172,14 @@ public class OfflineModelConfig {
             return this;
         }
 
-        public void setModelingUnit(String modelingUnit) {
+        public Builder setModelingUnit(String modelingUnit) {
             this.modelingUnit = modelingUnit;
+            return this;
         }
 
-        public void setBpeVocab(String bpeVocab) {
+        public Builder setBpeVocab(String bpeVocab) {
             this.bpeVocab = bpeVocab;
+            return this;
         }
     }
 }

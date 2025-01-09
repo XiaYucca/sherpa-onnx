@@ -7,6 +7,8 @@
 #include <cassert>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <utility>
 
 #if __ANDROID_API__ >= 9
 #include <strstream>
@@ -16,9 +18,76 @@
 #endif
 
 #include "sherpa-onnx/csrc/base64-decode.h"
+#include "sherpa-onnx/csrc/lexicon.h"
 #include "sherpa-onnx/csrc/onnx-utils.h"
 
 namespace sherpa_onnx {
+
+namespace {
+// copied from
+// https://stackoverflow.com/questions/216823/how-to-trim-a-stdstring
+const char *ws = " \t\n\r\f\v";
+
+// trim from end of string (right)
+inline void TrimRight(std::string *s, const char *t = ws) {
+  s->erase(s->find_last_not_of(t) + 1);
+}
+
+// trim from beginning of string (left)
+inline void TrimLeft(std::string *s, const char *t = ws) {
+  s->erase(0, s->find_first_not_of(t));
+}
+
+// trim from both ends of string (right then left)
+inline void Trim(std::string *s, const char *t = ws) {
+  TrimRight(s, t);
+  TrimLeft(s, t);
+}
+}  // namespace
+
+std::unordered_map<std::string, int32_t> ReadTokens(
+    std::istream &is,
+    std::unordered_map<int32_t, std::string> *id2token /*= nullptr*/) {
+  std::unordered_map<std::string, int32_t> token2id;
+
+  std::string line;
+
+  std::string sym;
+  int32_t id = -1;
+  while (std::getline(is, line)) {
+    Trim(&line);
+    std::istringstream iss(line);
+    iss >> sym;
+    if (iss.eof()) {
+      id = atoi(sym.c_str());
+      sym = " ";
+    } else {
+      iss >> id;
+    }
+
+    // eat the trailing \r\n on windows
+    iss >> std::ws;
+    if (!iss.eof()) {
+      SHERPA_ONNX_LOGE("Error: %s", line.c_str());
+      exit(-1);
+    }
+
+#if 0
+    if (token2id.count(sym)) {
+      SHERPA_ONNX_LOGE("Duplicated token %s. Line %s. Existing ID: %d",
+                       sym.c_str(), line.c_str(), token2id.at(sym));
+      exit(-1);
+    }
+#endif
+    if (id2token) {
+      id2token->insert({id, sym});
+    }
+
+    token2id.insert({std::move(sym), id});
+  }
+
+  return token2id;
+}
 
 SymbolTable::SymbolTable(const std::string &filename, bool is_file) {
   if (is_file) {
@@ -39,25 +108,7 @@ SymbolTable::SymbolTable(AAssetManager *mgr, const std::string &filename) {
 }
 #endif
 
-void SymbolTable::Init(std::istream &is) {
-  std::string sym;
-  int32_t id = 0;
-  while (is >> sym >> id) {
-#if 0
-    // we disable the test here since for some multi-lingual BPE models
-    // from NeMo, the same symbol can appear multiple times with different IDs.
-    if (sym != " ") {
-      assert(sym2id_.count(sym) == 0);
-    }
-#endif
-
-    assert(id2sym_.count(id) == 0);
-
-    sym2id_.insert({sym, id});
-    id2sym_.insert({id, sym});
-  }
-  assert(is.eof());
-}
+void SymbolTable::Init(std::istream &is) { sym2id_ = ReadTokens(is, &id2sym_); }
 
 std::string SymbolTable::ToString() const {
   std::ostringstream os;
@@ -81,6 +132,8 @@ const std::string SymbolTable::operator[](int32_t id) const {
 
   // for byte-level BPE
   // id 0 is blank, id 1 is sos/eos, id 2 is unk
+  //
+  // Note: For moonshine models, 0 is <unk>, 1, is <s>, 2 is</s>
   if (id >= 3 && id <= 258 && sym.size() == 6 && sym[0] == '<' &&
       sym[1] == '0' && sym[2] == 'x' && sym[5] == '>') {
     std::ostringstream os;

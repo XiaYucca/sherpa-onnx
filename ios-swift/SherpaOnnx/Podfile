@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '15.0'
 
 target 'SherpaOnnx' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -7,8 +7,17 @@ target 'SherpaOnnx' do
 
   pod 'onnxruntime-objc', :path =>"LocalPods/OnnxRuntime-Rain"
   
-  pod 'Alamofire', '~> 5.2'
+  pod 'Moya', '15.0.0'
+  pod 'SwiftyJSON'
+#  pod 'Alamofire', '~> 5.2'
+  pod 'SSZipArchive'
   # Pods for SherpaOnnx
+#  pod 'OfflinePod', :git =>"https://gitee.com/cocoaRain/offline-pod.git"
+#  pod 'OfflinePod', :git =>"/Users/rain/Desktop/LianxianPro/OfflinePod/OfflineLocalPod/offline-pod"
+  
+#  pod 'GoogleMLKit/Translate', '~> 3.1.0'
+#  pod 'Firebase/Core'
+#  pod 'GoogleMLKit', '5.0'
 
   target 'SherpaOnnxTests' do
     inherit! :search_paths
@@ -20,3 +29,4 @@ target 'SherpaOnnx' do
   end
 
 end
+

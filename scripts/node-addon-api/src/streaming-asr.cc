@@ -199,7 +199,8 @@ static Napi::External<SherpaOnnxOnlineRecognizer> CreateOnlineRecognizerWrapper(
 
   c.ctc_fst_decoder_config = GetCtcFstDecoderConfig(o);
 
-  SherpaOnnxOnlineRecognizer *recognizer = SherpaOnnxCreateOnlineRecognizer(&c);
+  const SherpaOnnxOnlineRecognizer *recognizer =
+      SherpaOnnxCreateOnlineRecognizer(&c);
 
   if (c.model_config.transducer.encoder) {
     delete[] c.model_config.transducer.encoder;
@@ -281,7 +282,7 @@ static Napi::External<SherpaOnnxOnlineRecognizer> CreateOnlineRecognizerWrapper(
   }
 
   return Napi::External<SherpaOnnxOnlineRecognizer>::New(
-      env, recognizer,
+      env, const_cast<SherpaOnnxOnlineRecognizer *>(recognizer),
       [](Napi::Env env, SherpaOnnxOnlineRecognizer *recognizer) {
         SherpaOnnxDestroyOnlineRecognizer(recognizer);
       });
@@ -311,10 +312,12 @@ static Napi::External<SherpaOnnxOnlineStream> CreateOnlineStreamWrapper(
   SherpaOnnxOnlineRecognizer *recognizer =
       info[0].As<Napi::External<SherpaOnnxOnlineRecognizer>>().Data();
 
-  SherpaOnnxOnlineStream *stream = SherpaOnnxCreateOnlineStream(recognizer);
+  const SherpaOnnxOnlineStream *stream =
+      SherpaOnnxCreateOnlineStream(recognizer);
 
   return Napi::External<SherpaOnnxOnlineStream>::New(
-      env, stream, [](Napi::Env env, SherpaOnnxOnlineStream *stream) {
+      env, const_cast<SherpaOnnxOnlineStream *>(stream),
+      [](Napi::Env env, SherpaOnnxOnlineStream *stream) {
         SherpaOnnxDestroyOnlineStream(stream);
       });
 }

@@ -89,6 +89,7 @@ class SpokenLanguageIdentification {
   // etc.
   // Note: en is for English, zh is for Chinese, de is for German, etc.
   std::string Compute(OfflineStream *s) const;
+  std::string Computes(OfflineStream *s) const;
 
  private:
   std::unique_ptr<SpokenLanguageIdentificationImpl> impl_;

@@ -123,7 +123,7 @@ class OfflineTransducerNeMoModel::Impl {
     return std::move(logit[0]);
   }
 
-  std::vector<Ort::Value> GetDecoderInitStates(int32_t batch_size) const {
+  std::vector<Ort::Value> GetDecoderInitStates(int32_t batch_size) {
     std::array<int64_t, 3> s0_shape{pred_rnn_layers_, batch_size, pred_hidden_};
     Ort::Value s0 = Ort::Value::CreateTensor<float>(allocator_, s0_shape.data(),
                                                     s0_shape.size());
@@ -149,9 +149,11 @@ class OfflineTransducerNeMoModel::Impl {
   int32_t SubsamplingFactor() const { return subsampling_factor_; }
   int32_t VocabSize() const { return vocab_size_; }
 
-  OrtAllocator *Allocator() const { return allocator_; }
+  OrtAllocator *Allocator() { return allocator_; }
 
   std::string FeatureNormalizationMethod() const { return normalize_type_; }
+
+  bool IsGigaAM() const { return is_giga_am_; }
 
  private:
   void InitEncoder(void *model_data, size_t model_data_length) {
@@ -181,9 +183,11 @@ class OfflineTransducerNeMoModel::Impl {
     vocab_size_ += 1;
 
     SHERPA_ONNX_READ_META_DATA(subsampling_factor_, "subsampling_factor");
-    SHERPA_ONNX_READ_META_DATA_STR(normalize_type_, "normalize_type");
+    SHERPA_ONNX_READ_META_DATA_STR_ALLOW_EMPTY(normalize_type_,
+                                               "normalize_type");
     SHERPA_ONNX_READ_META_DATA(pred_rnn_layers_, "pred_rnn_layers");
     SHERPA_ONNX_READ_META_DATA(pred_hidden_, "pred_hidden");
+    SHERPA_ONNX_READ_META_DATA_WITH_DEFAULT(is_giga_am_, "is_giga_am", 0);
 
     if (normalize_type_ == "NA") {
       normalize_type_ = "";
@@ -245,6 +249,7 @@ class OfflineTransducerNeMoModel::Impl {
   std::string normalize_type_;
   int32_t pred_rnn_layers_ = -1;
   int32_t pred_hidden_ = -1;
+  int32_t is_giga_am_ = 0;
 };
 
 OfflineTransducerNeMoModel::OfflineTransducerNeMoModel(
@@ -297,5 +302,7 @@ OrtAllocator *OfflineTransducerNeMoModel::Allocator() const {
 std::string OfflineTransducerNeMoModel::FeatureNormalizationMethod() const {
   return impl_->FeatureNormalizationMethod();
 }
+
+bool OfflineTransducerNeMoModel::IsGigaAM() const { return impl_->IsGigaAM(); }
 
 }  // namespace sherpa_onnx

@@ -20,6 +20,7 @@
 #include "onnxruntime_cxx_api.h"  // NOLINT
 #include "sherpa-onnx/csrc/macros.h"
 #include "sherpa-onnx/csrc/offline-recognizer-ctc-impl.h"
+#include "sherpa-onnx/csrc/offline-recognizer-moonshine-impl.h"
 #include "sherpa-onnx/csrc/offline-recognizer-paraformer-impl.h"
 #include "sherpa-onnx/csrc/offline-recognizer-sense-voice-impl.h"
 #include "sherpa-onnx/csrc/offline-recognizer-transducer-impl.h"
@@ -51,6 +52,10 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
     return std::make_unique<OfflineRecognizerWhisperImpl>(config);
   }
 
+  if (!config.model_config.moonshine.preprocessor.empty()) {
+    return std::make_unique<OfflineRecognizerMoonshineImpl>(config);
+  }
+
   // TODO(fangjun): Refactor it. We only need to use model type for the
   // following models:
   //  1. transducer and nemo_transducer
@@ -67,7 +72,11 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
                model_type == "telespeech_ctc") {
       return std::make_unique<OfflineRecognizerCtcImpl>(config);
     } else if (model_type == "whisper") {
+      // unreachable
       return std::make_unique<OfflineRecognizerWhisperImpl>(config);
+    } else if (model_type == "moonshine") {
+      // unreachable
+      return std::make_unique<OfflineRecognizerMoonshineImpl>(config);
     } else {
       SHERPA_ONNX_LOGE(
           "Invalid model_type: %s. Trying to load the model to get its type",
@@ -112,9 +121,9 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
 
   Ort::AllocatorWithDefaultOptions allocator;  // used in the macro below
 
-  auto model_type_ptr =
-      meta_data.LookupCustomMetadataMapAllocated("model_type", allocator);
-  if (!model_type_ptr) {
+  auto model_type =
+      LookupCustomModelMetaData(meta_data, "model_type", allocator);
+  if (model_type.empty()) {
     SHERPA_ONNX_LOGE(
         "No model_type in the metadata!\n\n"
         "Please refer to the following URLs to add metadata"
@@ -155,7 +164,6 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
         "\n");
     exit(-1);
   }
-  std::string model_type(model_type_ptr.get());
 
   if (model_type == "conformer" || model_type == "zipformer" ||
       model_type == "zipformer2") {
@@ -166,13 +174,14 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
     return std::make_unique<OfflineRecognizerParaformerImpl>(config);
   }
 
-  if (model_type == "EncDecHybridRNNTCTCBPEModel" &&
+  if ((model_type == "EncDecHybridRNNTCTCBPEModel" ||
+       model_type == "EncDecRNNTBPEModel") &&
       !config.model_config.transducer.decoder_filename.empty() &&
       !config.model_config.transducer.joiner_filename.empty()) {
     return std::make_unique<OfflineRecognizerTransducerNeMoImpl>(config);
   }
 
-  if (model_type == "EncDecCTCModelBPE" ||
+  if (model_type == "EncDecCTCModelBPE" || model_type == "EncDecCTCModel" ||
       model_type == "EncDecHybridRNNTCTCBPEModel" || model_type == "tdnn" ||
       model_type == "zipformer2_ctc" || model_type == "wenet_ctc" ||
       model_type == "telespeech_ctc") {
@@ -189,7 +198,9 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
       " - Non-streaming transducer models from icefall\n"
       " - Non-streaming Paraformer models from FunASR\n"
       " - EncDecCTCModelBPE models from NeMo\n"
+      " - EncDecCTCModel models from NeMo\n"
       " - EncDecHybridRNNTCTCBPEModel models from NeMo\n"
+      " - EncDecRNNTBPEModel models from NeMO"
       " - Whisper models\n"
       " - Tdnn models\n"
       " - Zipformer CTC models\n"
@@ -222,6 +233,10 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
     return std::make_unique<OfflineRecognizerWhisperImpl>(mgr, config);
   }
 
+  if (!config.model_config.moonshine.preprocessor.empty()) {
+    return std::make_unique<OfflineRecognizerMoonshineImpl>(mgr, config);
+  }
+
   // TODO(fangjun): Refactor it. We only need to use model type for the
   // following models:
   //  1. transducer and nemo_transducer
@@ -239,6 +254,8 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
       return std::make_unique<OfflineRecognizerCtcImpl>(mgr, config);
     } else if (model_type == "whisper") {
       return std::make_unique<OfflineRecognizerWhisperImpl>(mgr, config);
+    } else if (model_type == "moonshine") {
+      return std::make_unique<OfflineRecognizerMoonshineImpl>(mgr, config);
     } else {
       SHERPA_ONNX_LOGE(
           "Invalid model_type: %s. Trying to load the model to get its type",
@@ -283,9 +300,9 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
 
   Ort::AllocatorWithDefaultOptions allocator;  // used in the macro below
 
-  auto model_type_ptr =
-      meta_data.LookupCustomMetadataMapAllocated("model_type", allocator);
-  if (!model_type_ptr) {
+  auto model_type =
+      LookupCustomModelMetaData(meta_data, "model_type", allocator);
+  if (model_type.empty()) {
     SHERPA_ONNX_LOGE(
         "No model_type in the metadata!\n\n"
         "Please refer to the following URLs to add metadata"
@@ -326,7 +343,6 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
         "\n");
     exit(-1);
   }
-  std::string model_type(model_type_ptr.get());
 
   if (model_type == "conformer" || model_type == "zipformer" ||
       model_type == "zipformer2") {
@@ -337,13 +353,14 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
     return std::make_unique<OfflineRecognizerParaformerImpl>(mgr, config);
   }
 
-  if (model_type == "EncDecHybridRNNTCTCBPEModel" &&
+  if ((model_type == "EncDecHybridRNNTCTCBPEModel" ||
+       model_type == "EncDecRNNTBPEModel") &&
       !config.model_config.transducer.decoder_filename.empty() &&
       !config.model_config.transducer.joiner_filename.empty()) {
     return std::make_unique<OfflineRecognizerTransducerNeMoImpl>(mgr, config);
   }
 
-  if (model_type == "EncDecCTCModelBPE" ||
+  if (model_type == "EncDecCTCModelBPE" || model_type == "EncDecCTCModel" ||
       model_type == "EncDecHybridRNNTCTCBPEModel" || model_type == "tdnn" ||
       model_type == "zipformer2_ctc" || model_type == "wenet_ctc" ||
       model_type == "telespeech_ctc") {
@@ -360,7 +377,9 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
       " - Non-streaming transducer models from icefall\n"
       " - Non-streaming Paraformer models from FunASR\n"
       " - EncDecCTCModelBPE models from NeMo\n"
+      " - EncDecCTCModel models from NeMo\n"
       " - EncDecHybridRNNTCTCBPEModel models from NeMo\n"
+      " - EncDecRNNTBPEModel models from NeMo\n"
       " - Whisper models\n"
       " - Tdnn models\n"
       " - Zipformer CTC models\n"
