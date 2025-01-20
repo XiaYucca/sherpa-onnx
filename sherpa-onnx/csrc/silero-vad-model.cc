@@ -350,6 +350,15 @@ class SileroVadModel::Impl {
       return RunV4(samples, n);
     }
   }
+    
+  float Run_sample(const float *samples, int32_t n) {
+        if (is_v5_) {
+            return RunV5(samples, n);
+        } else {
+            return RunV4(samples, n);
+        }
+  }
+
 
   float RunV5(const float *samples, int32_t n) {
     auto memory_info =
@@ -471,6 +480,11 @@ void SileroVadModel::SetMinSilenceDuration(float s) {
 void SileroVadModel::SetThreshold(float threshold) {
   impl_->SetThreshold(threshold);
 }
+
+float SileroVadModel::run(const float *samples, int32_t n) {
+  return impl_->Run_sample(samples, n);
+}
+
 
 #if __ANDROID_API__ >= 9
 template SileroVadModel::SileroVadModel(AAssetManager *mgr,

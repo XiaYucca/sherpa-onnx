@@ -39,6 +39,11 @@ class VoiceActivityDetector::Impl {
         buffer_(buffer_size_in_seconds * config.sample_rate) {
     Init();
   }
+  
+    float vad(const float *samples, int32_t n) const{
+        return model_->run(samples,n);
+    }
+
 
   void AcceptWaveform(const float *samples, int32_t n) {
     if (buffer_.Size() > max_utterance_length_) {
@@ -112,6 +117,28 @@ class VoiceActivityDetector::Impl {
       start_ = -1;
     }
   }
+    
+    SpeechSegment inspect(){
+      SpeechSegment segment;
+      segment.start = -1;
+      if (start_ == -1 || buffer_.Size() == 0) {
+          return segment;
+      }
+      
+  //        int32_t end = buffer_.Tail();
+      int32_t end = buffer_.Tail() - model_->MinSilenceDurationSamples();
+  //        std::vector<float> s = buffer_.Get(start_, end - start_);
+      
+      if (end <= start_) {
+          return segment;
+      }
+      std::vector<float> s = buffer_.Get(start_, end - start_);
+      
+      segment.start = start_;
+      segment.samples = std::move(s);
+      return segment;
+  }
+
 
   bool Empty() const { return segments_.empty(); }
 
@@ -218,6 +245,15 @@ bool VoiceActivityDetector::IsSpeechDetected() const {
 const VadModelConfig &VoiceActivityDetector::GetConfig() const {
   return impl_->GetConfig();
 }
+
+SpeechSegment VoiceActivityDetector::inspect() const{
+    return impl_->inspect();
+}
+
+float VoiceActivityDetector::vad(const float *samples, int32_t n) const{
+    return impl_->vad(samples, n);
+}
+
 
 #if __ANDROID_API__ >= 9
 template VoiceActivityDetector::VoiceActivityDetector(
