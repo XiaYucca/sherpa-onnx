@@ -85,6 +85,32 @@ fi
 
 echo "----------tts----------"
 
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2
+tar xf kokoro-en-v0_19.tar.bz2
+rm kokoro-en-v0_19.tar.bz2
+
+node ./test_tts_non_streaming_kokoro_en.js
+ls -lh *.wav
+
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/matcha-icefall-en_US-ljspeech.tar.bz2
+tar xvf matcha-icefall-en_US-ljspeech.tar.bz2
+rm matcha-icefall-en_US-ljspeech.tar.bz2
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx
+
+node ./test_tts_non_streaming_matcha_icefall_en.js
+rm hifigan_v2.onnx
+rm -rf matcha-icefall-en_US-ljspeech
+
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/matcha-icefall-zh-baker.tar.bz2
+tar xvf matcha-icefall-zh-baker.tar.bz2
+rm matcha-icefall-zh-baker.tar.bz2
+curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx
+
+node ./test_tts_non_streaming_matcha_icefall_zh.js
+rm hifigan_v2.onnx
+rm -rf matcha-icefall-zh-baker
+ls -lh *.wav
+
 curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_GB-cori-medium.tar.bz2
 tar xf vits-piper-en_GB-cori-medium.tar.bz2
 rm vits-piper-en_GB-cori-medium.tar.bz2

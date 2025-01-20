@@ -8,6 +8,15 @@
 #include <utility>
 #include <vector>
 
+#if __ANDROID_API__ >= 9
+#include "android/asset_manager.h"
+#include "android/asset_manager_jni.h"
+#endif
+
+#if __OHOS__
+#include "rawfile/raw_file_manager.h"
+#endif
+
 #include "sherpa-onnx/csrc/macros.h"
 #include "sherpa-onnx/csrc/onnx-utils.h"
 #include "sherpa-onnx/csrc/session.h"
@@ -43,8 +52,8 @@ class OfflineMoonshineModel::Impl {
     }
   }
 
-#if __ANDROID_API__ >= 9
-  Impl(AAssetManager *mgr, const OfflineModelConfig &config)
+  template <typename Manager>
+  Impl(Manager *mgr, const OfflineModelConfig &config)
       : config_(config),
         env_(ORT_LOGGING_LEVEL_ERROR),
         sess_opts_(GetSessionOptions(config)),
@@ -69,7 +78,6 @@ class OfflineMoonshineModel::Impl {
       InitCachedDecoder(buf.data(), buf.size());
     }
   }
-#endif
 
   Ort::Value ForwardPreprocessor(Ort::Value audio) {
     auto features = preprocessor_sess_->Run(
@@ -87,18 +95,8 @@ class OfflineMoonshineModel::Impl {
         {}, encoder_input_names_ptr_.data(), encoder_inputs.data(),
         encoder_inputs.size(), encoder_output_names_ptr_.data(),
         encoder_output_names_ptr_.size());
-      
-      // 使用智能指针来管理 Ort::Value 对象
-          std::unique_ptr<Ort::Value> result = std::make_unique<Ort::Value>(std::move(encoder_out[0]));
-        
-          // 手动释放 encoder_out 中的其他元素
-          for (size_t i = 1; i < encoder_out.size(); ++i) {
-              encoder_out[i].release();
-          }
-        
-          return std::move(*result);
 
-//    return std::move(encoder_out[0]);
+    return std::move(encoder_out[0]);
   }
 
   std::pair<Ort::Value, std::vector<Ort::Value>> ForwardUnCachedDecoder(
@@ -252,11 +250,10 @@ class OfflineMoonshineModel::Impl {
 OfflineMoonshineModel::OfflineMoonshineModel(const OfflineModelConfig &config)
     : impl_(std::make_unique<Impl>(config)) {}
 
-#if __ANDROID_API__ >= 9
-OfflineMoonshineModel::OfflineMoonshineModel(AAssetManager *mgr,
+template <typename Manager>
+OfflineMoonshineModel::OfflineMoonshineModel(Manager *mgr,
                                              const OfflineModelConfig &config)
     : impl_(std::make_unique<Impl>(mgr, config)) {}
-#endif
 
 OfflineMoonshineModel::~OfflineMoonshineModel() = default;
 
@@ -288,5 +285,15 @@ OfflineMoonshineModel::ForwardCachedDecoder(
 OrtAllocator *OfflineMoonshineModel::Allocator() const {
   return impl_->Allocator();
 }
+
+#if __ANDROID_API__ >= 9
+template OfflineMoonshineModel::OfflineMoonshineModel(
+    AAssetManager *mgr, const OfflineModelConfig &config);
+#endif
+
+#if __OHOS__
+template OfflineMoonshineModel::OfflineMoonshineModel(
+    NativeResourceManager *mgr, const OfflineModelConfig &config);
+#endif
 
 }  // namespace sherpa_onnx

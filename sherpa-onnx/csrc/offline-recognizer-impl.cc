@@ -5,14 +5,18 @@
 #include "sherpa-onnx/csrc/offline-recognizer-impl.h"
 
 #include <string>
+#include <strstream>
 #include <utility>
 #include <vector>
 
 #if __ANDROID_API__ >= 9
-#include <strstream>
 
 #include "android/asset_manager.h"
 #include "android/asset_manager_jni.h"
+#endif
+
+#if __OHOS__
+#include "rawfile/raw_file_manager.h"
 #endif
 
 #include "fst/extensions/far/far.h"
@@ -211,9 +215,9 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
   exit(-1);
 }
 
-#if __ANDROID_API__ >= 9
+template <typename Manager>
 std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
-    AAssetManager *mgr, const OfflineRecognizerConfig &config) {
+    Manager *mgr, const OfflineRecognizerConfig &config) {
   if (!config.model_config.sense_voice.model.empty()) {
     return std::make_unique<OfflineRecognizerSenseVoiceImpl>(mgr, config);
   }
@@ -389,7 +393,6 @@ std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
 
   exit(-1);
 }
-#endif
 
 OfflineRecognizerImpl::OfflineRecognizerImpl(
     const OfflineRecognizerConfig &config)
@@ -436,9 +439,9 @@ OfflineRecognizerImpl::OfflineRecognizerImpl(
   }
 }
 
-#if __ANDROID_API__ >= 9
+template <typename Manager>
 OfflineRecognizerImpl::OfflineRecognizerImpl(
-    AAssetManager *mgr, const OfflineRecognizerConfig &config)
+    Manager *mgr, const OfflineRecognizerConfig &config)
     : config_(config) {
   if (!config.rule_fsts.empty()) {
     std::vector<std::string> files;
@@ -482,10 +485,11 @@ OfflineRecognizerImpl::OfflineRecognizerImpl(
     }    // for (const auto &f : files)
   }      // if (!config.rule_fars.empty())
 }
-#endif
 
 std::string OfflineRecognizerImpl::ApplyInverseTextNormalization(
     std::string text) const {
+  text = RemoveInvalidUtf8Sequences(text);
+
   if (!itn_list_.empty()) {
     for (const auto &tn : itn_list_) {
       text = tn->Normalize(text);
@@ -498,5 +502,20 @@ std::string OfflineRecognizerImpl::ApplyInverseTextNormalization(
 void OfflineRecognizerImpl::SetConfig(const OfflineRecognizerConfig &config) {
   config_ = config;
 }
+
+#if __ANDROID_API__ >= 9
+template OfflineRecognizerImpl::OfflineRecognizerImpl(
+    AAssetManager *mgr, const OfflineRecognizerConfig &config);
+
+template std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
+    AAssetManager *mgr, const OfflineRecognizerConfig &config);
+#endif
+
+#if __OHOS__
+template OfflineRecognizerImpl::OfflineRecognizerImpl(
+    NativeResourceManager *mgr, const OfflineRecognizerConfig &config);
+template std::unique_ptr<OfflineRecognizerImpl> OfflineRecognizerImpl::Create(
+    NativeResourceManager *mgr, const OfflineRecognizerConfig &config);
+#endif
 
 }  // namespace sherpa_onnx

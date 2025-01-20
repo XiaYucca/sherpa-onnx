@@ -6,7 +6,6 @@ on:
       - master
     paths:
       - '.github/workflows/test-go.yaml'
-      - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa-onnx/csrc/*'
       - 'go-api-examples/**'
@@ -16,7 +15,6 @@ on:
       - master
     paths:
       - '.github/workflows/test-go.yaml'
-      - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa-onnx/csrc/*'
       - 'go-api-examples/**'
@@ -134,6 +132,15 @@ jobs:
           name: ${{ matrix.os }}-libs
           path: to-upload/
 
+      - name: Test Keyword spotting
+        shell: bash
+        run: |
+          cd scripts/go/_internal/keyword-spotting-from-file/
+
+          ./run.sh
+
+          ls -lh
+
       - name: Test non-streaming decoding files
         shell: bash
         run: |
@@ -216,6 +223,20 @@ jobs:
           cat go.mod
           go build
           ls -lh
+
+          echo "Test kokoro en"
+          ./run-kokoro-en.sh
+          rm -rf kokoro-en-*
+          ls -lh
+
+          echo "Test matcha zh"
+          ./run-matcha-zh.sh
+          rm -rf matcha-icefall-*
+
+          echo "Test matcha en"
+          ./run-matcha-en.sh
+          rm -rf matcha-icefall-*
+          ls -lh *.wav
 
           echo "Test vits-ljs"
           ./run-vits-ljs.sh

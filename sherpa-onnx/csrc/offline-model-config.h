@@ -6,7 +6,6 @@
 
 #include <string>
 
-
 #include "sherpa-onnx/csrc/offline-moonshine-model-config.h"
 #include "sherpa-onnx/csrc/offline-nemo-enc-dec-ctc-model-config.h"
 #include "sherpa-onnx/csrc/offline-paraformer-model-config.h"
@@ -28,9 +27,7 @@ struct OfflineModelConfig {
   OfflineZipformerCtcModelConfig zipformer_ctc;
   OfflineWenetCtcModelConfig wenet_ctc;
   OfflineSenseVoiceModelConfig sense_voice;
-
   OfflineMoonshineModelConfig moonshine;
-
   std::string telespeech_ctc;
 
   std::string tokens;

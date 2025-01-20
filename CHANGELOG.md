@@ -1,3 +1,132 @@
+## 1.10.40
+
+* Fix building wheels (#1703)
+* Export kokoro to sherpa-onnx (#1713)
+* Add C++ and Python API for Kokoro TTS models. (#1715)
+* Add C API for Kokoro TTS models (#1717)
+* Fix style issues (#1718)
+* Add C# API for Kokoro TTS models (#1720)
+* Add Swift API for Kokoro TTS models (#1721)
+* Add Go API for Kokoro TTS models (#1722)
+* Add Dart API for Kokoro TTS models (#1723)
+* Add Pascal API for Kokoro TTS models (#1724)
+* Add JavaScript API (node-addon) for Kokoro TTS models (#1725)
+* Add JavaScript (WebAssembly) API for Kokoro TTS models. (#1726)
+* Add Koltin and Java API for Kokoro TTS models (#1728)
+* Update README.md for KWS to not use git lfs. (#1729)
+
+
+
+
+## 1.10.39
+
+* Fix building without TTS (#1691)
+* Add README for android libs. (#1693)
+* Fix: export-onnx.py(expected all tensors to be on the same device) (#1699)
+* Fix passing strings from C# to C. (#1701)
+
+## 1.10.38
+
+* Fix initializing TTS in Python. (#1664)
+* Remove spaces after punctuations for TTS (#1666)
+* Add constructor fromPtr() for all flutter class with factory ctor. (#1667)
+* Add Kotlin API for Matcha-TTS models. (#1668)
+* Support Matcha-TTS models using espeak-ng (#1672)
+* Add Java API for Matcha-TTS models. (#1673)
+* Avoid adding tail padding for VAD in generate-subtitles.py (#1674)
+* Add C API for MatchaTTS models (#1675)
+* Add CXX API for MatchaTTS models (#1676)
+* Add JavaScript API (node-addon-api) for MatchaTTS models. (#1677)
+* Add HarmonyOS examples for MatchaTTS. (#1678)
+* Upgraded to .NET 8 and made code style a little more internally consistent. (#1680)
+* Update workflows to use .NET 8.0 also. (#1681)
+* Add C# and JavaScript (wasm) API for MatchaTTS models (#1682)
+* Add Android demo for MatchaTTS models. (#1683)
+* Add Swift API for MatchaTTS models. (#1684)
+* Add Go API for MatchaTTS models (#1685)
+* Add Pascal API for MatchaTTS models. (#1686)
+* Add Dart API for MatchaTTS models (#1687)
+
+## 1.10.37
+
+* Add new tts models for Latvia and Persian+English (#1644)
+* Add a byte-level BPE Chinese+English non-streaming zipformer model (#1645)
+* Support removing invalid utf-8 sequences. (#1648)
+* Add TeleSpeech CTC to non_streaming_server.py (#1649)
+* Fix building macOS libs (#1656)
+* Add Go API for Keyword spotting (#1662)
+* Add Swift online punctuation (#1661)
+* Add C++ runtime for Matcha-TTS (#1627)
+
+## 1.10.36
+
+* Update AAR version in Android Java demo (#1618)
+* Support linking onnxruntime statically for Android (#1619)
+* Update readme to include Open-LLM-VTuber (#1622)
+* Rename maxNumStences to maxNumSentences (#1625)
+* Support using onnxruntime 1.16.0 with CUDA 11.4 on Jetson Orin NX (Linux arm64 GPU). (#1630)
+* Update readme to include jetson orin nx and nano b01 (#1631)
+* feat: add checksum action (#1632)
+* Support decoding with byte-level BPE (bbpe) models. (#1633)
+* feat: enable c api for android ci (#1635)
+* Update README.md (#1640)
+* SherpaOnnxVadAsr: Offload runSecondPass to background thread for improved real-time audio processing (#1638)
+* Fix GitHub actions. (#1642)
+
+
+## 1.10.35
+
+* Add missing changes about speaker identfication demo for HarmonyOS (#1612)
+* Provide sherpa-onnx.aar for Android (#1615)
+* Use aar in Android Java demo. (#1616)
+
+## 1.10.34
+
+* Fix building node-addon package (#1598)
+* Update doc links for HarmonyOS (#1601)
+* Add on-device real-time ASR demo for HarmonyOS (#1606)
+* Add speaker identification APIs for HarmonyOS (#1607)
+* Add speaker identification demo for HarmonyOS (#1608)
+* Add speaker diarization API for HarmonyOS. (#1609)
+* Add speaker diarization demo for HarmonyOS (#1610)
+
+## 1.10.33
+
+* Add non-streaming ASR support for HarmonyOS. (#1564)
+* Add streaming ASR support for HarmonyOS. (#1565)
+* Fix building for Android (#1568)
+* Publish `sherpa_onnx.har` for HarmonyOS (#1572)
+* Add VAD+ASR demo for HarmonyOS (#1573)
+* Fix publishing har packages for HarmonyOS (#1576)
+* Add CI to build HAPs for HarmonyOS (#1578)
+* Add microphone demo about VAD+ASR for HarmonyOS (#1581)
+* Fix getting microphone permission for HarmonyOS VAD+ASR example (#1582)
+* Add HarmonyOS support for text-to-speech. (#1584)
+* Fix: support both old and new websockets request headers format (#1588)
+* Add on-device tex-to-speech (TTS) demo for HarmonyOS (#1590)
+
+## 1.10.32
+
+* Support cross-compiling for HarmonyOS (#1553)
+* HarmonyOS support for VAD. (#1561)
+* Fix publishing flutter iOS app to appstore (#1563).
+
+## 1.10.31
+
+* Publish pre-built wheels for Python 3.13 (#1485)
+* Publish pre-built macos xcframework (#1490)
+* Fix reading tokens.txt on Windows. (#1497)
+* Add two-pass ASR Android APKs for Moonshine models. (#1499)
+* Support building GPU-capable sherpa-onnx on Linux aarch64. (#1500)
+* Publish pre-built wheels with CUDA support for Linux aarch64. (#1507)
+* Export the English TTS model from MeloTTS (#1509)
+* Add Lazarus example for Moonshine models. (#1532)
+* Add isolate_tts demo (#1529)
+* Add WebAssembly example for VAD + Moonshine models. (#1535)
+* Add Android APK for streaming Paraformer ASR (#1538)
+* Support static build for windows arm64. (#1539)
+* Use xcframework for Flutter iOS plugin to support iOS simulators.
+
 ## 1.10.30
 
 * Fix building node-addon for Windows x86. (#1469)

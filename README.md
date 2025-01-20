@@ -18,14 +18,13 @@
 
 ### Supported platforms
 
-|Architecture| Android | iOS     | Windows    | macOS | linux |
-|------------|---------|---------|------------|-------|-------|
-|   x64      |  ✔️      |         |   ✔️        | ✔️     |  ✔️    |
-|   x86      |  ✔️      |         |   ✔️        |       |       |
-|   arm64    |  ✔️      | ✔️       |   ✔️        | ✔️     |  ✔️    |
-|   arm32    |  ✔️      |         |            |       |  ✔️    |
-|   riscv64  |         |         |            |       |  ✔️    |
-
+|Architecture| Android | iOS     | Windows    | macOS | linux | HarmonyOS |
+|------------|---------|---------|------------|-------|-------|-----------|
+|   x64      |  ✔️      |         |   ✔️        | ✔️     |  ✔️    |   ✔️       |
+|   x86      |  ✔️      |         |   ✔️        |       |       |           |
+|   arm64    |  ✔️      | ✔️       |   ✔️        | ✔️     |  ✔️    |   ✔️       |
+|   arm32    |  ✔️      |         |            |       |  ✔️    |   ✔️       |
+|   riscv64  |         |         |            |       |  ✔️    |           |
 
 ### Supported programming languages
 
@@ -65,8 +64,11 @@ on the following platforms and operating systems:
   - Linux, macOS, Windows, openKylin
   - Android, WearOS
   - iOS
+  - HarmonyOS
   - NodeJS
   - WebAssembly
+  - [NVIDIA Jetson Orin NX][NVIDIA Jetson Orin NX] (Support running on both CPU and GPU)
+  - [NVIDIA Jetson Nano B01][NVIDIA Jetson Nano B01] (Support running on both CPU and GPU)
   - [Raspberry Pi][Raspberry Pi]
   - [RV1126][RV1126]
   - [LicheePi4A][LicheePi4A]
@@ -109,6 +111,7 @@ We also have spaces built using WebAssembly. They are listed below:
 |Real-time speech recognition (English) |[Click me][wasm-hf-streaming-asr-en-zipformer]    |[地址][wasm-ms-streaming-asr-en-zipformer]|
 |VAD + speech recognition (Chinese + English + Korean + Japanese + Cantonese) with [SenseVoice][SenseVoice]|[Click me][wasm-hf-vad-asr-zh-en-ko-ja-yue-sense-voice]| [地址][wasm-ms-vad-asr-zh-en-ko-ja-yue-sense-voice]|
 |VAD + speech recognition (English) with [Whisper][Whisper] tiny.en|[Click me][wasm-hf-vad-asr-en-whisper-tiny-en]| [地址][wasm-ms-vad-asr-en-whisper-tiny-en]|
+|VAD + speech recognition (English) with [Moonshine tiny][Moonshine tiny]|[Click me][wasm-hf-vad-asr-en-moonshine-tiny-en]| [地址][wasm-ms-vad-asr-en-moonshine-tiny-en]|
 |VAD + speech recognition (English) with Zipformer trained with [GigaSpeech][GigaSpeech]    |[Click me][wasm-hf-vad-asr-en-zipformer-gigaspeech]| [地址][wasm-ms-vad-asr-en-zipformer-gigaspeech]|
 |VAD + speech recognition (Chinese) with Zipformer trained with [WenetSpeech][WenetSpeech]  |[Click me][wasm-hf-vad-asr-zh-zipformer-wenetspeech]| [地址][wasm-ms-vad-asr-zh-zipformer-wenetspeech]|
 |VAD + speech recognition (Japanese) with Zipformer trained with [ReazonSpeech][ReazonSpeech]|[Click me][wasm-hf-vad-asr-ja-zipformer-reazonspeech]| [地址][wasm-ms-vad-asr-ja-zipformer-reazonspeech]|
@@ -240,7 +243,7 @@ for more models. The following table lists only **SOME** of them.
 |Name | Supported Languages| Description|
 |-----|-----|----|
 |[Whisper tiny.en](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2)|English| See [also](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/whisper/tiny.en.html)|
-|[Moonshine tiny](https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-int8.tar.bz2)|English|See [also](https://github.com/usefulsensors/moonshine)|
+|[Moonshine tiny][Moonshine tiny]|English|See [also](https://github.com/usefulsensors/moonshine)|
 |[sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17][sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17]|Chinese, Cantonese, English, Korean, Japanese| 支持多种中文方言. See [also](https://k2-fsa.github.io/sherpa/onnx/sense-voice/index.html)|
 |[sherpa-onnx-paraformer-zh-2024-03-09][sherpa-onnx-paraformer-zh-2024-03-09]|Chinese, English| 也支持多种中文方言. See [also](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-paraformer/paraformer-models.html#csukuangfj-sherpa-onnx-paraformer-zh-2024-03-09-chinese-english)|
 |[sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01][sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01]|Japanese|See [also](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-transducer/zipformer-transducer-models.html#sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01-japanese)|
@@ -265,6 +268,13 @@ https://k2-fsa.github.io/sherpa/social-groups.html
 for 新一代 Kaldi **微信交流群** and **QQ 交流群**.
 
 ## Projects using sherpa-onnx
+
+### [Open-LLM-VTuber](https://github.com/t41372/Open-LLM-VTuber)
+
+Talk to any LLM with hands-free voice interaction, voice interruption, and Live2D taking
+face running locally across platforms
+
+See also <https://github.com/t41372/Open-LLM-VTuber/pull/50>
 
 ### [voiceapi](https://github.com/ruzhila/voiceapi)
 
@@ -320,6 +330,8 @@ Video demo in Chinese: [爆了！炫神教你开打字挂！真正影响胜率�
 [wasm-ms-vad-asr-zh-en-ko-ja-yue-sense-voice]: https://www.modelscope.cn/studios/csukuangfj/web-assembly-vad-asr-sherpa-onnx-zh-en-jp-ko-cantonese-sense-voice
 [wasm-hf-vad-asr-en-whisper-tiny-en]: https://huggingface.co/spaces/k2-fsa/web-assembly-vad-asr-sherpa-onnx-en-whisper-tiny
 [wasm-ms-vad-asr-en-whisper-tiny-en]: https://www.modelscope.cn/studios/csukuangfj/web-assembly-vad-asr-sherpa-onnx-en-whisper-tiny
+[wasm-hf-vad-asr-en-moonshine-tiny-en]: https://huggingface.co/spaces/k2-fsa/web-assembly-vad-asr-sherpa-onnx-en-moonshine-tiny
+[wasm-ms-vad-asr-en-moonshine-tiny-en]: https://www.modelscope.cn/studios/csukuangfj/web-assembly-vad-asr-sherpa-onnx-en-moonshine-tiny
 [wasm-hf-vad-asr-en-zipformer-gigaspeech]: https://huggingface.co/spaces/k2-fsa/web-assembly-vad-asr-sherpa-onnx-en-zipformer-gigaspeech
 [wasm-ms-vad-asr-en-zipformer-gigaspeech]: https://www.modelscope.cn/studios/k2-fsa/web-assembly-vad-asr-sherpa-onnx-en-zipformer-gigaspeech
 [wasm-hf-vad-asr-zh-zipformer-wenetspeech]: https://huggingface.co/spaces/k2-fsa/web-assembly-vad-asr-sherpa-onnx-zh-zipformer-wenetspeech
@@ -405,3 +417,6 @@ Video demo in Chinese: [爆了！炫神教你开打字挂！真正影响胜率�
 [sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04]: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
 [sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17]: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
 [sherpa-onnx-streaming-zipformer-fr-2023-04-14]: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
+[Moonshine tiny]: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-int8.tar.bz2
+[NVIDIA Jetson Orin NX]: https://developer.download.nvidia.com/assets/embedded/secure/jetson/orin_nx/docs/Jetson_Orin_NX_DS-10712-001_v0.5.pdf?RCPGu9Q6OVAOv7a7vgtwc9-BLScXRIWq6cSLuditMALECJ_dOj27DgnqAPGVnT2VpiNpQan9SyFy-9zRykR58CokzbXwjSA7Gj819e91AXPrWkGZR3oS1VLxiDEpJa_Y0lr7UT-N4GnXtb8NlUkP4GkCkkF_FQivGPrAucCUywL481GH_WpP_p7ziHU1Wg==&t=eyJscyI6ImdzZW8iLCJsc2QiOiJodHRwczovL3d3dy5nb29nbGUuY29tLmhrLyJ9
+[NVIDIA Jetson Nano B01]: https://www.seeedstudio.com/blog/2020/01/16/new-revision-of-jetson-nano-dev-kit-now-supports-new-jetson-nano-module/

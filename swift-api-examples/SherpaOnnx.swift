@@ -728,9 +728,9 @@ class SherpaOnnxVoiceActivityDetectorWrapper {
 
 // offline tts
 func sherpaOnnxOfflineTtsVitsModelConfig(
-  model: String,
-  lexicon: String,
-  tokens: String,
+  model: String = "",
+  lexicon: String = "",
+  tokens: String = "",
   dataDir: String = "",
   noiseScale: Float = 0.667,
   noiseScaleW: Float = 0.8,
@@ -745,11 +745,52 @@ func sherpaOnnxOfflineTtsVitsModelConfig(
     noise_scale: noiseScale,
     noise_scale_w: noiseScaleW,
     length_scale: lengthScale,
-    dict_dir: toCPointer(dictDir))
+    dict_dir: toCPointer(dictDir)
+  )
+}
+
+func sherpaOnnxOfflineTtsMatchaModelConfig(
+  acousticModel: String = "",
+  vocoder: String = "",
+  lexicon: String = "",
+  tokens: String = "",
+  dataDir: String = "",
+  noiseScale: Float = 0.667,
+  lengthScale: Float = 1.0,
+  dictDir: String = ""
+) -> SherpaOnnxOfflineTtsMatchaModelConfig {
+  return SherpaOnnxOfflineTtsMatchaModelConfig(
+    acoustic_model: toCPointer(acousticModel),
+    vocoder: toCPointer(vocoder),
+    lexicon: toCPointer(lexicon),
+    tokens: toCPointer(tokens),
+    data_dir: toCPointer(dataDir),
+    noise_scale: noiseScale,
+    length_scale: lengthScale,
+    dict_dir: toCPointer(dictDir)
+  )
+}
+
+func sherpaOnnxOfflineTtsKokoroModelConfig(
+  model: String = "",
+  voices: String = "",
+  tokens: String = "",
+  dataDir: String = "",
+  lengthScale: Float = 1.0
+) -> SherpaOnnxOfflineTtsKokoroModelConfig {
+  return SherpaOnnxOfflineTtsKokoroModelConfig(
+    model: toCPointer(model),
+    voices: toCPointer(voices),
+    tokens: toCPointer(tokens),
+    data_dir: toCPointer(dataDir),
+    length_scale: lengthScale
+  )
 }
 
 func sherpaOnnxOfflineTtsModelConfig(
-  vits: SherpaOnnxOfflineTtsVitsModelConfig,
+  vits: SherpaOnnxOfflineTtsVitsModelConfig = sherpaOnnxOfflineTtsVitsModelConfig(),
+  matcha: SherpaOnnxOfflineTtsMatchaModelConfig = sherpaOnnxOfflineTtsMatchaModelConfig(),
+  kokoro: SherpaOnnxOfflineTtsKokoroModelConfig = sherpaOnnxOfflineTtsKokoroModelConfig(),
   numThreads: Int = 1,
   debug: Int = 0,
   provider: String = "cpu"
@@ -758,7 +799,9 @@ func sherpaOnnxOfflineTtsModelConfig(
     vits: vits,
     num_threads: Int32(numThreads),
     debug: Int32(debug),
-    provider: toCPointer(provider)
+    provider: toCPointer(provider),
+    matcha: matcha,
+    kokoro: kokoro
   )
 }
 
@@ -766,7 +809,7 @@ func sherpaOnnxOfflineTtsConfig(
   model: SherpaOnnxOfflineTtsModelConfig,
   ruleFsts: String = "",
   ruleFars: String = "",
-  maxNumSentences: Int = 2
+  maxNumSentences: Int = 1
 ) -> SherpaOnnxOfflineTtsConfig {
   return SherpaOnnxOfflineTtsConfig(
     model: model,
@@ -1100,6 +1143,52 @@ class SherpaOnnxOfflinePunctuationWrapper {
     let cText = SherpaOfflinePunctuationAddPunct(ptr, toCPointer(text))
     let ans = String(cString: cText!)
     SherpaOfflinePunctuationFreeText(cText)
+    return ans
+  }
+}
+
+func sherpaOnnxOnlinePunctuationModelConfig(
+  cnnBiLstm: String,
+  bpeVocab: String,
+  numThreads: Int = 1,
+  debug: Int = 0,
+  provider: String = "cpu"
+) -> SherpaOnnxOnlinePunctuationModelConfig {
+  return SherpaOnnxOnlinePunctuationModelConfig(
+    cnn_bilstm: toCPointer(cnnBiLstm),
+    bpe_vocab: toCPointer(bpeVocab),
+    num_threads: Int32(numThreads),
+    debug: Int32(debug),
+    provider: toCPointer(provider))
+}
+
+func sherpaOnnxOnlinePunctuationConfig(
+  model: SherpaOnnxOnlinePunctuationModelConfig
+) -> SherpaOnnxOnlinePunctuationConfig {
+  return SherpaOnnxOnlinePunctuationConfig(model: model)
+}
+
+class SherpaOnnxOnlinePunctuationWrapper {
+  /// A pointer to the underlying counterpart in C
+  let ptr: OpaquePointer!
+
+  /// Constructor taking a model config
+  init(
+    config: UnsafePointer<SherpaOnnxOnlinePunctuationConfig>!
+  ) {
+    ptr = SherpaOnnxCreateOnlinePunctuation(config)
+  }
+
+  deinit {
+    if let ptr {
+      SherpaOnnxDestroyOnlinePunctuation(ptr)
+    }
+  }
+
+  func addPunct(text: String) -> String {
+    let cText = SherpaOnnxOnlinePunctuationAddPunct(ptr, toCPointer(text))
+    let ans = String(cString: cText!)
+    SherpaOnnxOnlinePunctuationFreeText(cText)
     return ans
   }
 }

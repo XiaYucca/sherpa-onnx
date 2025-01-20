@@ -10,11 +10,6 @@
 #include <string>
 #include <vector>
 
-#if __ANDROID_API__ >= 9
-#include "android/asset_manager.h"
-#include "android/asset_manager_jni.h"
-#endif
-
 #include "sherpa-onnx/csrc/offline-tts-model-config.h"
 #include "sherpa-onnx/csrc/parse-options.h"
 
@@ -35,7 +30,7 @@ struct OfflineTtsConfig {
   // Maximum number of sentences that we process at a time.
   // This is to avoid OOM for very long input text.
   // If you set it to -1, then we process all sentences in a single batch.
-  int32_t max_num_sentences = 2;
+  int32_t max_num_sentences = 1;
 
   OfflineTtsConfig() = default;
   OfflineTtsConfig(const OfflineTtsModelConfig &model,
@@ -69,9 +64,8 @@ class OfflineTts {
   ~OfflineTts();
   explicit OfflineTts(const OfflineTtsConfig &config);
 
-#if __ANDROID_API__ >= 9
-  OfflineTts(AAssetManager *mgr, const OfflineTtsConfig &config);
-#endif
+  template <typename Manager>
+  OfflineTts(Manager *mgr, const OfflineTtsConfig &config);
 
   // @param text A string containing words separated by spaces
   // @param sid Speaker ID. Used only for multi-speaker models, e.g., models

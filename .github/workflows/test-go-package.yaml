@@ -68,6 +68,13 @@ jobs:
         run: |
           gcc --version
 
+      - name: Test Keyword spotting
+        if: matrix.os != 'windows-latest'
+        shell: bash
+        run: |
+          cd go-api-examples/keyword-spotting-from-file/
+          ./run.sh
+
       - name: Test adding punctuation
         if: matrix.os != 'windows-latest'
         shell: bash
@@ -202,6 +209,20 @@ jobs:
           go build
           ls -lh
 
+          echo "Test kokoro en"
+          ./run-kokoro-en.sh
+          rm -rf kokoro-en-*
+          ls -lh
+
+          echo "Test matcha zh"
+          ./run-matcha-zh.sh
+          rm -rf matcha-icefall-*
+
+          echo "Test matcha en"
+          ./run-matcha-en.sh
+          rm -rf matcha-icefall-*
+          ls -lh *.wav
+
           echo "Test vits-ljs"
           ./run-vits-ljs.sh
           rm -rf vits-ljs
@@ -238,6 +259,15 @@ jobs:
           ls -lh /C/Users/runneradmin/go/pkg/mod/github.com/k2-fsa/*
           cp -v /C/Users/runneradmin/go/pkg/mod/github.com/k2-fsa/sherpa-onnx-go-windows*/lib/x86_64-pc-windows-gnu/*.dll .
           ls -lh
+
+          echo "Test matcha zh"
+          ./run-matcha-zh.sh
+          rm -rf matcha-icefall-*
+
+          echo "Test matcha en"
+          ./run-matcha-en.sh
+          rm -rf matcha-icefall-*
+          ls -lh *.wav
 
           echo "Test vits-ljs"
           ./run-vits-ljs.sh
@@ -283,6 +313,15 @@ jobs:
           ls -lh /C/Users/runneradmin/go/pkg/mod/github.com/k2-fsa/
           cp -v /C/Users/runneradmin/go/pkg/mod/github.com/k2-fsa/sherpa-onnx-go-windows*/lib/i686-pc-windows-gnu/*.dll .
           ls -lh
+
+          echo "Test matcha zh"
+          ./run-matcha-zh.sh
+          rm -rf matcha-icefall-*
+
+          echo "Test matcha en"
+          ./run-matcha-en.sh
+          rm -rf matcha-icefall-*
+          ls -lh *.wav
 
           echo "Test vits-ljs"
           ./run-vits-ljs.sh

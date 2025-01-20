@@ -671,8 +671,29 @@ type OfflineTtsVitsModelConfig struct {
 	DictDir     string  // Path to dict directory for jieba (used only in Chinese tts)
 }
 
+type OfflineTtsMatchaModelConfig struct {
+	AcousticModel string  // Path to the acoustic model for MatchaTTS
+	Vocoder       string  // Path to the vocoder model for MatchaTTS
+	Lexicon       string  // Path to lexicon.txt
+	Tokens        string  // Path to tokens.txt
+	DataDir       string  // Path to espeak-ng-data directory
+	NoiseScale    float32 // noise scale for vits models. Please use 0.667 in general
+	LengthScale   float32 // Please use 1.0 in general. Smaller -> Faster speech speed. Larger -> Slower speech speed
+	DictDir       string  // Path to dict directory for jieba (used only in Chinese tts)
+}
+
+type OfflineTtsKokoroModelConfig struct {
+	Model       string  // Path to the model for kokoro
+	Voices      string  // Path to the voices.bin for kokoro
+	Tokens      string  // Path to tokens.txt
+	DataDir     string  // Path to espeak-ng-data directory
+	LengthScale float32 // Please use 1.0 in general. Smaller -> Faster speech speed. Larger -> Slower speech speed
+}
+
 type OfflineTtsModelConfig struct {
-	Vits OfflineTtsVitsModelConfig
+	Vits   OfflineTtsVitsModelConfig
+	Matcha OfflineTtsMatchaModelConfig
+	Kokoro OfflineTtsKokoroModelConfig
 
 	// Number of threads to use for neural network computation
 	NumThreads int
@@ -722,6 +743,7 @@ func NewOfflineTts(config *OfflineTtsConfig) *OfflineTts {
 
 	c.max_num_sentences = C.int(config.MaxNumSentences)
 
+	// vits
 	c.model.vits.model = C.CString(config.Model.Vits.Model)
 	defer C.free(unsafe.Pointer(c.model.vits.model))
 
@@ -740,6 +762,43 @@ func NewOfflineTts(config *OfflineTtsConfig) *OfflineTts {
 
 	c.model.vits.dict_dir = C.CString(config.Model.Vits.DictDir)
 	defer C.free(unsafe.Pointer(c.model.vits.dict_dir))
+
+	// matcha
+	c.model.matcha.acoustic_model = C.CString(config.Model.Matcha.AcousticModel)
+	defer C.free(unsafe.Pointer(c.model.matcha.acoustic_model))
+
+	c.model.matcha.vocoder = C.CString(config.Model.Matcha.Vocoder)
+	defer C.free(unsafe.Pointer(c.model.matcha.vocoder))
+
+	c.model.matcha.lexicon = C.CString(config.Model.Matcha.Lexicon)
+	defer C.free(unsafe.Pointer(c.model.matcha.lexicon))
+
+	c.model.matcha.tokens = C.CString(config.Model.Matcha.Tokens)
+	defer C.free(unsafe.Pointer(c.model.matcha.tokens))
+
+	c.model.matcha.data_dir = C.CString(config.Model.Matcha.DataDir)
+	defer C.free(unsafe.Pointer(c.model.matcha.data_dir))
+
+	c.model.matcha.noise_scale = C.float(config.Model.Matcha.NoiseScale)
+	c.model.matcha.length_scale = C.float(config.Model.Matcha.LengthScale)
+
+	c.model.matcha.dict_dir = C.CString(config.Model.Matcha.DictDir)
+	defer C.free(unsafe.Pointer(c.model.matcha.dict_dir))
+
+	// kokoro
+	c.model.kokoro.model = C.CString(config.Model.Kokoro.Model)
+	defer C.free(unsafe.Pointer(c.model.kokoro.model))
+
+	c.model.kokoro.voices = C.CString(config.Model.Kokoro.Voices)
+	defer C.free(unsafe.Pointer(c.model.kokoro.voices))
+
+	c.model.kokoro.tokens = C.CString(config.Model.Kokoro.Tokens)
+	defer C.free(unsafe.Pointer(c.model.kokoro.tokens))
+
+	c.model.kokoro.data_dir = C.CString(config.Model.Kokoro.DataDir)
+	defer C.free(unsafe.Pointer(c.model.kokoro.data_dir))
+
+	c.model.kokoro.length_scale = C.float(config.Model.Kokoro.LengthScale)
 
 	c.model.num_threads = C.int(config.Model.NumThreads)
 	c.model.debug = C.int(config.Model.Debug)
@@ -1384,4 +1443,152 @@ func (punc *OfflinePunctuation) AddPunct(text string) string {
 	text_with_punct := C.GoString(p)
 
 	return text_with_punct
+}
+
+// Configuration for the online/streaming recognizer.
+type KeywordSpotterConfig struct {
+	FeatConfig        FeatureConfig
+	ModelConfig       OnlineModelConfig
+	MaxActivePaths    int
+	KeywordsFile      string
+	KeywordsScore     float32
+	KeywordsThreshold float32
+	KeywordsBuf       string
+	KeywordsBufSize   int
+}
+
+type KeywordSpotterResult struct {
+	Keyword string
+}
+
+type KeywordSpotter struct {
+	impl *C.struct_SherpaOnnxKeywordSpotter
+}
+
+// Free the internal pointer inside the recognizer to avoid memory leak.
+func DeleteKeywordSpotter(spotter *KeywordSpotter) {
+	C.SherpaOnnxDestroyKeywordSpotter(spotter.impl)
+	spotter.impl = nil
+}
+
+// The user is responsible to invoke [DeleteKeywordSpotter]() to free
+// the returned spotter to avoid memory leak
+func NewKeywordSpotter(config *KeywordSpotterConfig) *KeywordSpotter {
+	c := C.struct_SherpaOnnxKeywordSpotterConfig{}
+	c.feat_config.sample_rate = C.int(config.FeatConfig.SampleRate)
+	c.feat_config.feature_dim = C.int(config.FeatConfig.FeatureDim)
+
+	c.model_config.transducer.encoder = C.CString(config.ModelConfig.Transducer.Encoder)
+	defer C.free(unsafe.Pointer(c.model_config.transducer.encoder))
+
+	c.model_config.transducer.decoder = C.CString(config.ModelConfig.Transducer.Decoder)
+	defer C.free(unsafe.Pointer(c.model_config.transducer.decoder))
+
+	c.model_config.transducer.joiner = C.CString(config.ModelConfig.Transducer.Joiner)
+	defer C.free(unsafe.Pointer(c.model_config.transducer.joiner))
+
+	c.model_config.paraformer.encoder = C.CString(config.ModelConfig.Paraformer.Encoder)
+	defer C.free(unsafe.Pointer(c.model_config.paraformer.encoder))
+
+	c.model_config.paraformer.decoder = C.CString(config.ModelConfig.Paraformer.Decoder)
+	defer C.free(unsafe.Pointer(c.model_config.paraformer.decoder))
+
+	c.model_config.zipformer2_ctc.model = C.CString(config.ModelConfig.Zipformer2Ctc.Model)
+	defer C.free(unsafe.Pointer(c.model_config.zipformer2_ctc.model))
+
+	c.model_config.tokens = C.CString(config.ModelConfig.Tokens)
+	defer C.free(unsafe.Pointer(c.model_config.tokens))
+
+	c.model_config.num_threads = C.int(config.ModelConfig.NumThreads)
+
+	c.model_config.provider = C.CString(config.ModelConfig.Provider)
+	defer C.free(unsafe.Pointer(c.model_config.provider))
+
+	c.model_config.debug = C.int(config.ModelConfig.Debug)
+
+	c.model_config.model_type = C.CString(config.ModelConfig.ModelType)
+	defer C.free(unsafe.Pointer(c.model_config.model_type))
+
+	c.model_config.modeling_unit = C.CString(config.ModelConfig.ModelingUnit)
+	defer C.free(unsafe.Pointer(c.model_config.modeling_unit))
+
+	c.model_config.bpe_vocab = C.CString(config.ModelConfig.BpeVocab)
+	defer C.free(unsafe.Pointer(c.model_config.bpe_vocab))
+
+	c.model_config.tokens_buf = C.CString(config.ModelConfig.TokensBuf)
+	defer C.free(unsafe.Pointer(c.model_config.tokens_buf))
+
+	c.model_config.tokens_buf_size = C.int(config.ModelConfig.TokensBufSize)
+
+	c.max_active_paths = C.int(config.MaxActivePaths)
+
+	c.keywords_file = C.CString(config.KeywordsFile)
+	defer C.free(unsafe.Pointer(c.keywords_file))
+
+	c.keywords_score = C.float(config.KeywordsScore)
+
+	c.keywords_threshold = C.float(config.KeywordsThreshold)
+
+	c.keywords_buf = C.CString(config.KeywordsBuf)
+	defer C.free(unsafe.Pointer(c.keywords_buf))
+
+	c.keywords_buf_size = C.int(config.KeywordsBufSize)
+
+	spotter := &KeywordSpotter{}
+	spotter.impl = C.SherpaOnnxCreateKeywordSpotter(&c)
+
+	return spotter
+}
+
+// The user is responsible to invoke [DeleteOnlineStream]() to free
+// the returned stream to avoid memory leak
+func NewKeywordStream(spotter *KeywordSpotter) *OnlineStream {
+	stream := &OnlineStream{}
+	stream.impl = C.SherpaOnnxCreateKeywordStream(spotter.impl)
+	return stream
+}
+
+// The user is responsible to invoke [DeleteOnlineStream]() to free
+// the returned stream to avoid memory leak
+func NewKeywordStreamWithKeywords(spotter *KeywordSpotter, keywords string) *OnlineStream {
+	stream := &OnlineStream{}
+
+	s := C.CString(keywords)
+	defer C.free(unsafe.Pointer(s))
+
+	stream.impl = C.SherpaOnnxCreateKeywordStreamWithKeywords(spotter.impl, s)
+	return stream
+}
+
+// Check whether the stream has enough feature frames for decoding.
+// Return true if this stream is ready for decoding. Return false otherwise.
+//
+// You will usually use it like below:
+//
+//	for spotter.IsReady(s) {
+//	   spotter.Decode(s)
+//	}
+func (spotter *KeywordSpotter) IsReady(s *OnlineStream) bool {
+	return C.SherpaOnnxIsKeywordStreamReady(spotter.impl, s.impl) == 1
+}
+
+// Decode the stream. Before calling this function, you have to ensure
+// that spotter.IsReady(s) returns true. Otherwise, you will be SAD.
+//
+// You usually use it like below:
+//
+//	for spotter.IsReady(s) {
+//	  spotter.Decode(s)
+//	}
+func (spotter *KeywordSpotter) Decode(s *OnlineStream) {
+	C.SherpaOnnxDecodeKeywordStream(spotter.impl, s.impl)
+}
+
+// Get the current result of stream since the last invoke of Reset()
+func (spotter *KeywordSpotter) GetResult(s *OnlineStream) *KeywordSpotterResult {
+	p := C.SherpaOnnxGetKeywordResult(spotter.impl, s.impl)
+	defer C.SherpaOnnxDestroyKeywordResult(p)
+	result := &KeywordSpotterResult{}
+	result.Keyword = C.GoString(p.keyword)
+	return result
 }

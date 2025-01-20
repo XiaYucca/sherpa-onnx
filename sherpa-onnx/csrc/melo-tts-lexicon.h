@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "sherpa-onnx/csrc/offline-tts-frontend.h"
-#include "sherpa-onnx/csrc/offline-tts-vits-model-metadata.h"
+#include "sherpa-onnx/csrc/offline-tts-vits-model-meta-data.h"
 
 namespace sherpa_onnx {
 
@@ -23,6 +23,16 @@ class MeloTtsLexicon : public OfflineTtsFrontend {
                  const OfflineTtsVitsModelMetaData &meta_data, bool debug);
 
   MeloTtsLexicon(const std::string &lexicon, const std::string &tokens,
+                 const OfflineTtsVitsModelMetaData &meta_data, bool debug);
+
+  template <typename Manager>
+  MeloTtsLexicon(Manager *mgr, const std::string &lexicon,
+                 const std::string &tokens, const std::string &dict_dir,
+                 const OfflineTtsVitsModelMetaData &meta_data, bool debug);
+
+  template <typename Manager>
+  MeloTtsLexicon(Manager *mgr, const std::string &lexicon,
+                 const std::string &tokens,
                  const OfflineTtsVitsModelMetaData &meta_data, bool debug);
 
   std::vector<TokenIDs> ConvertTextToTokenIds(

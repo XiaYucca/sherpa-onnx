@@ -58,14 +58,14 @@ data class OfflineModelConfig(
     var debug: Boolean = false,
     var provider: String = "cpu",
     var modelType: String = "",
-    var tokens: String,
+    var tokens: String = "",
     var modelingUnit: String = "",
     var bpeVocab: String = "",
 )
 
 data class OfflineRecognizerConfig(
     var featConfig: FeatureConfig = FeatureConfig(),
-    var modelConfig: OfflineModelConfig,
+    var modelConfig: OfflineModelConfig = OfflineModelConfig(),
     // var lmConfig: OfflineLMConfig(), // TODO(fangjun): enable it
     var decodingMethod: String = "greedy_search",
     var maxActivePaths: Int = 4,
@@ -449,6 +449,19 @@ fun getOfflineModelConfig(type: Int): OfflineModelConfig? {
                     cachedDecoder = "$modelDir/cached_decode.int8.onnx",
                 ),
                 tokens = "$modelDir/tokens.txt",
+            )
+        }
+
+        23 -> {
+            val modelDir = "sherpa-onnx-zipformer-zh-en-2023-11-22"
+            return OfflineModelConfig(
+                transducer = OfflineTransducerModelConfig(
+                    encoder = "$modelDir/encoder-epoch-34-avg-19.int8.onnx",
+                    decoder = "$modelDir/decoder-epoch-34-avg-19.onnx",
+                    joiner = "$modelDir/joiner-epoch-34-avg-19.int8.onnx",
+                ),
+                tokens = "$modelDir/tokens.txt",
+                modelType = "transducer",
             )
         }
     }

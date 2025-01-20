@@ -1,10 +1,57 @@
 package com.k2fsa.sherpa.onnx
 
 fun main() {
-  testTts()
+  testVits()
+  testMatcha()
+  testKokoro()
 }
 
-fun testTts() {
+fun testKokoro() {
+  // see https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
+  var config = OfflineTtsConfig(
+    model=OfflineTtsModelConfig(
+      kokoro=OfflineTtsKokoroModelConfig(
+        model="./kokoro-en-v0_19/model.onnx",
+        voices="./kokoro-en-v0_19/voices.bin",
+        tokens="./kokoro-en-v0_19/tokens.txt",
+        dataDir="./kokoro-en-v0_19/espeak-ng-data",
+      ),
+      numThreads=2,
+      debug=true,
+    ),
+  )
+  val tts = OfflineTts(config=config)
+  val audio = tts.generateWithCallback(text="How are you doing today?", callback=::callback)
+  audio.save(filename="test-kokoro-en.wav")
+  tts.release()
+  println("Saved to test-kokoro-en.wav")
+}
+
+fun testMatcha() {
+  // see https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
+  // https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/matcha-icefall-zh-baker.tar.bz2
+  var config = OfflineTtsConfig(
+    model=OfflineTtsModelConfig(
+      matcha=OfflineTtsMatchaModelConfig(
+        acousticModel="./matcha-icefall-zh-baker/model-steps-3.onnx",
+        vocoder="./hifigan_v2.onnx",
+        tokens="./matcha-icefall-zh-baker/tokens.txt",
+        lexicon="./matcha-icefall-zh-baker/lexicon.txt",
+        dictDir="./matcha-icefall-zh-baker/dict",
+      ),
+      numThreads=1,
+      debug=true,
+    ),
+    ruleFsts="./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst",
+  )
+  val tts = OfflineTts(config=config)
+  val audio = tts.generateWithCallback(text="某某银行的副行长和一些行政领导表示，他们去过长江和长白山; 经济不断增长。2024年12月31号，拨打110或者18920240511。123456块钱。", callback=::callback)
+  audio.save(filename="test-matcha-zh.wav")
+  tts.release()
+  println("Saved to test-matcha-zh.wav")
+}
+
+fun testVits() {
   // see https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
   // https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-amy-low.tar.bz2
   var config = OfflineTtsConfig(

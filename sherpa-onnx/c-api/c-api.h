@@ -898,15 +898,38 @@ SHERPA_ONNX_API typedef struct SherpaOnnxOfflineTtsVitsModelConfig {
 
   float noise_scale;
   float noise_scale_w;
-  float length_scale;  // < 1, faster in speed; > 1, slower in speed
+  float length_scale;  // < 1, faster in speech speed; > 1, slower in speed
   const char *dict_dir;
 } SherpaOnnxOfflineTtsVitsModelConfig;
+
+SHERPA_ONNX_API typedef struct SherpaOnnxOfflineTtsMatchaModelConfig {
+  const char *acoustic_model;
+  const char *vocoder;
+  const char *lexicon;
+  const char *tokens;
+  const char *data_dir;
+
+  float noise_scale;
+  float length_scale;  // < 1, faster in speech speed; > 1, slower in speed
+  const char *dict_dir;
+} SherpaOnnxOfflineTtsMatchaModelConfig;
+
+SHERPA_ONNX_API typedef struct SherpaOnnxOfflineTtsKokoroModelConfig {
+  const char *model;
+  const char *voices;
+  const char *tokens;
+  const char *data_dir;
+
+  float length_scale;  // < 1, faster in speech speed; > 1, slower in speed
+} SherpaOnnxOfflineTtsKokoroModelConfig;
 
 SHERPA_ONNX_API typedef struct SherpaOnnxOfflineTtsModelConfig {
   SherpaOnnxOfflineTtsVitsModelConfig vits;
   int32_t num_threads;
   int32_t debug;
   const char *provider;
+  SherpaOnnxOfflineTtsMatchaModelConfig matcha;
+  SherpaOnnxOfflineTtsKokoroModelConfig kokoro;
 } SherpaOnnxOfflineTtsModelConfig;
 
 SHERPA_ONNX_API typedef struct SherpaOnnxOfflineTtsConfig {
@@ -934,15 +957,19 @@ typedef int32_t (*SherpaOnnxGeneratedAudioCallbackWithArg)(const float *samples,
 typedef int32_t (*SherpaOnnxGeneratedAudioProgressCallback)(
     const float *samples, int32_t n, float p);
 
+typedef int32_t (*SherpaOnnxGeneratedAudioProgressCallbackWithArg)(
+    const float *samples, int32_t n, float p, void *arg);
+
 SHERPA_ONNX_API typedef struct SherpaOnnxOfflineTts SherpaOnnxOfflineTts;
 
 // Create an instance of offline TTS. The user has to use DestroyOfflineTts()
 // to free the returned pointer to avoid memory leak.
-SHERPA_ONNX_API SherpaOnnxOfflineTts *SherpaOnnxCreateOfflineTts(
+SHERPA_ONNX_API const SherpaOnnxOfflineTts *SherpaOnnxCreateOfflineTts(
     const SherpaOnnxOfflineTtsConfig *config);
 
 // Free the pointer returned by SherpaOnnxCreateOfflineTts()
-SHERPA_ONNX_API void SherpaOnnxDestroyOfflineTts(SherpaOnnxOfflineTts *tts);
+SHERPA_ONNX_API void SherpaOnnxDestroyOfflineTts(
+    const SherpaOnnxOfflineTts *tts);
 
 // Return the sample rate of the current TTS object
 SHERPA_ONNX_API int32_t
@@ -968,10 +995,17 @@ SherpaOnnxOfflineTtsGenerateWithCallback(
     const SherpaOnnxOfflineTts *tts, const char *text, int32_t sid, float speed,
     SherpaOnnxGeneratedAudioCallback callback);
 
+SHERPA_ONNX_API
 const SherpaOnnxGeneratedAudio *
 SherpaOnnxOfflineTtsGenerateWithProgressCallback(
     const SherpaOnnxOfflineTts *tts, const char *text, int32_t sid, float speed,
     SherpaOnnxGeneratedAudioProgressCallback callback);
+
+SHERPA_ONNX_API
+const SherpaOnnxGeneratedAudio *
+SherpaOnnxOfflineTtsGenerateWithProgressCallbackWithArg(
+    const SherpaOnnxOfflineTts *tts, const char *text, int32_t sid, float speed,
+    SherpaOnnxGeneratedAudioProgressCallbackWithArg callback, void *arg);
 
 // Same as SherpaOnnxGeneratedAudioCallback but you can pass an additional
 // `void* arg` to the callback.
@@ -1004,6 +1038,14 @@ SHERPA_ONNX_API typedef struct SherpaOnnxWave {
 // If the returned pointer is not NULL, the user has to invoke
 // SherpaOnnxFreeWave() to free the returned pointer to avoid memory leak.
 SHERPA_ONNX_API const SherpaOnnxWave *SherpaOnnxReadWave(const char *filename);
+
+// Similar to SherpaOnnxReadWave(), it has read the content of `filename`
+// into the array `data`.
+//
+// If the returned pointer is not NULL, the user has to invoke
+// SherpaOnnxFreeWave() to free the returned pointer to avoid memory leak.
+SHERPA_ONNX_API const SherpaOnnxWave *SherpaOnnxReadWaveFromBinaryData(
+    const char *data, int32_t n);
 
 SHERPA_ONNX_API void SherpaOnnxFreeWave(const SherpaOnnxWave *wave);
 
@@ -1354,6 +1396,41 @@ SHERPA_ONNX_API const char *SherpaOfflinePunctuationAddPunct(
 
 SHERPA_ONNX_API void SherpaOfflinePunctuationFreeText(const char *text);
 
+SHERPA_ONNX_API typedef struct SherpaOnnxOnlinePunctuationModelConfig {
+  const char *cnn_bilstm;
+  const char *bpe_vocab;
+  int32_t num_threads;
+  int32_t debug;
+  const char *provider;
+} SherpaOnnxOnlinePunctuationModelConfig;
+
+SHERPA_ONNX_API typedef struct SherpaOnnxOnlinePunctuationConfig {
+  SherpaOnnxOnlinePunctuationModelConfig model;
+} SherpaOnnxOnlinePunctuationConfig;
+
+SHERPA_ONNX_API typedef struct SherpaOnnxOnlinePunctuation
+    SherpaOnnxOnlinePunctuation;
+
+// Create an online punctuation processor. The user has to invoke
+// SherpaOnnxDestroyOnlinePunctuation() to free the returned pointer
+// to avoid memory leak
+SHERPA_ONNX_API const SherpaOnnxOnlinePunctuation *
+SherpaOnnxCreateOnlinePunctuation(
+    const SherpaOnnxOnlinePunctuationConfig *config);
+
+// Free a pointer returned by SherpaOnnxCreateOnlinePunctuation()
+SHERPA_ONNX_API void SherpaOnnxDestroyOnlinePunctuation(
+    const SherpaOnnxOnlinePunctuation *punctuation);
+
+// Add punctuations to the input text. The user has to invoke
+// SherpaOnnxOnlinePunctuationFreeText() to free the returned pointer
+// to avoid memory leak
+SHERPA_ONNX_API const char *SherpaOnnxOnlinePunctuationAddPunct(
+    const SherpaOnnxOnlinePunctuation *punctuation, const char *text);
+
+// Free a pointer returned by SherpaOnnxOnlinePunctuationAddPunct()
+SHERPA_ONNX_API void SherpaOnnxOnlinePunctuationFreeText(const char *text);
+
 // for resampling
 SHERPA_ONNX_API typedef struct SherpaOnnxLinearResampler
     SherpaOnnxLinearResampler;
@@ -1497,10 +1574,10 @@ SHERPA_ONNX_API void SherpaOnnxOfflineSpeakerDiarizationDestroySegment(
     const SherpaOnnxOfflineSpeakerDiarizationSegment *s);
 
 typedef int32_t (*SherpaOnnxOfflineSpeakerDiarizationProgressCallback)(
-    int32_t num_processed_chunk, int32_t num_total_chunks, void *arg);
+    int32_t num_processed_chunks, int32_t num_total_chunks, void *arg);
 
 typedef int32_t (*SherpaOnnxOfflineSpeakerDiarizationProgressCallbackNoArg)(
-    int32_t num_processed_chunk, int32_t num_total_chunks);
+    int32_t num_processed_chunks, int32_t num_total_chunks);
 
 // The user has to invoke SherpaOnnxOfflineSpeakerDiarizationDestroyResult()
 // to free the returned pointer to avoid memory leak.
@@ -1525,6 +1602,49 @@ SherpaOnnxOfflineSpeakerDiarizationProcessWithCallbackNoArg(
 
 SHERPA_ONNX_API void SherpaOnnxOfflineSpeakerDiarizationDestroyResult(
     const SherpaOnnxOfflineSpeakerDiarizationResult *r);
+
+#ifdef __OHOS__
+
+// It is for HarmonyOS
+typedef struct NativeResourceManager NativeResourceManager;
+
+/// @param config  Config for the recognizer.
+/// @return Return a pointer to the recognizer. The user has to invoke
+//          SherpaOnnxDestroyOnlineRecognizer() to free it to avoid memory leak.
+SHERPA_ONNX_API const SherpaOnnxOnlineRecognizer *
+SherpaOnnxCreateOnlineRecognizerOHOS(
+    const SherpaOnnxOnlineRecognizerConfig *config, NativeResourceManager *mgr);
+
+/// @param config  Config for the recognizer.
+/// @return Return a pointer to the recognizer. The user has to invoke
+//          SherpaOnnxDestroyOfflineRecognizer() to free it to avoid memory
+//          leak.
+SHERPA_ONNX_API const SherpaOnnxOfflineRecognizer *
+SherpaOnnxCreateOfflineRecognizerOHOS(
+    const SherpaOnnxOfflineRecognizerConfig *config,
+    NativeResourceManager *mgr);
+
+// Return an instance of VoiceActivityDetector.
+// The user has to use SherpaOnnxDestroyVoiceActivityDetector() to free
+// the returned pointer to avoid memory leak.
+SHERPA_ONNX_API SherpaOnnxVoiceActivityDetector *
+SherpaOnnxCreateVoiceActivityDetectorOHOS(
+    const SherpaOnnxVadModelConfig *config, float buffer_size_in_seconds,
+    NativeResourceManager *mgr);
+
+SHERPA_ONNX_API const SherpaOnnxOfflineTts *SherpaOnnxCreateOfflineTtsOHOS(
+    const SherpaOnnxOfflineTtsConfig *config, NativeResourceManager *mgr);
+
+SHERPA_ONNX_API const SherpaOnnxSpeakerEmbeddingExtractor *
+SherpaOnnxCreateSpeakerEmbeddingExtractorOHOS(
+    const SherpaOnnxSpeakerEmbeddingExtractorConfig *config,
+    NativeResourceManager *mgr);
+
+SHERPA_ONNX_API const SherpaOnnxOfflineSpeakerDiarization *
+SherpaOnnxCreateOfflineSpeakerDiarizationOHOS(
+    const SherpaOnnxOfflineSpeakerDiarizationConfig *config,
+    NativeResourceManager *mgr);
+#endif
 
 #if defined(__GNUC__)
 #pragma GCC diagnostic pop

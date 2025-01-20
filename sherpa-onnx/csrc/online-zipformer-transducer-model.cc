@@ -17,6 +17,10 @@
 #include "android/asset_manager_jni.h"
 #endif
 
+#if __OHOS__
+#include "rawfile/raw_file_manager.h"
+#endif
+
 #include "onnxruntime_cxx_api.h"  // NOLINT
 #include "sherpa-onnx/csrc/cat.h"
 #include "sherpa-onnx/csrc/macros.h"
@@ -50,9 +54,9 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
   }
 }
 
-#if __ANDROID_API__ >= 9
+template <typename Manager>
 OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
-    AAssetManager *mgr, const OnlineModelConfig &config)
+    Manager *mgr, const OnlineModelConfig &config)
     : env_(ORT_LOGGING_LEVEL_ERROR),
       config_(config),
       sess_opts_(GetSessionOptions(config)),
@@ -72,7 +76,6 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
     InitJoiner(buf.data(), buf.size());
   }
 }
-#endif
 
 void OnlineZipformerTransducerModel::InitEncoder(void *model_data,
                                                  size_t model_data_length) {
@@ -91,7 +94,11 @@ void OnlineZipformerTransducerModel::InitEncoder(void *model_data,
     std::ostringstream os;
     os << "---encoder---\n";
     PrintModelMetadata(os, meta_data);
+#if __OHOS__
+    SHERPA_ONNX_LOGE("%{public}s", os.str().c_str());
+#else
     SHERPA_ONNX_LOGE("%s", os.str().c_str());
+#endif
   }
 
   Ort::AllocatorWithDefaultOptions allocator;  // used in the macro below
@@ -111,15 +118,24 @@ void OnlineZipformerTransducerModel::InitEncoder(void *model_data,
       for (auto i : v) {
         os << i << " ";
       }
+#if __OHOS__
+      SHERPA_ONNX_LOGE("%{public}s\n", os.str().c_str());
+#else
       SHERPA_ONNX_LOGE("%s\n", os.str().c_str());
+#endif
     };
     print(encoder_dims_, "encoder_dims");
     print(attention_dims_, "attention_dims");
     print(num_encoder_layers_, "num_encoder_layers");
     print(cnn_module_kernels_, "cnn_module_kernels");
     print(left_context_len_, "left_context_len");
+#if __OHOS__
+    SHERPA_ONNX_LOGE("T: %{public}d", T_);
+    SHERPA_ONNX_LOGE("decode_chunk_len_: %{public}d", decode_chunk_len_);
+#else
     SHERPA_ONNX_LOGE("T: %d", T_);
     SHERPA_ONNX_LOGE("decode_chunk_len_: %d", decode_chunk_len_);
+#endif
   }
 }
 
@@ -140,7 +156,11 @@ void OnlineZipformerTransducerModel::InitDecoder(void *model_data,
     std::ostringstream os;
     os << "---decoder---\n";
     PrintModelMetadata(os, meta_data);
+#if __OHOS__
+    SHERPA_ONNX_LOGE("%{public}s", os.str().c_str());
+#else
     SHERPA_ONNX_LOGE("%s", os.str().c_str());
+#endif
   }
 
   Ort::AllocatorWithDefaultOptions allocator;  // used in the macro below
@@ -165,7 +185,11 @@ void OnlineZipformerTransducerModel::InitJoiner(void *model_data,
     std::ostringstream os;
     os << "---joiner---\n";
     PrintModelMetadata(os, meta_data);
+#if __OHOS__
+    SHERPA_ONNX_LOGE("%{public}s", os.str().c_str());
+#else
     SHERPA_ONNX_LOGE("%s", os.str().c_str());
+#endif
   }
 }
 
@@ -479,5 +503,15 @@ Ort::Value OnlineZipformerTransducerModel::RunJoiner(Ort::Value encoder_out,
 
   return std::move(logit[0]);
 }
+
+#if __ANDROID_API__ >= 9
+template OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
+    AAssetManager *mgr, const OnlineModelConfig &config);
+#endif
+
+#if __OHOS__
+template OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
+    NativeResourceManager *mgr, const OnlineModelConfig &config);
+#endif
 
 }  // namespace sherpa_onnx

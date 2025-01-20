@@ -4,6 +4,32 @@ set -ex
 
 cd dart-api-examples
 
+pushd tts
+
+echo '----------matcha tts----------'
+./run-kokoro-en.sh
+./run-matcha-zh.sh
+./run-matcha-en.sh
+ls -lh *.wav
+rm -rf matcha-icefall-*
+rm *.onnx
+
+echo '----------piper tts----------'
+./run-piper.sh
+rm -rf vits-piper-*
+
+echo '----------coqui tts----------'
+./run-coqui.sh
+rm -rf vits-coqui-*
+
+echo '----------zh tts----------'
+./run-vits-zh.sh
+rm -rf sherpa-onnx-*
+
+ls -lh *.wav
+
+popd # tts
+
 pushd speaker-diarization
 echo '----------speaker diarization----------'
 ./run.sh
@@ -105,22 +131,6 @@ echo '----------VAD with paraformer----------'
 rm -rf sherpa-onnx-*
 
 popd # non-streaming-asr
-
-pushd tts
-
-echo '----------piper tts----------'
-./run-piper.sh
-rm -rf vits-piper-*
-
-echo '----------coqui tts----------'
-./run-coqui.sh
-rm -rf vits-coqui-*
-
-echo '----------zh tts----------'
-./run-zh.sh
-rm -rf sherpa-onnx-*
-
-popd # tts
 
 pushd streaming-asr
 

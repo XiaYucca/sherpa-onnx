@@ -12,6 +12,7 @@ endif()
 
 set(sources
   base64-decode.cc
+  bbpe.cc
   cat.cc
   circular-buffer.cc
   context-graph.cc
@@ -78,11 +79,11 @@ set(sources
   online-stream.cc
   online-transducer-decoder.cc
   online-transducer-greedy-search-decoder.cc
+  online-transducer-greedy-search-nemo-decoder.cc
   online-transducer-model-config.cc
   online-transducer-model.cc
   online-transducer-modified-beam-search-decoder.cc
   online-transducer-nemo-model.cc
-  online-transducer-greedy-search-nemo-decoder.cc
   online-wenet-ctc-model-config.cc
   online-wenet-ctc-model.cc
   online-zipformer-transducer-model.cc
@@ -150,12 +151,17 @@ list(APPEND sources
 
 if(SHERPA_ONNX_ENABLE_TTS)
   list(APPEND sources
+    hifigan-vocoder.cc
     jieba-lexicon.cc
     lexicon.cc
     melo-tts-lexicon.cc
     offline-tts-character-frontend.cc
     offline-tts-frontend.cc
     offline-tts-impl.cc
+    offline-tts-kokoro-model-config.cc
+    offline-tts-kokoro-model.cc
+    offline-tts-matcha-model-config.cc
+    offline-tts-matcha-model.cc
     offline-tts-model-config.cc
     offline-tts-vits-model-config.cc
     offline-tts-vits-model.cc
@@ -207,6 +213,12 @@ target_link_libraries(sherpa-onnx-core
   kaldi-decoder-core
   ssentencepiece_core
 )
+if(DEFINED OHOS AND x${OHOS} STREQUAL xOHOS)
+  target_link_libraries(sherpa-onnx-core
+    hilog_ndk.z
+    rawfile.z
+  )
+endif()
 
 if(SHERPA_ONNX_ENABLE_GPU)
   target_link_libraries(sherpa-onnx-core
@@ -538,6 +550,7 @@ if(SHERPA_ONNX_ENABLE_TESTS)
     pad-sequence-test.cc
     slice-test.cc
     stack-test.cc
+    text-utils-test.cc
     text2token-test.cc
     transpose-test.cc
     unbind-test.cc
