@@ -170,6 +170,14 @@ class SileroVadModel::Impl {
   void SetThreshold(float threshold) {
     config_.silero_vad.threshold = threshold;
   }
+  
+  float Run_sample(const float *samples, int32_t n) {
+      if (is_v5_) {
+          return RunV5(samples, n);
+      } else {
+          return RunV4(samples, n);
+      }
+  }
 
  private:
   void Init(void *model_data, size_t model_data_length) {
@@ -351,15 +359,6 @@ class SileroVadModel::Impl {
     }
   }
     
-  float Run_sample(const float *samples, int32_t n) {
-        if (is_v5_) {
-            return RunV5(samples, n);
-        } else {
-            return RunV4(samples, n);
-        }
-  }
-
-
   float RunV5(const float *samples, int32_t n) {
     auto memory_info =
         Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeDefault);
